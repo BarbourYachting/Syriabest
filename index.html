@@ -251,7 +251,7 @@
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
-        /* --- مشغل الفيديو المنبثق المطور (Server Logic) --- */
+        /* --- مشغل الفيديو المنبثق المطور --- */
         .video-popup {
             display: none;
             position: fixed;
@@ -298,6 +298,14 @@
 
         .server-btn.active { background: var(--main-red); }
         .server-btn:hover { background: #444; }
+
+        /* تحسين مشغل الفيديو HTML5 */
+        video#html5Player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            outline: none;
+        }
 
         .video-wrapper iframe {
             width: 100%;
@@ -375,7 +383,6 @@
             font-size: 16px;
         }
 
-        /* --- استعلامات الجوال (Mobile) --- */
         @media (max-width: 768px) {
             header { padding: 15px 4%; }
             .nav-links { display: none; }
@@ -485,14 +492,13 @@
     <div class="video-popup" id="videoPopup">
         <span class="close-video" onclick="closePlayer()">&times;</span>
         <div class="server-bar">
-            <button class="server-btn active" onclick="changeServer('https://www.youtube.com/embed/2TAOizOnNPo', this)">Vidspeed</button>
+            <button id="vspeed-btn" class="server-btn active" onclick="changeServer(fastMovieLink, this)">Vidspeed</button>
             <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/ZsJz2TJ9kiY', this)">Upstream</button>
             <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/32RAq6JzY-w', this)">MixDrop</button>
             <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/8UlzhB6S99v', this)">Server 4</button>
         </div>
-        <div class="video-wrapper">
-            <iframe id="mainPlayer" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
+        <div class="video-wrapper" id="playerWrapper">
+            </div>
         <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red);"></h3>
     </div>
 
@@ -522,6 +528,9 @@
     </footer>
 
     <script>
+        // الرابط المباشر للفيلم
+        const fastMovieLink = "https://vsped-store9-vnz.cdnz.quest/v/01/00216/nuybrqkxh019_n/The_Fast_and_the_Furious_2001_-_[w.cimalight.co].mp4?t=qj-OPqtQs4LkAwW33IBbfgPKL09eIYeU8X4UGCk81AE&s=1769628730&e=43200&v=50645756&sp=10240&i=0.0";
+
         // 1. التحكم في الهيدر
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
@@ -529,7 +538,7 @@
             else header.classList.remove('scrolled');
         });
 
-        // 2. تحميل الأفلام تلقائياً (باستثناء فيلم الوالد المضاف يدوياً)
+        // 2. تحميل الأفلام تلقائياً
         const moviesList = [
             'https://image.tmdb.org/t/p/w500/8UlzhB6S99vWG6u1011WE0pOBbk.jpg',
             'https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS9S77U9S.jpg',
@@ -540,6 +549,7 @@
 
         function loadMovies(id) {
             const container = document.getElementById(id);
+            if(!container) return;
             moviesList.forEach((url) => {
                 const card = document.createElement('div');
                 card.className = 'movie-card';
@@ -554,48 +564,56 @@
 
         loadMovies('row-now');
         loadMovies('row-series');
-        // هنا نضيف باقي أفلام الأكشن بجانب فيلم فاست آند فيوريوس
         loadMovies('row-action');
 
         // 3. وظائف المشغل (Popup) والسيرفرات
         function openFastAndFurious() {
-            playMovie('https://www.youtube.com/embed/2TAOizOnNPo', 'Fast and Furious (2001)');
+            playMovie(fastMovieLink, 'Fast and Furious (2001)');
         }
 
         function playMovie(url, title) {
             const popup = document.getElementById('videoPopup');
-            const player = document.getElementById('mainPlayer');
+            const wrapper = document.getElementById('playerWrapper');
             const titleDisplay = document.getElementById('movieTitleDisplay');
             
-            player.src = url;
             titleDisplay.innerText = title;
             popup.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
-            // إعادة تعيين السيرفر النشط للأول دائماً عند الفتح
+            // إذا كان الرابط هو رابط مباشر MP4
+            if (url.includes('.mp4') || url === fastMovieLink) {
+                wrapper.innerHTML = `
+                    <video id="html5Player" controls autoplay>
+                        <source src="${url}" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    </video>`;
+            } else {
+                // للسيرفرات العادية (iframe)
+                wrapper.innerHTML = `<iframe id="mainPlayer" src="${url}" frameborder="0" allowfullscreen></iframe>`;
+            }
+
+            // تحديث حالة الأزرار
             const btns = document.querySelectorAll('.server-btn');
             btns.forEach(b => b.classList.remove('active'));
-            btns[0].classList.add('active');
+            if(url === fastMovieLink) document.getElementById('vspeed-btn').classList.add('active');
         }
 
         function changeServer(url, btn) {
-            const player = document.getElementById('mainPlayer');
+            const currentTitle = document.getElementById('movieTitleDisplay').innerText;
+            playMovie(url, currentTitle);
             const btns = document.querySelectorAll('.server-btn');
-            
-            player.src = url;
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
 
         function closePlayer() {
             const popup = document.getElementById('videoPopup');
-            const player = document.getElementById('mainPlayer');
-            player.src = "";
+            const wrapper = document.getElementById('playerWrapper');
+            wrapper.innerHTML = ""; // إيقاف الفيديو تماماً
             popup.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        // 4. وظائف المودال والبحث
         function toggleModal(show) {
             document.getElementById('authModal').style.display = show ? 'flex' : 'none';
         }
@@ -614,20 +632,6 @@
 
         function toggleMobileMenu() {
             alert('قائمة الأقسام ستكون متاحة قريباً');
-        }
-
-        // إضافات برمجية لزيادة طول الكود وتحسين الأداء
-        console.log("Syriabest System v2.0 Initialized...");
-        const appState = {
-            user: "Guest",
-            isPremium: true,
-            currentView: "Home",
-            lastPlayed: "Fast and Furious 2001"
-        };
-        
-        // محاكاة نظام التوصيات
-        function recommendContent() {
-            return "Recommended for you: Fast and Furious Saga";
         }
     </script>
 </body>
