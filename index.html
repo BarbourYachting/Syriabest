@@ -265,38 +265,14 @@
             background: #000;
             border-radius: 8px;
             overflow: hidden;
+            border: 2px solid #333;
         }
 
-        .server-bar {
-            width: 90%;
-            max-width: 1000px;
-            background: #222;
-            padding: 15px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            border-bottom: 2px solid var(--main-red);
-            border-radius: 8px 8px 0 0;
-        }
-
-        .server-btn {
-            background: #333;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .server-btn.active { background: var(--main-red); }
-        .server-btn:hover { background: #444; }
-
-        .video-wrapper iframe {
+        /* تعديل: وسم الفيديو بدلاً من الـ Iframe للسيرفرات */
+        video {
             width: 100%;
             aspect-ratio: 16/9;
+            display: block;
         }
 
         .close-video {
@@ -477,13 +453,12 @@
 
     <div class="video-popup" id="videoPopup">
         <span class="close-video" onclick="closePlayer()">&times;</span>
-        <div class="server-bar">
-            <button id="vspeed-btn" class="server-btn active" onclick="changeServer('https://vidspeed.com/embed/787u6z0x6o01', this)">Vidspeed</button>
-            <button class="server-btn" onclick="changeServer('https://upstream.to/embed-6s7m8n9l0k1j.html', this)">Upstream</button>
-            <button class="server-btn" onclick="changeServer('https://mixdrop.co/e/32RAq6JzY-w', this)">MixDrop</button>
+        <div class="video-wrapper">
+             <video id="internalPlayer" controls poster="https://image.tmdb.org/t/p/original/m9Y9S899REUv498O0S9SjsACG0s.jpg">
+                 <source src="https://archive.org/download/the-fast-and-the-furious-2001_202209/The%20Fast%20and%20the%20Furious%20%282001%29.mp4" type="video/mp4">
+                 عذراً، متصفحك لا يدعم هذا الفيديو.
+             </video>
         </div>
-        <div class="video-wrapper" id="playerWrapper">
-             </div>
         <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red);"></h3>
     </div>
 
@@ -513,9 +488,6 @@
     </footer>
 
     <script>
-        // الرابط الجديد بنظام الـ Embed لضمان العمل المستقر
-        const fastMovieEmbedLink = "https://vidspeed.com/embed/787u6z0x6o01";
-
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
             if (window.scrollY > 100) header.classList.add('scrolled');
@@ -540,7 +512,7 @@
                     <img src="${url}" alt="Movie">
                     <div class="card-overlay"><i class="fas fa-play-circle"></i></div>
                 `;
-                card.onclick = () => playMovie('https://vidspeed.com/embed/787u6z0x6o01', 'فيلم مقترح');
+                card.onclick = () => openFastAndFurious();
                 container.appendChild(card);
             });
         }
@@ -550,34 +522,21 @@
         loadMovies('row-action');
 
         function openFastAndFurious() {
-            playMovie(fastMovieEmbedLink, 'Fast and Furious (2001)');
-        }
-
-        function playMovie(url, title) {
             const popup = document.getElementById('videoPopup');
-            const wrapper = document.getElementById('playerWrapper');
+            const video = document.getElementById('internalPlayer');
             const titleDisplay = document.getElementById('movieTitleDisplay');
             
-            titleDisplay.innerText = title;
+            titleDisplay.innerText = "Fast & Furious (2001)";
             popup.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-
-            // استخدام iframe حصراً لتجنب تعليق الفيديو
-            wrapper.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
-        }
-
-        function changeServer(url, btn) {
-            const wrapper = document.getElementById('playerWrapper');
-            wrapper.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
-            const btns = document.querySelectorAll('.server-btn');
-            btns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            video.play();
         }
 
         function closePlayer() {
             const popup = document.getElementById('videoPopup');
-            const wrapper = document.getElementById('playerWrapper');
-            wrapper.innerHTML = "";
+            const video = document.getElementById('internalPlayer');
+            video.pause();
+            video.currentTime = 0;
             popup.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
