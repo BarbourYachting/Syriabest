@@ -16,7 +16,6 @@
             --overlay-bg: rgba(0, 0, 0, 0.9);
         }
 
-        /* --- التحسينات العامة --- */
         * {
             margin: 0;
             padding: 0;
@@ -32,7 +31,6 @@
             line-height: 1.6;
         }
 
-        /* --- الهيدر (Navbar) --- */
         header {
             position: fixed;
             top: 0;
@@ -120,7 +118,6 @@
             cursor: pointer;
         }
 
-        /* --- قسم الهيرو (Hero) --- */
         .hero {
             height: 85vh;
             width: 100%;
@@ -176,7 +173,6 @@
         .btn-more { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
         .btn-more:hover { background-color: rgba(109, 109, 110, 0.5); }
 
-        /* --- صفوف الأفلام --- */
         .content-area {
             margin-top: -80px;
             padding-bottom: 50px;
@@ -251,7 +247,6 @@
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
-        /* --- مشغل الفيديو المنبثق المطور --- */
         .video-popup {
             display: none;
             position: fixed;
@@ -299,14 +294,6 @@
         .server-btn.active { background: var(--main-red); }
         .server-btn:hover { background: #444; }
 
-        /* تحسين مشغل الفيديو HTML5 */
-        video#html5Player {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #000;
-            outline: none;
-        }
-
         .video-wrapper iframe {
             width: 100%;
             aspect-ratio: 16/9;
@@ -328,7 +315,6 @@
             border-radius: 50%;
         }
 
-        /* --- تسجيل الدخول (Modal) --- */
         .auth-modal {
             display: none;
             position: fixed;
@@ -492,13 +478,12 @@
     <div class="video-popup" id="videoPopup">
         <span class="close-video" onclick="closePlayer()">&times;</span>
         <div class="server-bar">
-            <button id="vspeed-btn" class="server-btn active" onclick="changeServer(fastMovieLink, this)">Vidspeed</button>
-            <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/ZsJz2TJ9kiY', this)">Upstream</button>
-            <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/32RAq6JzY-w', this)">MixDrop</button>
-            <button class="server-btn" onclick="changeServer('https://www.youtube.com/embed/8UlzhB6S99v', this)">Server 4</button>
+            <button id="vspeed-btn" class="server-btn active" onclick="changeServer('https://vidspeed.com/embed/787u6z0x6o01', this)">Vidspeed</button>
+            <button class="server-btn" onclick="changeServer('https://upstream.to/embed-6s7m8n9l0k1j.html', this)">Upstream</button>
+            <button class="server-btn" onclick="changeServer('https://mixdrop.co/e/32RAq6JzY-w', this)">MixDrop</button>
         </div>
         <div class="video-wrapper" id="playerWrapper">
-            </div>
+             </div>
         <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red);"></h3>
     </div>
 
@@ -528,17 +513,15 @@
     </footer>
 
     <script>
-        // الرابط المباشر للفيلم
-        const fastMovieLink = "https://vsped-store9-vnz.cdnz.quest/v/01/00216/nuybrqkxh019_n/The_Fast_and_the_Furious_2001_-_[w.cimalight.co].mp4?t=qj-OPqtQs4LkAwW33IBbfgPKL09eIYeU8X4UGCk81AE&s=1769628730&e=43200&v=50645756&sp=10240&i=0.0";
+        // الرابط الجديد بنظام الـ Embed لضمان العمل المستقر
+        const fastMovieEmbedLink = "https://vidspeed.com/embed/787u6z0x6o01";
 
-        // 1. التحكم في الهيدر
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
             if (window.scrollY > 100) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // 2. تحميل الأفلام تلقائياً
         const moviesList = [
             'https://image.tmdb.org/t/p/w500/8UlzhB6S99vWG6u1011WE0pOBbk.jpg',
             'https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS9S77U9S.jpg',
@@ -557,7 +540,7 @@
                     <img src="${url}" alt="Movie">
                     <div class="card-overlay"><i class="fas fa-play-circle"></i></div>
                 `;
-                card.onclick = () => playMovie('https://www.youtube.com/embed/32RAq6JzY-w', 'فيلم مقترح');
+                card.onclick = () => playMovie('https://vidspeed.com/embed/787u6z0x6o01', 'فيلم مقترح');
                 container.appendChild(card);
             });
         }
@@ -566,9 +549,8 @@
         loadMovies('row-series');
         loadMovies('row-action');
 
-        // 3. وظائف المشغل (Popup) والسيرفرات
         function openFastAndFurious() {
-            playMovie(fastMovieLink, 'Fast and Furious (2001)');
+            playMovie(fastMovieEmbedLink, 'Fast and Furious (2001)');
         }
 
         function playMovie(url, title) {
@@ -580,27 +562,13 @@
             popup.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
-            // إذا كان الرابط هو رابط مباشر MP4
-            if (url.includes('.mp4') || url === fastMovieLink) {
-                wrapper.innerHTML = `
-                    <video id="html5Player" controls autoplay>
-                        <source src="${url}" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
-                    </video>`;
-            } else {
-                // للسيرفرات العادية (iframe)
-                wrapper.innerHTML = `<iframe id="mainPlayer" src="${url}" frameborder="0" allowfullscreen></iframe>`;
-            }
-
-            // تحديث حالة الأزرار
-            const btns = document.querySelectorAll('.server-btn');
-            btns.forEach(b => b.classList.remove('active'));
-            if(url === fastMovieLink) document.getElementById('vspeed-btn').classList.add('active');
+            // استخدام iframe حصراً لتجنب تعليق الفيديو
+            wrapper.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
         }
 
         function changeServer(url, btn) {
-            const currentTitle = document.getElementById('movieTitleDisplay').innerText;
-            playMovie(url, currentTitle);
+            const wrapper = document.getElementById('playerWrapper');
+            wrapper.innerHTML = `<iframe src="${url}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
             const btns = document.querySelectorAll('.server-btn');
             btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -609,7 +577,7 @@
         function closePlayer() {
             const popup = document.getElementById('videoPopup');
             const wrapper = document.getElementById('playerWrapper');
-            wrapper.innerHTML = ""; // إيقاف الفيديو تماماً
+            wrapper.innerHTML = "";
             popup.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
@@ -620,7 +588,7 @@
 
         function handleAuth(e) {
             e.preventDefault();
-            alert('أهلاً بك يا عمي في Syriabest!');
+            alert('أهلاً بك في Syriabest!');
             toggleModal(false);
         }
 
