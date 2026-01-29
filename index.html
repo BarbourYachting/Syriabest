@@ -152,6 +152,26 @@
             max-width: 550px;
         }
 
+        /* --- البانر الفاصل الجديد --- */
+        .series-banner {
+            width: 90%;
+            margin: 40px auto;
+            background: linear-gradient(45deg, #800000, #e50914, #800000);
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .series-banner h2 {
+            font-size: clamp(22px, 5vw, 36px);
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
         .hero-btns {
             display: flex;
             gap: 15px;
@@ -529,6 +549,10 @@
             <div class="movie-slider" id="row-horror"></div>
         </div>
 
+        <div class="series-banner">
+            <h2>المسلسلات العربية والأجنبية المنوعة</h2>
+        </div>
+
         <div class="row">
             <div class="row-title">
                 <span>مسلسلات مصرية كوميدية</span>
@@ -625,7 +649,7 @@
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
         let tempRegData = null;
-        let currentOTP = ""; // لتخزين الكود العشوائي
+        let currentOTP = ""; 
 
         const movieData = {
             fast: [
@@ -644,22 +668,18 @@
                 { id: "tt0172495", title: "Gladiator", img: "https://image.tmdb.org/t/p/w500/ty8TGRjI4WqWK1vMvJo71pXUAnL.jpg" }
             ],
             horror: [
-                { id: "tt0800369", title: "The Conjuring", img: "https://image.tmdb.org/t/p/w500/7InS9SjsACG0s.jpg" },
+                { id: "tt1659337", title: "The Conjuring", img: "https://image.tmdb.org/t/p/w500/7InS9SjsACG0s.jpg" },
                 { id: "tt13016694", title: "Smile", img: "https://image.tmdb.org/t/p/w500/a7sc66SwfIS9S77U9S.jpg" },
                 { id: "tt0877040", title: "Insidious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS.jpg" },
                 { id: "tt1165682", title: "It (2017)", img: "https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9Te6B1M1uCcQp3L.jpg" }
             ],
             egyptComedy: [
                 { id: "tt10228372", title: "الواد سيد الشحات", img: "https://image.tmdb.org/t/p/w500/y1K9H5OshjN0S9SjsACG0s.jpg" },
-                { id: "tt12345678", title: "الكبير أوي 8", img: "https://image.tmdb.org/t/p/w500/942767272.jpg" },
+                { id: "tt21064402", title: "اللعبة", img: "https://image.tmdb.org/t/p/w500/8tU8T7vYpX8sN7uSjsACG0s.jpg" },
                 { id: "tt14460770", title: "موضوع عائلي", img: "https://image.tmdb.org/t/p/w500/zJmNjI1NjEtMDcwZi00ZThhLWIxNTMtNmU3Njg0YmM1YTAzXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt21064402", title: "اللعبة", img: "https://image.tmdb.org/t/p/w500/BNDM1NjJjMzEtMmFmNi00NjVjLWExYzItYjhiZGRjY2ExZGU4XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt18304212", title: "في بيتنا روبوت", img: "https://image.tmdb.org/t/p/w500/YzdiNGE1ODktMDdmNy00YWNlLTgxMDUtY2U5MmM2OWEyMjE0XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
                 { id: "tt14587422", title: "أشغال شقة", img: "https://image.tmdb.org/t/p/w500/71787.jpg" }
             ],
             foreignSeries: [
-                { id: "tt12672536", title: "Fallout Season 1", img: "https://image.tmdb.org/t/p/w500/f89U3Y9L92vjXp7qT7MJu9szMjb.jpg" },
-                { id: "tt12672536", title: "Fallout Season 2", img: "https://image.tmdb.org/t/p/w500/NmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" },
                 { id: "tt0903747", title: "Breaking Bad", img: "https://image.tmdb.org/t/p/w500/jhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4ZDA2MmExZGY2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" },
                 { id: "tt0944947", title: "Game of Thrones", img: "https://image.tmdb.org/t/p/w500/2IzYzBiOTQtNGIwMi00ZGQ5LWEyZTYtN2MxZDA0OThlMDJmXkEyXkFqcGdeQXVyNjAwNDUxODI._V1_.jpg" },
                 { id: "tt11198330", title: "The Last of Us", img: "https://image.tmdb.org/t/p/w500/zGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2EwNzUxYjEyMzgzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" }
@@ -728,7 +748,6 @@
             document.getElementById('verifyBox').style.display = 'none';
         }
 
-        // --- تعديل إنشاء الحساب بكود عشوائي ---
         function handleRegister(e) {
             e.preventDefault();
             const email = document.getElementById('regEmail').value;
@@ -740,18 +759,13 @@
                 return;
             }
 
-            // توليد كود عشوائي جديد من 5 أرقام
             currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
-            
             tempRegData = { email, pass };
             document.getElementById('registerBox').style.display = 'none';
             document.getElementById('verifyBox').style.display = 'block';
-            
-            // التنبيه الاحترافي الجديد
             alert("تم إرسال كود التحقق بنجاح.\nكود التحقق الخاص بك هو: " + currentOTP);
         }
 
-        // --- تعديل التحقق ليعمل مع الكود العشوائي ---
         function handleVerification(e) {
             e.preventDefault();
             const input = document.getElementById('verifyInput').value;
