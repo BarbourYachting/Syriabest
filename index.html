@@ -126,7 +126,7 @@
             width: 100%;
             background: linear-gradient(to top, var(--dark-bg) 10%, transparent 40%),
                         linear-gradient(to left, rgba(0,0,0,0.7), transparent),
-                        url('https://image.tmdb.org/t/p/original/m9Y9S899REUv498O0S9SjsACG0s.jpg');
+                        url('hero-bg.jpg'); /* تأكد من وجود صورة بهذا الاسم للخلفية */
             background-size: cover;
             background-position: center center;
             display: flex;
@@ -650,46 +650,47 @@
         let tempRegData = null;
         let currentOTP = ""; 
 
+        // --- هنا تم تعديل أسماء الصور كما طلبت ---
         const movieData = {
             fast: [
-                { id: "tt0232500", title: "Fast & Furious 1", img: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uS3kyS3C3M5.jpg" },
-                { id: "tt0322259", title: "2 Fast 2 Furious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS9S77U9S.jpg" },
-                { id: "tt0463364", title: "Tokyo Drift", img: "https://image.tmdb.org/t/p/w500/8UlzhB6S99vWG6u1011WE0pOBbk.jpg" },
-                { id: "tt1013752", title: "Fast & Furious 4", img: "https://image.tmdb.org/t/p/w500/v9J97Sfk9nS6S99vS0I67pX96vS.jpg" },
-                { id: "tt1596343", title: "Fast Five", img: "https://image.tmdb.org/t/p/w500/1p5uMaZByj1O2ShtZA9B6SrnC91.jpg" },
-                { id: "tt1905041", title: "Fast 6", img: "https://image.tmdb.org/t/p/w500/n3191p6Y7Xls9ST6pU9P9mS98C8.jpg" }
+                { id: "tt0232500", title: "Fast & Furious 1", img: "fast1.jpg" },
+                { id: "tt0322259", title: "2 Fast 2 Furious", img: "fast2.jpg" },
+                { id: "tt0463364", title: "Tokyo Drift", img: "fast3.jpg" },
+                { id: "tt1013752", title: "Fast & Furious 4", img: "fast4.jpg" },
+                { id: "tt1596343", title: "Fast Five", img: "fast5.jpg" },
+                { id: "tt1905041", title: "Fast 6", img: "fast6.jpg" }
             ],
             action: [
-                { id: "tt2403776", title: "John Wick", img: "https://image.tmdb.org/t/p/w500/fzcmQjSfvUCvrtp9AfnnzC7pXVk.jpg" },
-                { id: "tt0468569", title: "The Dark Knight", img: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9QmSbmrQvC2qACEt.jpg" },
-                { id: "tt0133093", title: "The Matrix", img: "https://image.tmdb.org/t/p/w500/f89U3Y9L92vjXp7qT7MJu9szMjb.jpg" },
-                { id: "tt0816692", title: "Interstellar", img: "https://image.tmdb.org/t/p/w500/gEU2QniE6EJBQw6HfyGhHFqxoxu.jpg" },
-                { id: "tt0172495", title: "Gladiator", img: "https://image.tmdb.org/t/p/w500/ty8TGRjI4WqWK1vMvJo71pXUAnL.jpg" }
+                { id: "tt2403776", title: "John Wick", img: "johnwick.jpg" },
+                { id: "tt0468569", title: "The Dark Knight", img: "darkknight.jpg" },
+                { id: "tt0133093", title: "The Matrix", img: "matrix.jpg" },
+                { id: "tt0816692", title: "Interstellar", img: "interstellar.jpg" },
+                { id: "tt0172495", title: "Gladiator", img: "gladiator.jpg" }
             ],
             horror: [
-                { id: "tt15474916", title: "Smile", img: "https://image.tmdb.org/t/p/w500/a7sc66SwfIS9S77U9S.jpg" },
-                { id: "tt29268110", title: "Smile 2", img: "https://image.tmdb.org/t/p/w500/ot68p9979S77U9S.jpg" },
-                { id: "tt1457767", title: "The Conjuring", img: "https://image.tmdb.org/t/p/w500/7InS9SjsACG0s.jpg" },
-                { id: "tt22898462", title: "The Conjuring: Last Rites", img: "https://image.tmdb.org/t/p/w500/6v996vBmsT9X69O9L8N9L8O.jpg" },
-                { id: "tt5814060", title: "The Nun", img: "https://image.tmdb.org/t/p/w500/4S9S77U9S8.jpg" },
-                { id: "tt10160976", title: "The Nun 2", img: "https://image.tmdb.org/t/p/w500/5g996vBmsT9X69O9L8N9L8O.jpg" },
-                { id: "tt1591095", title: "Insidious: Chapter 1", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS.jpg" },
-                { id: "tt2226417", title: "Insidious: Chapter 2", img: "https://image.tmdb.org/t/p/w500/4S9S77U9S.jpg" },
-                { id: "tt3195644", title: "Insidious: Chapter 3", img: "https://image.tmdb.org/t/p/w500/7SjsACG0s.jpg" },
-                { id: "tt13405778", title: "Insidious: The Red Door", img: "https://image.tmdb.org/t/p/w500/9SjsACG0s.jpg" },
-                { id: "tt1396484", title: "It (2017)", img: "https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9Te6B1M1uCcQp3L.jpg" },
-                { id: "tt7349950", title: "It: Chapter Two", img: "https://image.tmdb.org/t/p/w500/8SjsACG0s.jpg" }
+                { id: "tt15474916", title: "Smile", img: "smile.jpg" },
+                { id: "tt29268110", title: "Smile 2", img: "smile2.jpg" },
+                { id: "tt1457767", title: "The Conjuring", img: "conjuring1.jpg" },
+                { id: "tt22898462", title: "The Conjuring: Last Rites", img: "conjuring3.jpg" },
+                { id: "tt5814060", title: "The Nun", img: "nun1.jpg" },
+                { id: "tt10160976", title: "The Nun 2", img: "nun2.jpg" },
+                { id: "tt1591095", title: "Insidious: Chapter 1", img: "insidious1.jpg" },
+                { id: "tt2226417", title: "Insidious: Chapter 2", img: "insidious2.jpg" },
+                { id: "tt3195644", title: "Insidious: Chapter 3", img: "insidious3.jpg" },
+                { id: "tt13405778", title: "Insidious: The Red Door", img: "insidious5.jpg" },
+                { id: "tt1396484", title: "It (2017)", img: "it1.jpg" },
+                { id: "tt7349950", title: "It: Chapter Two", img: "it2.jpg" }
             ],
             egyptComedy: [
-                { id: "tt10228372", title: "الواد سيد الشحات", img: "https://image.tmdb.org/t/p/w500/y1K9H5OshjN0S9SjsACG0s.jpg" },
-                { id: "tt21064402", title: "اللعبة", img: "https://image.tmdb.org/t/p/w500/8tU8T7vYpX8sN7uSjsACG0s.jpg" },
-                { id: "tt14460770", title: "موضوع عائلي", img: "https://image.tmdb.org/t/p/w500/zJmNjI1NjEtMDcwZi00ZThhLWIxNTMtNmU3Njg0YmM1YTAzXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt14587422", title: "أشغال شقة", img: "https://image.tmdb.org/t/p/w500/71787.jpg" }
+                { id: "tt10228372", title: "الواد سيد الشحات", img: "sayed-shahat.jpg" },
+                { id: "tt21064402", title: "اللعبة", img: "el-leba.jpg" },
+                { id: "tt14460770", title: "موضوع عائلي", img: "mawdoo-family.jpg" },
+                { id: "tt14587422", title: "أشغال شقة", img: "ashghal-shaqa.jpg" }
             ],
             foreignSeries: [
-                { id: "tt0903747", title: "Breaking Bad", img: "https://image.tmdb.org/t/p/w500/jhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4ZDA2MmExZGY2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" },
-                { id: "tt0944947", title: "Game of Thrones", img: "https://image.tmdb.org/t/p/w500/2IzYzBiOTQtNGIwMi00ZGQ5LWEyZTYtN2MxZDA0OThlMDJmXkEyXkFqcGdeQXVyNjAwNDUxODI._V1_.jpg" },
-                { id: "tt11198330", title: "The Last of Us", img: "https://image.tmdb.org/t/p/w500/zGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2EwNzUxYjEyMzgzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" }
+                { id: "tt0903747", title: "Breaking Bad", img: "breaking-bad.jpg" },
+                { id: "tt0944947", title: "Game of Thrones", img: "got.jpg" },
+                { id: "tt11198330", title: "The Last of Us", img: "last-of-us.jpg" }
             ]
         };
 
