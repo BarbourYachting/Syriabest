@@ -253,6 +253,28 @@
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
+        /* --- استايلات إضافية للميزات الجديدة --- */
+        #searchOverlay {
+            display: none; position: fixed; inset: 0; background: var(--dark-bg);
+            z-index: 4000; padding: 100px 5% 50px; overflow-y: auto;
+        }
+        .verified-badge { color: #1da1f2; margin-right: 5px; font-size: 0.9em; }
+        
+        #accountSection {
+            display: none; position: fixed; inset: 0; background: var(--dark-bg);
+            z-index: 3500; padding: 120px 5%; text-align: center;
+        }
+        .account-box {
+            background: var(--card-bg); max-width: 500px; margin: 0 auto;
+            padding: 40px; border-radius: 15px; border: 1px solid #333;
+        }
+
+        .rating-area { padding: 50px 5%; background: #000; text-align: center; border-top: 1px solid #222; }
+        .rating-area textarea { 
+            width: 100%; max-width: 600px; background: #222; border: 1px solid #444; 
+            color: #fff; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: inherit;
+        }
+
         /* --- مشغل الفيديو المنبثق --- */
         .video-popup {
             display: none;
@@ -419,7 +441,7 @@
     <header id="mainNav">
         <div style="display: flex; align-items: center; gap: 20px;">
             <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
-            <a href="#" class="logo">Syriabest</a>
+            <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
             <ul class="nav-links">
                 <li><a href="#">الرئيسية</a></li>
                 <li><a href="#">مسلسلات</a></li>
@@ -431,7 +453,7 @@
         <div class="nav-actions">
             <div class="search-container">
                 <form onsubmit="handleSearch(event)">
-                    <input type="text" class="search-input" placeholder="ابحث...">
+                    <input type="text" id="globalSearch" class="search-input" placeholder="ابحث...">
                 </form>
             </div>
             
@@ -439,22 +461,45 @@
         </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
-            <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
-            <div class="hero-btns">
-                <button class="btn-hero btn-play" onclick="playMovie('tt0232500', 'Fast & Furious 1')">
-                    <i class="fas fa-play"></i> تشغيل أحدث فيلم
-                </button>
-                <button class="btn-hero btn-more" onclick="alert('مرحباً بك في سوريا بست!')">
-                    <i class="fas fa-info-circle"></i> معلومات
-                </button>
-            </div>
+    <div id="searchOverlay">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="color: var(--main-red);">نتائج البحث</h2>
+            <button class="btn-auth" onclick="closeSearch()">إغلاق</button>
         </div>
-    </section>
+        <div id="searchResultsGrid" class="movie-slider" style="flex-wrap: wrap; gap: 20px;"></div>
+    </div>
 
-    <main class="content-area">
+    <div id="accountSection">
+        <div class="account-box">
+            <h2 id="accDisplayName">اسم المستخدم</h2>
+            <p style="margin: 15px 0; color: var(--gray-text);">مرحباً بك في لوحة تحكم حسابك</p>
+            <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <span>أفلام شاهدتها: </span>
+                <span id="watchStats" style="color: var(--main-red); font-weight: 800; font-size: 1.2em;">0</span>
+            </div>
+            <input type="text" id="editNameInput" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
+            <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;">حفظ الاسم الجديد</button>
+            <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;">تسجيل الخروج</button>
+            <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;">العودة للرئيسية</p>
+        </div>
+    </div>
+
+    <main class="content-area" id="mainPageBody">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
+                <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
+                <div class="hero-btns">
+                    <button class="btn-hero btn-play" onclick="playMovie('tt0232500', 'Fast & Furious 1')">
+                        <i class="fas fa-play"></i> تشغيل أحدث فيلم
+                    </button>
+                    <button class="btn-hero btn-more" onclick="alert('مرحباً بك في سوريا بست!')">
+                        <i class="fas fa-info-circle"></i> معلومات
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <div class="row">
             <div class="row-title">
                 <span>سلسلة Fast & Furious</span>
@@ -494,6 +539,16 @@
             </div>
             <div class="movie-slider" id="row-foreign-series"></div>
         </div>
+
+        <section class="rating-area">
+            <div class="rating-box">
+                <h2 style="color: var(--main-red);">تقييمك يهمنا</h2>
+                <p>أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع</p>
+                <textarea id="feedbackMsg" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                <br>
+                <button class="btn-auth" onclick="submitFeedback()">إرسال التقييم</button>
+            </div>
+        </section>
     </main>
 
     <div class="video-popup" id="videoPopup">
@@ -527,12 +582,13 @@
             <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
             <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
         </div>
-        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة</p>
+        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ Mostafa Barbour</p>
     </footer>
 
     <script>
-        // حالة تسجيل الدخول
-        let isLoggedIn = false;
+        // نظام تخزين البيانات (لجعل الدخول دائم على الجوال)
+        let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
+        let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
 
         const movieData = {
             fast: [
@@ -556,22 +612,20 @@
                 { id: "tt0877040", title: "Insidious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS.jpg" },
                 { id: "tt1165682", title: "It (2017)", img: "https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9Te6B1M1uCcQp3L.jpg" }
             ],
-            // بيانات المسلسلات المصرية الكوميدية
             egyptComedy: [
-                { id: "tt10228372", title: "الواد سيد الشحات", img: "https://m.media-amazon.com/images/M/MV5BMGRlMGZmYjAtYTE1Yi00NjkyLThjYTUtZDI0Yjk2NzY0NmJhXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt12345678", title: "الكبير أوي 8", img: "https://media.linkonlineworld.com/elcinema/images/942767272/600x600/203022562.jpg" },
-                { id: "tt14460770", title: "موضوع عائلي", img: "https://m.media-amazon.com/images/M/MV5BYzJmNjI1NjEtMDcwZi00ZThhLWIxNTMtNmU3Njg0YmM1YTAzXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt21064402", title: "اللعبة", img: "https://m.media-amazon.com/images/M/MV5BNDM1NjJjMzEtMmFmNi00NjVjLWExYzItYjhiZGRjY2ExZGU4XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt18304212", title: "في بيتنا روبوت", img: "https://m.media-amazon.com/images/M/MV5BYzdiNGE1ODktMDdmNy00YWNlLTgxMDUtY2U5MmM2OWEyMjE0XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
-                { id: "tt14587422", title: "أشغال شقة", img: "https://assets.shofha.com/shofha-cms/media-service/media/original/71787.jpg" }
+                { id: "tt10228372", title: "الواد سيد الشحات", img: "https://image.tmdb.org/t/p/w500/y1K9H5OshjN0S9SjsACG0s.jpg" },
+                { id: "tt12345678", title: "الكبير أوي 8", img: "https://image.tmdb.org/t/p/w500/942767272.jpg" },
+                { id: "tt14460770", title: "موضوع عائلي", img: "https://image.tmdb.org/t/p/w500/zJmNjI1NjEtMDcwZi00ZThhLWIxNTMtNmU3Njg0YmM1YTAzXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt21064402", title: "اللعبة", img: "https://image.tmdb.org/t/p/w500/BNDM1NjJjMzEtMmFmNi00NjVjLWExYzItYjhiZGRjY2ExZGU4XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt18304212", title: "في بيتنا روبوت", img: "https://image.tmdb.org/t/p/w500/YzdiNGE1ODktMDdmNy00YWNlLTgxMDUtY2U5MmM2OWEyMjE0XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt14587422", title: "أشغال شقة", img: "https://image.tmdb.org/t/p/w500/71787.jpg" }
             ],
-            // بيانات المسلسلات الأجنبية
             foreignSeries: [
-                { id: "tt12672536", title: "Fallout Season 1", img: "https://m.media-amazon.com/images/M/MV5BNmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg" },
-                { id: "tt12672536", title: "Fallout Season 2", img: "https://m.media-amazon.com/images/M/MV5BNmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" },
-                { id: "tt0903747", title: "Breaking Bad", img: "https://m.media-amazon.com/images/M/MV5BMjhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4ZDA2MmExZGY2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" },
-                { id: "tt0944947", title: "Game of Thrones", img: "https://m.media-amazon.com/images/M/MV5BN2IzYzBiOTQtNGIwMi00ZGQ5LWEyZTYtN2MxZDA0OThlMDJmXkEyXkFqcGdeQXVyNjAwNDUxODI._V1_.jpg" },
-                { id: "tt11198330", title: "The Last of Us", img: "https://m.media-amazon.com/images/M/MV5BZGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2EwNzUxYjEyMzgzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" }
+                { id: "tt12672536", title: "Fallout Season 1", img: "https://image.tmdb.org/t/p/w500/f89U3Y9L92vjXp7qT7MJu9szMjb.jpg" },
+                { id: "tt12672536", title: "Fallout Season 2", img: "https://image.tmdb.org/t/p/w500/NmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" },
+                { id: "tt0903747", title: "Breaking Bad", img: "https://image.tmdb.org/t/p/w500/jhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4ZDA2MmExZGY2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" },
+                { id: "tt0944947", title: "Game of Thrones", img: "https://image.tmdb.org/t/p/w500/2IzYzBiOTQtNGIwMi00ZGQ5LWEyZTYtN2MxZDA0OThlMDJmXkEyXkFqcGdeQXVyNjAwNDUxODI._V1_.jpg" },
+                { id: "tt11198330", title: "The Last of Us", img: "https://image.tmdb.org/t/p/w500/zGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2EwNzUxYjEyMzgzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" }
             ]
         };
 
@@ -593,36 +647,110 @@
             renderRow('row-horror', movieData.horror);
             renderRow('row-egypt-comedy', movieData.egyptComedy);
             renderRow('row-foreign-series', movieData.foreignSeries);
+            checkAuthStatus();
+        }
+
+        function checkAuthStatus() {
+            const btn = document.getElementById('mainAuthBtn');
+            if (currentUser) {
+                btn.innerText = "حسابي";
+                btn.onclick = openAccount;
+            } else {
+                btn.innerText = "دخول";
+                btn.onclick = () => toggleModal(true);
+            }
         }
 
         function renderRow(containerId, movies) {
             const container = document.getElementById(containerId);
             container.innerHTML = ""; 
             movies.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                
-                const iconHTML = isLoggedIn 
-                    ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
-                    : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
-
-                card.innerHTML = `
-                    <img src="${m.img}" alt="${m.title}">
-                    <div class="card-overlay">
-                        ${iconHTML}
-                    </div>
-                `;
-                card.onclick = () => playMovie(m.id, m.title);
+                const card = createCard(m);
                 container.appendChild(card);
             });
         }
 
+        function createCard(m) {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            const iconHTML = currentUser 
+                ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
+                : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
+
+            card.innerHTML = `
+                <img src="${m.img}" alt="${m.title}">
+                <div class="card-overlay">${iconHTML}</div>
+            `;
+            card.onclick = () => playMovie(m.id, m.title);
+            return card;
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const resultsGrid = document.getElementById('searchResultsGrid');
+            resultsGrid.innerHTML = "";
+
+            // البحث في كل البيانات
+            const allItems = [...movieData.fast, ...movieData.action, ...movieData.horror, ...movieData.egyptComedy, ...movieData.foreignSeries];
+            const filtered = allItems.filter(item => item.title.toLowerCase().includes(query));
+
+            if(filtered.length > 0) {
+                filtered.forEach(item => resultsGrid.appendChild(createCard(item)));
+            } else {
+                resultsGrid.innerHTML = "<h3 style='width:100%; text-align:center;'>عذراً، لم نجد نتائج لبحثك..</h3>";
+            }
+
+            document.getElementById('mainPageBody').style.display = 'none';
+            document.getElementById('searchOverlay').style.display = 'block';
+        }
+
+        function closeSearch() {
+            document.getElementById('searchOverlay').style.display = 'none';
+            document.getElementById('mainPageBody').style.display = 'block';
+        }
+
+        function openAccount() {
+            document.getElementById('mainPageBody').style.display = 'none';
+            document.getElementById('accountSection').style.display = 'block';
+            
+            let nameDisplay = currentUser.name;
+            if (currentUser.isOwner) {
+                nameDisplay += ' <i class="fas fa-check-circle verified-badge" title="حساب موثق"></i>';
+            }
+            document.getElementById('accDisplayName').innerHTML = nameDisplay;
+            document.getElementById('watchStats').innerText = watchCount;
+        }
+
+        function updateUsername() {
+            const newName = document.getElementById('editNameInput').value;
+            if(newName.trim() !== "") {
+                currentUser.name = newName;
+                localStorage.setItem('sb_user', JSON.stringify(currentUser));
+                openAccount();
+                alert("تم تحديث اسمك بنجاح!");
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('sb_user');
+            location.reload();
+        }
+
+        function closeAccount() {
+            document.getElementById('accountSection').style.display = 'none';
+            document.getElementById('mainPageBody').style.display = 'block';
+        }
+
         function playMovie(imdbId, title) {
-            if (!isLoggedIn) {
+            if (!currentUser) {
                 alert("يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!");
                 toggleModal(true);
                 return;
             }
+
+            watchCount++;
+            localStorage.setItem('sb_watch_count', watchCount);
 
             const popup = document.getElementById('videoPopup');
             const player = document.getElementById('mainPlayer');
@@ -667,20 +795,26 @@
             const pass = document.getElementById('loginPass').value;
 
             if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
-                isLoggedIn = true;
-                alert('تم تسجيل الدخول بنجاح! تم فك قفل جميع الأفلام والمسلسلات.');
-                document.getElementById('mainAuthBtn').innerText = "تم الدخول";
-                toggleModal(false);
-                initApp(); 
+                currentUser = { name: "Mostafa Barbour", email: email, isOwner: true };
             } else {
-                alert('خطأ في البريد الإلكتروني أو كلمة المرور!');
+                let randomId = Math.floor(Math.random() * 8999) + 1000;
+                currentUser = { name: "Customer" + randomId, email: email, isOwner: false };
             }
+
+            localStorage.setItem('sb_user', JSON.stringify(currentUser));
+            alert('تم تسجيل الدخول بنجاح!');
+            location.reload();
         }
 
-        function handleSearch(e) {
-            e.preventDefault();
-            const query = document.querySelector('.search-input').value;
-            alert('جاري البحث عن: ' + query);
+        function submitFeedback() {
+            const msg = document.getElementById('feedbackMsg').value;
+            if(msg.trim() !== "") {
+                const sender = currentUser ? currentUser.name : "زائر";
+                alert(`رسالة إلى Mostafa Barbour:\nوصلك تقييم جديد من (${sender}):\n\n"${msg}"`);
+                document.getElementById('feedbackMsg').value = "";
+            } else {
+                alert("يرجى كتابة رسالة قبل الإرسال.");
+            }
         }
 
         initApp();
