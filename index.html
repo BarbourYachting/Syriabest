@@ -234,6 +234,7 @@
             object-fit: cover;
         }
 
+        /* تعديل طبقة القفل والتشغيل */
         .card-overlay {
             position: absolute;
             inset: 0;
@@ -247,6 +248,7 @@
             gap: 5px;
         }
         .card-overlay i { font-size: 40px; color: #fff; }
+        .card-overlay i.fa-lock { color: #ffcc00; } /* لون القفل ذهبي */
         .card-overlay span { font-size: 14px; font-weight: bold; padding: 0 10px; text-align: center; }
 
         .movie-card:hover .card-overlay { opacity: 1; }
@@ -433,7 +435,7 @@
                 </form>
             </div>
             
-            <button class="btn-auth" onclick="toggleModal(true)">دخول</button>
+            <button class="btn-auth" id="mainAuthBtn" onclick="toggleModal(true)">دخول</button>
         </div>
     </header>
 
@@ -493,10 +495,10 @@
             <h2>تسجيل الدخول</h2>
             <form onsubmit="handleAuth(event)">
                 <div class="input-group">
-                    <input type="email" placeholder="البريد الإلكتروني" required>
+                    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" placeholder="كلمة المرور" required>
+                    <input type="password" id="loginPass" placeholder="كلمة المرور" required>
                 </div>
                 <button type="submit" class="btn-submit">دخول</button>
             </form>
@@ -513,6 +515,9 @@
     </footer>
 
     <script>
+        // حالة تسجيل الدخول
+        let isLoggedIn = false;
+
         const movieData = {
             fast: [
                 { id: "tt0232500", title: "Fast & Furious 1", img: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uS3kyS3C3M5.jpg" },
@@ -557,14 +562,20 @@
 
         function renderRow(containerId, movies) {
             const container = document.getElementById(containerId);
+            container.innerHTML = ""; // مسح المحتوى القديم عند إعادة الرندر
             movies.forEach(m => {
                 const card = document.createElement('div');
                 card.className = 'movie-card';
+                
+                // إضافة القفل إذا لم يسجل دخول، أو أيقونة التشغيل إذا سجل
+                const iconHTML = isLoggedIn 
+                    ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
+                    : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
+
                 card.innerHTML = `
                     <img src="${m.img}" alt="${m.title}">
                     <div class="card-overlay">
-                        <i class="fas fa-play-circle"></i>
-                        <span>${m.title}</span>
+                        ${iconHTML}
                     </div>
                 `;
                 card.onclick = () => playMovie(m.id, m.title);
@@ -573,6 +584,13 @@
         }
 
         function playMovie(imdbId, title) {
+            // التحقق من تسجيل الدخول قبل التشغيل
+            if (!isLoggedIn) {
+                alert("يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة الفيلم!");
+                toggleModal(true);
+                return;
+            }
+
             const popup = document.getElementById('videoPopup');
             const player = document.getElementById('mainPlayer');
             const titleDisplay = document.getElementById('movieTitleDisplay');
@@ -612,8 +630,19 @@
 
         function handleAuth(e) {
             e.preventDefault();
-            alert('تم تسجيل الدخول بنجاح!');
-            toggleModal(false);
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+
+            // التحقق من الحساب المعين
+            if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
+                isLoggedIn = true;
+                alert('تم تسجيل الدخول بنجاح! تم فك قفل جميع الأفلام.');
+                document.getElementById('mainAuthBtn').innerText = "تم الدخول";
+                toggleModal(false);
+                initApp(); // إعادة بناء الأفلام لإخفاء القفل
+            } else {
+                alert('خطأ في البريد الإلكتروني أو كلمة المرور!');
+            }
         }
 
         function handleSearch(e) {
