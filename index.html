@@ -114,24 +114,6 @@
             white-space: nowrap;
         }
 
-        /* ستايل زر الايفون المحدث */
-        .btn-ios {
-            background-color: #2e7d32;
-            color: #fff;
-            padding: 7px 18px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-ios:hover { background-color: #1b5e20; }
-
         .mobile-menu-btn {
             display: none;
             font-size: 24px;
@@ -403,7 +385,7 @@
             .hero-content h1 { font-size: 38px; }
             .content-area { margin-top: -40px; }
             .nav-actions { gap: 8px; }
-            .btn-ios, .btn-auth { padding: 5px 12px; font-size: 12px; }
+            .btn-auth { padding: 5px 12px; font-size: 12px; }
         }
 
         footer {
@@ -451,10 +433,6 @@
                 </form>
             </div>
             
-            <a href="profile.mobileconfig" class="btn-ios" id="installBtn" download="profile.mobileconfig">
-                <i class="fab fa-apple"></i> تثبيت التطبيق
-            </a>
-
             <button class="btn-auth" onclick="toggleModal(true)">دخول</button>
         </div>
     </header>
@@ -506,7 +484,7 @@
         <div class="video-wrapper">
             <iframe id="mainPlayer" src="" frameborder="0" allowfullscreen></iframe>
         </div>
-        <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red); font-weight: 800;"></h3>
+        <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red); font-weight: 800; text-align: center;"></h3>
     </div>
 
     <div class="auth-modal" id="authModal">
@@ -535,14 +513,6 @@
     </footer>
 
     <script>
-        // تنبيه ملف التعريف المطور
-        document.getElementById('installBtn').addEventListener('click', function(e) {
-            // ملاحظة: المتصفح سيبدأ التحميل تلقائياً بسبب وسم الـ href
-            setTimeout(function() {
-                alert("يتم الآن تجهيز ملف التثبيت...\n\nبمجرد اكتمال التحميل، انتقل إلى:\nالإعدادات > تم تنزيل ملف التعريف > تثبيت.");
-            }, 500);
-        });
-
         const movieData = {
             fast: [
                 { id: "tt0232500", title: "Fast & Furious 1", img: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uS3kyS3C3M5.jpg" },
