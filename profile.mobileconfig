@@ -12,9 +12,9 @@
             <key>Label</key>
             <string>Syriabest</string>
             <key>PayloadDescription</key>
-            <string>شاهد أحدث الأفلام والمسلسلات على Syriabest</string>
+            <string>مشاهدة أحدث الأفلام والمسلسلات</string>
             <key>PayloadDisplayName</key>
-            <string>Web Clip (Syriabest)</string>
+            <string>Syriabest</string>
             <key>PayloadIdentifier</key>
             <string>com.syriabest.app.webclip</string>
             <key>PayloadType</key>
@@ -41,11 +41,9 @@
         </dict>
     </array>
     <key>PayloadDisplayName</key>
-    <string>تثبيت تطبيق Syriabest</string>
+    <string>Syriabest App</string>
     <key>PayloadIdentifier</key>
     <string>com.syriabest.profile</string>
-    <key>PayloadRemovalDisallowed</key>
-    <false/>
     <key>PayloadType</key>
     <string>Configuration</string>
     <key>PayloadUUID</key>
