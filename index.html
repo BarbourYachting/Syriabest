@@ -234,7 +234,6 @@
             object-fit: cover;
         }
 
-        /* تعديل طبقة القفل والتشغيل */
         .card-overlay {
             position: absolute;
             inset: 0;
@@ -248,12 +247,11 @@
             gap: 5px;
         }
         .card-overlay i { font-size: 40px; color: #fff; }
-        .card-overlay i.fa-lock { color: #ffcc00; } /* لون القفل ذهبي */
+        .card-overlay i.fa-lock { color: #ffcc00; }
         .card-overlay span { font-size: 14px; font-weight: bold; padding: 0 10px; text-align: center; }
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
-        /* --- استايلات إضافية للميزات الجديدة --- */
         #searchOverlay {
             display: none; position: fixed; inset: 0; background: var(--dark-bg);
             z-index: 4000; padding: 100px 5% 50px; overflow-y: auto;
@@ -275,7 +273,6 @@
             color: #fff; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: inherit;
         }
 
-        /* --- مشغل الفيديو المنبثق --- */
         .video-popup {
             display: none;
             position: fixed;
@@ -345,7 +342,6 @@
             border-radius: 50%;
         }
 
-        /* --- تسجيل الدخول والتحقق (Modal) --- */
         .auth-modal {
             display: none;
             position: fixed;
@@ -410,7 +406,6 @@
         }
         .auth-footer-link span { color: var(--main-red); font-weight: 600; }
 
-        /* --- استعلامات الجوال --- */
         @media (max-width: 768px) {
             header { padding: 15px 4%; }
             .nav-links { display: none; }
@@ -607,10 +602,10 @@
         <div class="modal-box" id="verifyBox" style="display:none;">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
             <h2>تأكيد الحساب</h2>
-            <p style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)">أدخل كود التحقق المرسل إلى إيميلك (الكود: 1234)</p>
+            <p id="verifyInstruction" style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)">أدخل كود التحقق المرسل إلى إيميلك</p>
             <form onsubmit="handleVerification(event)">
                 <div class="input-group">
-                    <input type="text" id="verifyInput" placeholder="0000" maxlength="4" style="text-align:center; font-size:24px; letter-spacing:10px;" required>
+                    <input type="text" id="verifyInput" placeholder="00000" maxlength="5" style="text-align:center; font-size:24px; letter-spacing:10px;" required>
                 </div>
                 <button type="submit" class="btn-submit">تحقق</button>
             </form>
@@ -629,7 +624,8 @@
     <script>
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
-        let tempRegData = null; // لتخزين بيانات التسجيل المؤقتة
+        let tempRegData = null;
+        let currentOTP = ""; // لتخزين الكود العشوائي
 
         const movieData = {
             fast: [
@@ -726,13 +722,13 @@
             return card;
         }
 
-        // --- وظائف الحسابات الجديدة ---
         function switchAuthMode(mode) {
             document.getElementById('loginBox').style.display = mode === 'login' ? 'block' : 'none';
             document.getElementById('registerBox').style.display = mode === 'register' ? 'block' : 'none';
             document.getElementById('verifyBox').style.display = 'none';
         }
 
+        // --- تعديل إنشاء الحساب بكود عشوائي ---
         function handleRegister(e) {
             e.preventDefault();
             const email = document.getElementById('regEmail').value;
@@ -744,26 +740,32 @@
                 return;
             }
 
+            // توليد كود عشوائي جديد من 5 أرقام
+            currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
+            
             tempRegData = { email, pass };
             document.getElementById('registerBox').style.display = 'none';
             document.getElementById('verifyBox').style.display = 'block';
-            alert("تم إرسال الكود الافتراضي (1234) لبريدك للتجربة.");
+            
+            // التنبيه الاحترافي الجديد
+            alert("تم إرسال كود التحقق بنجاح.\nكود التحقق الخاص بك هو: " + currentOTP);
         }
 
+        // --- تعديل التحقق ليعمل مع الكود العشوائي ---
         function handleVerification(e) {
             e.preventDefault();
             const input = document.getElementById('verifyInput').value;
-            if (input === "1234") {
+            if (input === currentOTP) {
                 currentUser = { 
                     name: "User_" + Math.floor(Math.random() * 9000), 
                     email: tempRegData.email, 
                     isOwner: (tempRegData.email === "mustafabarbour5@gmail.com") 
                 };
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
-                alert("تم تفعيل الحساب بنجاح!");
+                alert("تم تفعيل الحساب بنجاح! أهلاً بك في Syriabest.");
                 location.reload();
             } else {
-                alert("كود التحقق خاطئ!");
+                alert("كود التحقق غير صحيح، يرجى المحاولة مرة أخرى.");
             }
         }
 
@@ -875,7 +877,7 @@
 
         function toggleModal(show) {
             document.getElementById('authModal').style.display = show ? 'flex' : 'none';
-            if(show) switchAuthMode('login'); // الافتراضي هو الدخول
+            if(show) switchAuthMode('login');
         }
 
         function submitFeedback() {
