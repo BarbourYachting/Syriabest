@@ -345,7 +345,7 @@
             border-radius: 50%;
         }
 
-        /* --- تسجيل الدخول (Modal) --- */
+        /* --- تسجيل الدخول والتحقق (Modal) --- */
         .auth-modal {
             display: none;
             position: fixed;
@@ -375,7 +375,7 @@
             font-size: 20px;
         }
 
-        .modal-box h2 { margin-bottom: 25px; text-align: center; }
+        .modal-box h2 { margin-bottom: 20px; text-align: center; }
 
         .input-group { margin-bottom: 20px; }
         .input-group input {
@@ -399,6 +399,16 @@
             cursor: pointer;
             font-size: 16px;
         }
+
+        .auth-footer-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray-text);
+            cursor: pointer;
+        }
+        .auth-footer-link span { color: var(--main-red); font-weight: 600; }
 
         /* --- استعلامات الجوال --- */
         @media (max-width: 768px) {
@@ -490,8 +500,8 @@
                 <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
                 <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
                 <div class="hero-btns">
-                    <button class="btn-hero btn-play" onclick="playMovie('tt0232500', 'Fast & Furious 1')">
-                        <i class="fas fa-play"></i> تشغيل أحدث فيلم
+                    <button class="btn-hero btn-play" onclick="document.getElementById('row-fast').scrollIntoView()">
+                        <i class="fas fa-th-list"></i> اكتشف المحتوى
                     </button>
                     <button class="btn-hero btn-more" onclick="alert('مرحباً بك في سوريا بست!')">
                         <i class="fas fa-info-circle"></i> معلومات
@@ -561,7 +571,7 @@
     </div>
 
     <div class="auth-modal" id="authModal">
-        <div class="modal-box">
+        <div class="modal-box" id="loginBox">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
             <h2>تسجيل الدخول</h2>
             <form onsubmit="handleAuth(event)">
@@ -572,6 +582,37 @@
                     <input type="password" id="loginPass" placeholder="كلمة المرور" required>
                 </div>
                 <button type="submit" class="btn-submit">دخول</button>
+            </form>
+            <p class="auth-footer-link" onclick="switchAuthMode('register')">ليس لديك حساب؟ <span>إنشاء حساب</span></p>
+        </div>
+
+        <div class="modal-box" id="registerBox" style="display:none;">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2>إنشاء حساب جديد</h2>
+            <form onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPass" placeholder="كلمة المرور" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPassConfirm" placeholder="تأكيد كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn-submit">إنشاء الحساب</button>
+            </form>
+            <p class="auth-footer-link" onclick="switchAuthMode('login')">لديك حساب؟ <span>تسجيل الدخول</span></p>
+        </div>
+
+        <div class="modal-box" id="verifyBox" style="display:none;">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2>تأكيد الحساب</h2>
+            <p style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)">أدخل كود التحقق المرسل إلى إيميلك (الكود: 1234)</p>
+            <form onsubmit="handleVerification(event)">
+                <div class="input-group">
+                    <input type="text" id="verifyInput" placeholder="0000" maxlength="4" style="text-align:center; font-size:24px; letter-spacing:10px;" required>
+                </div>
+                <button type="submit" class="btn-submit">تحقق</button>
             </form>
         </div>
     </div>
@@ -586,9 +627,9 @@
     </footer>
 
     <script>
-        // نظام تخزين البيانات (لجعل الدخول دائم على الجوال)
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
+        let tempRegData = null; // لتخزين بيانات التسجيل المؤقتة
 
         const movieData = {
             fast: [
@@ -685,22 +726,75 @@
             return card;
         }
 
+        // --- وظائف الحسابات الجديدة ---
+        function switchAuthMode(mode) {
+            document.getElementById('loginBox').style.display = mode === 'login' ? 'block' : 'none';
+            document.getElementById('registerBox').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('verifyBox').style.display = 'none';
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+            const confirm = document.getElementById('regPassConfirm').value;
+
+            if (pass !== confirm) {
+                alert("كلمات المرور غير متطابقة!");
+                return;
+            }
+
+            tempRegData = { email, pass };
+            document.getElementById('registerBox').style.display = 'none';
+            document.getElementById('verifyBox').style.display = 'block';
+            alert("تم إرسال الكود الافتراضي (1234) لبريدك للتجربة.");
+        }
+
+        function handleVerification(e) {
+            e.preventDefault();
+            const input = document.getElementById('verifyInput').value;
+            if (input === "1234") {
+                currentUser = { 
+                    name: "User_" + Math.floor(Math.random() * 9000), 
+                    email: tempRegData.email, 
+                    isOwner: (tempRegData.email === "mustafabarbour5@gmail.com") 
+                };
+                localStorage.setItem('sb_user', JSON.stringify(currentUser));
+                alert("تم تفعيل الحساب بنجاح!");
+                location.reload();
+            } else {
+                alert("كود التحقق خاطئ!");
+            }
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPass').value;
+
+            if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
+                currentUser = { name: "Mostafa Barbour", email: email, isOwner: true };
+            } else {
+                currentUser = { name: "User_" + Math.floor(Math.random() * 9000), email: email, isOwner: false };
+            }
+
+            localStorage.setItem('sb_user', JSON.stringify(currentUser));
+            alert('تم تسجيل الدخول بنجاح!');
+            location.reload();
+        }
+
         function handleSearch(e) {
             e.preventDefault();
             const query = document.getElementById('globalSearch').value.toLowerCase();
             const resultsGrid = document.getElementById('searchResultsGrid');
             resultsGrid.innerHTML = "";
-
-            // البحث في كل البيانات
             const allItems = [...movieData.fast, ...movieData.action, ...movieData.horror, ...movieData.egyptComedy, ...movieData.foreignSeries];
             const filtered = allItems.filter(item => item.title.toLowerCase().includes(query));
-
             if(filtered.length > 0) {
                 filtered.forEach(item => resultsGrid.appendChild(createCard(item)));
             } else {
                 resultsGrid.innerHTML = "<h3 style='width:100%; text-align:center;'>عذراً، لم نجد نتائج لبحثك..</h3>";
             }
-
             document.getElementById('mainPageBody').style.display = 'none';
             document.getElementById('searchOverlay').style.display = 'block';
         }
@@ -713,7 +807,6 @@
         function openAccount() {
             document.getElementById('mainPageBody').style.display = 'none';
             document.getElementById('accountSection').style.display = 'block';
-            
             let nameDisplay = currentUser.name;
             if (currentUser.isOwner) {
                 nameDisplay += ' <i class="fas fa-check-circle verified-badge" title="حساب موثق"></i>';
@@ -748,18 +841,14 @@
                 toggleModal(true);
                 return;
             }
-
             watchCount++;
             localStorage.setItem('sb_watch_count', watchCount);
-
             const popup = document.getElementById('videoPopup');
             const player = document.getElementById('mainPlayer');
             const titleDisplay = document.getElementById('movieTitleDisplay');
             const serverList = document.getElementById('serverList');
-            
             titleDisplay.innerText = title;
             serverList.innerHTML = "";
-
             apis.forEach((api, index) => {
                 const btn = document.createElement('button');
                 btn.className = "server-btn" + (index === 0 ? " active" : "");
@@ -771,7 +860,6 @@
                 };
                 serverList.appendChild(btn);
             });
-
             player.src = apis[0].url + imdbId;
             popup.style.display = 'flex';
             document.body.style.overflow = 'hidden';
@@ -787,23 +875,7 @@
 
         function toggleModal(show) {
             document.getElementById('authModal').style.display = show ? 'flex' : 'none';
-        }
-
-        function handleAuth(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPass').value;
-
-            if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
-                currentUser = { name: "Mostafa Barbour", email: email, isOwner: true };
-            } else {
-                let randomId = Math.floor(Math.random() * 8999) + 1000;
-                currentUser = { name: "Customer" + randomId, email: email, isOwner: false };
-            }
-
-            localStorage.setItem('sb_user', JSON.stringify(currentUser));
-            alert('تم تسجيل الدخول بنجاح!');
-            location.reload();
+            if(show) switchAuthMode('login'); // الافتراضي هو الدخول
         }
 
         function submitFeedback() {
