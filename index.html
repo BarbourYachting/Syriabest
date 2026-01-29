@@ -3,135 +3,584 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syriabest Pro | مكتبة الأفلام الشاملة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Syriabest | مشاهدة أحدث الأفلام والمسلسلات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        :root { --main: #e50914; --bg: #050505; --card: #111; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background: var(--bg); color: white; overflow-x: hidden; }
-        
-        /* الهيدر */
-        header { 
-            position: fixed; top: 0; width: 100%; z-index: 2000; 
-            background: rgba(0,0,0,0.95); padding: 15px 5%; 
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--main);
+        :root {
+            --main-red: #e50914;
+            --dark-bg: #141414;
+            --card-bg: #1f1f1f;
+            --gray-text: #a3a3a3;
+            --overlay-bg: rgba(0, 0, 0, 0.9);
         }
-        .logo { color: var(--main); font-size: 30px; font-weight: 900; text-decoration: none; }
 
-        /* منطقة العرض */
-        .container { margin-top: 100px; padding: 20px 5%; }
-        .row-title { font-size: 26px; font-weight: 800; margin: 30px 0 20px; color: var(--main); display: flex; align-items: center; gap: 10px; }
-        
-        /* الشبكة */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
-        .movie-card { 
-            background: var(--card); border-radius: 12px; overflow: hidden; 
-            cursor: pointer; transition: 0.4s; border: 1px solid #222; position: relative;
+        /* --- التحسينات العامة --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
         }
-        .movie-card:hover { transform: translateY(-10px); border-color: var(--main); box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4); }
-        .movie-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
-        .movie-card .info { padding: 12px; text-align: center; }
-        .movie-card h3 { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* بوب أب المشغل */
-        .player-overlay { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); 
-            z-index: 5000; flex-direction: column; align-items: center; justify-content: center;
+        body {
+            background-color: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        .player-box { width: 95%; max-width: 1000px; background: #000; border-radius: 15px; overflow: hidden; border: 2px solid var(--main); position: relative; }
-        iframe { width: 100%; aspect-ratio: 16/9; border: none; }
-        
-        .server-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; justify-content: center; width: 90%; }
-        .server-btn { 
-            background: #222; color: #fff; border: 1px solid #444; padding: 10px 20px; 
-            border-radius: 5px; cursor: pointer; transition: 0.3s; font-weight: bold;
-        }
-        .server-btn.active { background: var(--main); border-color: var(--main); }
-        .close-player { position: absolute; top: 20px; left: 20px; font-size: 40px; color: #fff; cursor: pointer; z-index: 6000; }
 
-        footer { padding: 50px; text-align: center; color: #555; border-top: 1px solid #111; margin-top: 50px; }
+        /* --- الهيدر (Navbar) --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 2000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            transition: 0.4s;
+        }
+
+        header.scrolled {
+            background-color: #000;
+            padding: 10px 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            color: var(--main-red);
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--main-red); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #444;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            outline: none;
+            width: 150px;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .search-input:focus { width: 200px; border-color: var(--main-red); }
+
+        .btn-auth {
+            background-color: var(--main-red);
+            color: #fff;
+            padding: 7px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* --- قسم الهيرو (Hero) --- */
+        .hero {
+            height: 85vh;
+            width: 100%;
+            background: linear-gradient(to top, var(--dark-bg) 10%, transparent 40%),
+                        linear-gradient(to left, rgba(0,0,0,0.7), transparent),
+                        url('https://image.tmdb.org/t/p/original/m9Y9S899REUv498O0S9SjsACG0s.jpg');
+            background-size: cover;
+            background-position: center center;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin-top: 50px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(32px, 8vw, 64px);
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .hero-content p {
+            font-size: clamp(14px, 3vw, 19px);
+            color: #ddd;
+            margin-bottom: 25px;
+            max-width: 550px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero {
+            padding: 12px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-play { background-color: #fff; color: #000; }
+        .btn-play:hover { background-color: #bfbfbf; }
+        .btn-more { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
+        .btn-more:hover { background-color: rgba(109, 109, 110, 0.5); }
+
+        /* --- صفوف الأفلام --- */
+        .content-area {
+            margin-top: -80px;
+            padding-bottom: 50px;
+        }
+
+        .row {
+            padding: 20px 5%;
+        }
+
+        .row-title {
+            font-size: clamp(18px, 4vw, 24px);
+            margin-bottom: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .row-title a {
+            font-size: 13px;
+            color: var(--main-red);
+            text-decoration: none;
+        }
+
+        .movie-slider {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 15px 0;
+            scrollbar-width: none;
+        }
+
+        .movie-slider::-webkit-scrollbar { display: none; }
+
+        .movie-card {
+            min-width: clamp(160px, 25vw, 240px);
+            aspect-ratio: 16/9;
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .movie-card:hover {
+            transform: scale(1.1);
+            z-index: 100;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            opacity: 0;
+            transition: 0.3s;
+            gap: 5px;
+        }
+        .card-overlay i { font-size: 40px; color: #fff; }
+        .card-overlay span { font-size: 14px; font-weight: bold; padding: 0 10px; text-align: center; }
+
+        .movie-card:hover .card-overlay { opacity: 1; }
+
+        /* --- مشغل الفيديو المنبثق المطور (Server Logic) --- */
+        .video-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--overlay-bg);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .video-wrapper {
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+            background: #000;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .server-bar {
+            width: 90%;
+            max-width: 1000px;
+            background: #222;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--main-red);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .server-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .server-btn.active { background: var(--main-red); }
+        .server-btn:hover { background: #444; }
+
+        .video-wrapper iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .close-video {
+            align-self: flex-end;
+            margin-bottom: 10px;
+            margin-right: 5%;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* --- تسجيل الدخول (Modal) --- */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #000;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 8px;
+            position: relative;
+            border: 1px solid #333;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-box h2 { margin-bottom: 25px; text-align: center; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--main-red);
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* --- استعلامات الجوال (Mobile) --- */
+        @media (max-width: 768px) {
+            header { padding: 15px 4%; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero { height: 70vh; }
+            .hero-content h1 { font-size: 38px; }
+            .content-area { margin-top: -40px; }
+        }
+
+        footer {
+            padding: 60px 5% 30px;
+            background: #000;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            text-align: right;
+        }
+
+        .footer-grid ul { list-style: none; }
+        .footer-grid li { margin-bottom: 10px; }
+        .footer-grid a { color: var(--gray-text); text-decoration: none; font-size: 13px; }
+        .footer-grid a:hover { text-decoration: underline; }
+
+        .copyright { color: var(--gray-text); font-size: 12px; }
+
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="#" class="logo">SYRIABEST PRO</a>
-        <div style="font-size: 14px; font-weight: bold; color: #aaa;">نظام السيرفرات المتعددة للوالد</div>
+    <header id="mainNav">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
+            <a href="#" class="logo">Syriabest</a>
+            <ul class="nav-links">
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#">مسلسلات</a></li>
+                <li><a href="#">أفلام</a></li>
+                <li><a href="#">أضيف حديثاً</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-actions">
+            <div class="search-container">
+                <form onsubmit="handleSearch(event)">
+                    <input type="text" class="search-input" placeholder="ابحث...">
+                </form>
+            </div>
+            <button class="btn-auth" onclick="toggleModal(true)">دخول</button>
+        </div>
     </header>
 
-    <div class="container" id="content">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
+            <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
+            <div class="hero-btns">
+                <button class="btn-hero btn-play" onclick="playMovie('tt0232500', 'Fast & Furious 1')">
+                    <i class="fas fa-play"></i> تشغيل أحدث فيلم
+                </button>
+                <button class="btn-hero btn-more" onclick="alert('أهلاً بك يا والد صديقي المبرمج!')">
+                    <i class="fas fa-info-circle"></i> معلومات
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <main class="content-area">
+        <div class="row">
+            <div class="row-title">
+                <span>سلسلة Fast & Furious</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-fast"></div>
         </div>
 
-    <div class="player-overlay" id="playerOverlay">
-        <span class="close-player" onclick="closePlayer()">&times;</span>
-        <div class="player-box">
-            <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        <div class="row">
+            <div class="row-title">
+                <span>أفلام الأكشن</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-action"></div>
         </div>
-        <div class="server-list" id="serverList"></div>
-        <h2 id="movieTitle" style="margin-top: 20px; font-size: 20px;"></h2>
+
+        <div class="row">
+            <div class="row-title">
+                <span>أفلام الرعب</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-horror"></div>
+        </div>
+    </main>
+
+    <div class="video-popup" id="videoPopup">
+        <span class="close-video" onclick="closePlayer()">&times;</span>
+        <div class="server-bar" id="serverList">
+            </div>
+        <div class="video-wrapper">
+            <iframe id="mainPlayer" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red); font-weight: 800;"></h3>
     </div>
 
-    <footer>© 2026 Syriabest | جميع الحقوق محفوظة للوالد الغالي</footer>
+    <div class="auth-modal" id="authModal">
+        <div class="modal-box">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2>تسجيل الدخول</h2>
+            <form onsubmit="handleAuth(event)">
+                <div class="input-group">
+                    <input type="email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn-submit">دخول</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <ul><li><a href="#">الأسئلة الشائعة</a></li><li><a href="#">الخصوصية</a></li></ul>
+            <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
+            <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
+        </div>
+        <p class="copyright">© 2026 Syriabest. صُنع بكل حب للوالد الغالي.</p>
+    </footer>
 
     <script>
-        // قائمة الأفلام الضخمة (IMDb IDs) لضمان التشغيل الأبدي
-        const movies = [
-            { id: "tt0232500", title: "Fast & Furious 1", img: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uS3kyS3C3M5.jpg" },
-            { id: "tt0322259", title: "Fast & Furious 2", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS9S77U9S.jpg" },
-            { id: "tt0463364", title: "Fast & Furious 3", img: "https://image.tmdb.org/t/p/w500/8UlzhB6S99vWG6u1011WE0pOBbk.jpg" },
-            { id: "tt1013752", title: "Fast & Furious 4", img: "https://image.tmdb.org/t/p/w500/v9J97Sfk9nS6S99vS0I67pX96vS.jpg" },
-            { id: "tt1596343", title: "Fast & Furious 5", img: "https://image.tmdb.org/t/p/w500/1p5uMaZByj1O2ShtZA9B6SrnC91.jpg" },
-            { id: "tt1905041", title: "Fast & Furious 6", img: "https://image.tmdb.org/t/p/w500/n3191p6Y7Xls9ST6pU9P9mS98C8.jpg" },
-            { id: "tt2820852", title: "Fast & Furious 7", img: "https://image.tmdb.org/t/p/w500/799S4Xp9p6S99vS0I67pX96vS.jpg" },
-            { id: "tt3481246", title: "Fast & Furious 8", img: "https://image.tmdb.org/t/p/w500/dImBs9pS99vWG6u1011WE0pOBbk.jpg" },
-            { id: "tt4630564", title: "Fast & Furious 9", img: "https://image.tmdb.org/t/p/w500/b97YvSZiqq9ll99vS0I67pX96vS.jpg" },
-            { id: "tt5433138", title: "Fast X (2023)", img: "https://image.tmdb.org/t/p/w500/fiVW06j27z9YxO2qSydTMAs8pN2.jpg" },
-            { id: "tt0468569", title: "The Dark Knight", img: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9QmSbmrQvC2qACEt.jpg" },
-            { id: "tt0816692", title: "Interstellar", img: "https://image.tmdb.org/t/p/w500/gEU2QniE6EJBQw6HfyGhHFqxoxu.jpg" },
-            { id: "tt0172495", title: "Gladiator", img: "https://image.tmdb.org/t/p/w500/ty8TGRjI4WqWK1vMvJo71pXUAnL.jpg" },
-            { id: "tt0111161", title: "Shawshank Redemption", img: "https://image.tmdb.org/t/p/w500/lyQBX9RlSydun976QdqSjQUwjmo.jpg" },
-            { id: "tt0110912", title: "Pulp Fiction", img: "https://image.tmdb.org/t/p/w500/d5iIl9h9btztm9kzqyS7S6dn9MG.jpg" },
-            { id: "tt0133093", title: "The Matrix", img: "https://image.tmdb.org/t/p/w500/f89U3Y9L92vjXp7qT7MJu9szMjb.jpg" },
-            { id: "tt0068646", title: "The Godfather", img: "https://image.tmdb.org/t/p/w500/3bhkrjBnn4B31vSybcc9B7OqGki.jpg" },
-            { id: "tt2403776", title: "John Wick", img: "https://image.tmdb.org/t/p/w500/fzcmQjSfvUCvrtp9AfnnzC7pXVk.jpg" },
-            { id: "tt0120737", title: "Lord of the Rings", img: "https://image.tmdb.org/t/p/w500/6oomZNVXFT6IKmYvBsLU6C6C0pX.jpg" },
-            { id: "tt0099685", title: "Goodfellas", img: "https://image.tmdb.org/t/p/w500/aKuFiU8tSAtSuj89p3q31NciOvT.jpg" }
-        ];
+        // داتا الأفلام المنظمة
+        const movieData = {
+            fast: [
+                { id: "tt0232500", title: "Fast & Furious 1", img: "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uS3kyS3C3M5.jpg" },
+                { id: "tt0322259", title: "2 Fast 2 Furious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS9S77U9S.jpg" },
+                { id: "tt0463364", title: "Tokyo Drift", img: "https://image.tmdb.org/t/p/w500/8UlzhB6S99vWG6u1011WE0pOBbk.jpg" },
+                { id: "tt1013752", title: "Fast & Furious 4", img: "https://image.tmdb.org/t/p/w500/v9J97Sfk9nS6S99vS0I67pX96vS.jpg" },
+                { id: "tt1596343", title: "Fast Five", img: "https://image.tmdb.org/t/p/w500/1p5uMaZByj1O2ShtZA9B6SrnC91.jpg" },
+                { id: "tt1905041", title: "Fast 6", img: "https://image.tmdb.org/t/p/w500/n3191p6Y7Xls9ST6pU9P9mS98C8.jpg" }
+            ],
+            action: [
+                { id: "tt2403776", title: "John Wick", img: "https://image.tmdb.org/t/p/w500/fzcmQjSfvUCvrtp9AfnnzC7pXVk.jpg" },
+                { id: "tt0468569", title: "The Dark Knight", img: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp9QmSbmrQvC2qACEt.jpg" },
+                { id: "tt0133093", title: "The Matrix", img: "https://image.tmdb.org/t/p/w500/f89U3Y9L92vjXp7qT7MJu9szMjb.jpg" },
+                { id: "tt0816692", title: "Interstellar", img: "https://image.tmdb.org/t/p/w500/gEU2QniE6EJBQw6HfyGhHFqxoxu.jpg" },
+                { id: "tt0172495", title: "Gladiator", img: "https://image.tmdb.org/t/p/w500/ty8TGRjI4WqWK1vMvJo71pXUAnL.jpg" }
+            ],
+            horror: [
+                { id: "tt0800369", title: "The Conjuring", img: "https://image.tmdb.org/t/p/w500/7InS9SjsACG0s.jpg" },
+                { id: "tt13016694", title: "Smile", img: "https://image.tmdb.org/t/p/w500/a7sc66SwfIS9S77U9S.jpg" },
+                { id: "tt0877040", title: "Insidious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS.jpg" },
+                { id: "tt1165682", title: "It (2017)", img: "https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9Te6B1M1uCcQp3L.jpg" }
+            ]
+        };
 
-        // قائمة السيرفرات العالمية الجبارة
         const apis = [
-            { name: "سيرفر فشار 1", url: "https://vidsrc.me/embed/movie?imdb=" },
-            { name: "سيرفر فشار 2", url: "https://vidsrc.to/embed/movie/" },
-            { name: "سيرفر فشار 3", url: "https://autoembed.to/movie/imdb/" },
-            { name: "سيرفر إضافي 4", url: "https://embed.smashystream.com/playere.php?imdb=" },
-            { name: "سيرفر إضافي 5", url: "https://multiembed.mov/directstream.php?video_id=" }
+            { name: "سيرفر 1", url: "https://vidsrc.me/embed/movie?imdb=" },
+            { name: "سيرفر 2", url: "https://vidsrc.to/embed/movie/" },
+            { name: "سيرفر 3", url: "https://autoembed.to/movie/imdb/" }
         ];
 
-        function render() {
-            const content = document.getElementById('content');
-            let html = '<div class="row-title"><i class="fas fa-fire"></i> قائمة أفلام الوالد المختارة</div><div class="grid">';
-            movies.forEach(m => {
-                html += `
-                    <div class="movie-card" onclick="openMovie('${m.id}', '${m.title}')">
-                        <img src="${m.img}">
-                        <div class="info"><h3>${m.title}</h3></div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            content.innerHTML = html;
+        // التحكم في الهيدر
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainNav');
+            if (window.scrollY > 100) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // بناء الشبكة
+        function initApp() {
+            renderRow('row-fast', movieData.fast);
+            renderRow('row-action', movieData.action);
+            renderRow('row-horror', movieData.horror);
         }
 
-        function openMovie(imdbId, title) {
-            const overlay = document.getElementById('playerOverlay');
-            const frame = document.getElementById('videoFrame');
-            const list = document.getElementById('serverList');
-            const titleBox = document.getElementById('movieTitle');
+        function renderRow(containerId, movies) {
+            const container = document.getElementById(containerId);
+            movies.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <img src="${m.img}" alt="${m.title}">
+                    <div class="card-overlay">
+                        <i class="fas fa-play-circle"></i>
+                        <span>${m.title}</span>
+                    </div>
+                `;
+                card.onclick = () => playMovie(m.id, m.title);
+                container.appendChild(card);
+            });
+        }
 
-            titleBox.innerText = title;
-            list.innerHTML = "";
+        function playMovie(imdbId, title) {
+            const popup = document.getElementById('videoPopup');
+            const player = document.getElementById('mainPlayer');
+            const titleDisplay = document.getElementById('movieTitleDisplay');
+            const serverList = document.getElementById('serverList');
+            
+            titleDisplay.innerText = title;
+            serverList.innerHTML = "";
 
             apis.forEach((api, index) => {
                 const btn = document.createElement('button');
@@ -140,23 +589,41 @@
                 btn.onclick = () => {
                     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    frame.src = api.url + imdbId;
+                    player.src = api.url + imdbId;
                 };
-                list.appendChild(btn);
+                serverList.appendChild(btn);
             });
 
-            frame.src = apis[0].url + imdbId;
-            overlay.style.display = "flex";
-            document.body.style.overflow = "hidden";
+            player.src = apis[0].url + imdbId;
+            popup.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
         function closePlayer() {
-            document.getElementById('playerOverlay').style.display = "none";
-            document.getElementById('videoFrame').src = "";
-            document.body.style.overflow = "auto";
+            const popup = document.getElementById('videoPopup');
+            const player = document.getElementById('mainPlayer');
+            player.src = "";
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
-        render();
+        function toggleModal(show) {
+            document.getElementById('authModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            alert('أهلاً بك يا عمي في Syriabest!');
+            toggleModal(false);
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const query = document.querySelector('.search-input').value;
+            alert('جاري البحث عن: ' + query);
+        }
+
+        initApp();
     </script>
 </body>
 </html>
