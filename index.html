@@ -478,6 +478,22 @@
             </div>
             <div class="movie-slider" id="row-horror"></div>
         </div>
+
+        <div class="row">
+            <div class="row-title">
+                <span>مسلسلات مصرية كوميدية</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-egypt-comedy"></div>
+        </div>
+
+        <div class="row">
+            <div class="row-title">
+                <span>مسلسلات أجنبية</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-foreign-series"></div>
+        </div>
     </main>
 
     <div class="video-popup" id="videoPopup">
@@ -511,7 +527,7 @@
             <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
             <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
         </div>
-        <p class="copyright">© 2026 Syriabest. صُنع بكل حب.</p>
+        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة</p>
     </footer>
 
     <script>
@@ -539,6 +555,23 @@
                 { id: "tt13016694", title: "Smile", img: "https://image.tmdb.org/t/p/w500/a7sc66SwfIS9S77U9S.jpg" },
                 { id: "tt0877040", title: "Insidious", img: "https://image.tmdb.org/t/p/w500/6KE9S90vS0I67pX96vS.jpg" },
                 { id: "tt1165682", title: "It (2017)", img: "https://image.tmdb.org/t/p/w500/9gk7Fn9sVAsS9Te6B1M1uCcQp3L.jpg" }
+            ],
+            // بيانات المسلسلات المصرية الكوميدية
+            egyptComedy: [
+                { id: "tt10228372", title: "الواد سيد الشحات", img: "https://m.media-amazon.com/images/M/MV5BMGRlMGZmYjAtYTE1Yi00NjkyLThjYTUtZDI0Yjk2NzY0NmJhXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt12345678", title: "الكبير أوي 8", img: "https://media.linkonlineworld.com/elcinema/images/942767272/600x600/203022562.jpg" },
+                { id: "tt14460770", title: "موضوع عائلي", img: "https://m.media-amazon.com/images/M/MV5BYzJmNjI1NjEtMDcwZi00ZThhLWIxNTMtNmU3Njg0YmM1YTAzXkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt21064402", title: "اللعبة", img: "https://m.media-amazon.com/images/M/MV5BNDM1NjJjMzEtMmFmNi00NjVjLWExYzItYjhiZGRjY2ExZGU4XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt18304212", title: "في بيتنا روبوت", img: "https://m.media-amazon.com/images/M/MV5BYzdiNGE1ODktMDdmNy00YWNlLTgxMDUtY2U5MmM2OWEyMjE0XkEyXkFqcGdeQXVyMTE0NjY0NjE1._V1_.jpg" },
+                { id: "tt14587422", title: "أشغال شقة", img: "https://assets.shofha.com/shofha-cms/media-service/media/original/71787.jpg" }
+            ],
+            // بيانات المسلسلات الأجنبية
+            foreignSeries: [
+                { id: "tt12672536", title: "Fallout Season 1", img: "https://m.media-amazon.com/images/M/MV5BNmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_FMjpg_UX1000_.jpg" },
+                { id: "tt12672536", title: "Fallout Season 2", img: "https://m.media-amazon.com/images/M/MV5BNmU1Nzc1NDktMDExZi00NDExLWE1MTAtNWY4N2U1MDIwMzBkXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg" },
+                { id: "tt0903747", title: "Breaking Bad", img: "https://m.media-amazon.com/images/M/MV5BMjhiMzgxZTctNDc1Ni00OTIxLTgwMTUtMTY4ZDA2MmExZGY2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg" },
+                { id: "tt0944947", title: "Game of Thrones", img: "https://m.media-amazon.com/images/M/MV5BN2IzYzBiOTQtNGIwMi00ZGQ5LWEyZTYtN2MxZDA0OThlMDJmXkEyXkFqcGdeQXVyNjAwNDUxODI._V1_.jpg" },
+                { id: "tt11198330", title: "The Last of Us", img: "https://m.media-amazon.com/images/M/MV5BZGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2EwNzUxYjEyMzgzXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" }
             ]
         };
 
@@ -558,16 +591,17 @@
             renderRow('row-fast', movieData.fast);
             renderRow('row-action', movieData.action);
             renderRow('row-horror', movieData.horror);
+            renderRow('row-egypt-comedy', movieData.egyptComedy);
+            renderRow('row-foreign-series', movieData.foreignSeries);
         }
 
         function renderRow(containerId, movies) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ""; // مسح المحتوى القديم عند إعادة الرندر
+            container.innerHTML = ""; 
             movies.forEach(m => {
                 const card = document.createElement('div');
                 card.className = 'movie-card';
                 
-                // إضافة القفل إذا لم يسجل دخول، أو أيقونة التشغيل إذا سجل
                 const iconHTML = isLoggedIn 
                     ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
                     : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
@@ -584,9 +618,8 @@
         }
 
         function playMovie(imdbId, title) {
-            // التحقق من تسجيل الدخول قبل التشغيل
             if (!isLoggedIn) {
-                alert("يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة الفيلم!");
+                alert("يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!");
                 toggleModal(true);
                 return;
             }
@@ -633,13 +666,12 @@
             const email = document.getElementById('loginEmail').value;
             const pass = document.getElementById('loginPass').value;
 
-            // التحقق من الحساب المعين
             if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
                 isLoggedIn = true;
-                alert('تم تسجيل الدخول بنجاح! تم فك قفل جميع الأفلام.');
+                alert('تم تسجيل الدخول بنجاح! تم فك قفل جميع الأفلام والمسلسلات.');
                 document.getElementById('mainAuthBtn').innerText = "تم الدخول";
                 toggleModal(false);
-                initApp(); // إعادة بناء الأفلام لإخفاء القفل
+                initApp(); 
             } else {
                 alert('خطأ في البريد الإلكتروني أو كلمة المرور!');
             }
