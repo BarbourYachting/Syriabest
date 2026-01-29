@@ -1,15 +1,42 @@
-{
-  "short_name": "MyMovies",
-  "name": "تطبيق الأفلام الخاص بي",
-  "icons": [
-    {
-      "src": "icon.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#000000"
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>FullScreen</key>
+            <true/>
+            <key>IsRemovable</key>
+            <true/>
+            <key>Label</key>
+            <string>Syriabest</string>
+            <key>PayloadDescription</key>
+            <string>شاهد أحدث الأفلام والمسلسلات على Syriabest</string>
+            <key>PayloadDisplayName</key>
+            <string>Syriabest</string>
+            <key>PayloadIdentifier</key>
+            <string>com.syriabest.app.webclip</string>
+            <key>PayloadType</key>
+            <string>com.apple.webClip.managed</string>
+            <key>PayloadUUID</key>
+            <string>34C2C1C4-A12B-4B32-9A42-E93021D38C8A</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>URL</key>
+            <string>https://your-site-url.com</string> </dict>
+    </array>
+    <key>PayloadDisplayName</key>
+    <string>تثبيت تطبيق Syriabest</string>
+    <key>PayloadIdentifier</key>
+    <string>com.syriabest.profile</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>9B2E3D4F-5C6A-4E1B-8D7F-2A1B3C4D5E6F</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>
