@@ -24,7 +24,7 @@
             <key>PayloadVersion</key>
             <integer>1</integer>
             <key>URL</key>
-            <string>https://your-site-url.com</string> </dict>
+            <string>https://syriabest.vercel.app</string> </dict>
     </array>
     <key>PayloadDisplayName</key>
     <string>تثبيت تطبيق Syriabest</string>
