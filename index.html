@@ -114,7 +114,7 @@
             white-space: nowrap;
         }
 
-        /* ستايل زر الايفون */
+        /* ستايل زر الايفون المحدث */
         .btn-ios {
             background-color: #2e7d32;
             color: #fff;
@@ -127,6 +127,8 @@
             align-items: center;
             gap: 8px;
             transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
         .btn-ios:hover { background-color: #1b5e20; }
 
@@ -449,8 +451,8 @@
                 </form>
             </div>
             
-            <a href="/profile.mobileconfig" class="btn-ios" id="installBtn">
-                <i class="fab fa-apple"></i> تثبيت
+            <a href="profile.mobileconfig" class="btn-ios" id="installBtn" download="profile.mobileconfig">
+                <i class="fab fa-apple"></i> تثبيت التطبيق
             </a>
 
             <button class="btn-auth" onclick="toggleModal(true)">دخول</button>
@@ -533,12 +535,12 @@
     </footer>
 
     <script>
-        // تنبيه ملف التعريف
+        // تنبيه ملف التعريف المطور
         document.getElementById('installBtn').addEventListener('click', function(e) {
-            // التنبيه يظهر بعد بدء التحميل
+            // ملاحظة: المتصفح سيبدأ التحميل تلقائياً بسبب وسم الـ href
             setTimeout(function() {
-                alert("يتم الآن تحميل ملف التعريف.\n\nبعد الانتهاء، توجه إلى الإعدادات > تم تنزيل ملف التعريف لتثبيت تطبيق Syriabest على الشاشة الرئيسية.");
-            }, 1000);
+                alert("يتم الآن تجهيز ملف التثبيت...\n\nبمجرد اكتمال التحميل، انتقل إلى:\nالإعدادات > تم تنزيل ملف التعريف > تثبيت.");
+            }, 500);
         });
 
         const movieData = {
