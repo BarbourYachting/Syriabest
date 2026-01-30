@@ -271,6 +271,40 @@
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
+        /* --- نظام المفضلة الجديد --- */
+        .fav-btn-card {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 110;
+            transition: 0.3s;
+        }
+        .fav-btn-card.active { color: var(--main-red); }
+        .fav-btn-card:hover { transform: scale(1.2); background: #000; }
+
+        .fav-status-btn {
+            background: #333;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .fav-status-btn.active { background: var(--main-red); }
+
         #searchOverlay {
             display: none; position: fixed; inset: 0; background: var(--dark-bg);
             z-index: 4000; padding: 100px 5% 50px; overflow-y: auto;
@@ -279,10 +313,10 @@
         
         #accountSection {
             display: none; position: fixed; inset: 0; background: var(--dark-bg);
-            z-index: 3500; padding: 120px 5%; text-align: center;
+            z-index: 3500; padding: 60px 5%; overflow-y: auto;
         }
         .account-box {
-            background: var(--card-bg); max-width: 500px; margin: 0 auto;
+            background: var(--card-bg); max-width: 800px; margin: 0 auto;
             padding: 40px; border-radius: 15px; border: 1px solid #333;
         }
 
@@ -503,7 +537,7 @@
             <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
             <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
             <ul class="nav-links">
-                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#" onclick="location.reload()">الرئيسية</a></li>
                 <li><a href="#">مسلسلات</a></li>
                 <li><a href="#">أفلام</a></li>
                 <li><a href="#">أضيف حديثاً</a></li>
@@ -533,14 +567,31 @@
         <div class="account-box">
             <h2 id="accDisplayName">اسم المستخدم</h2>
             <p style="margin: 15px 0; color: var(--gray-text);">مرحباً بك في لوحة تحكم حسابك</p>
-            <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <span>أفلام شاهدتها: </span>
-                <span id="watchStats" style="color: var(--main-red); font-weight: 800; font-size: 1.2em;">0</span>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div style="background: #222; padding: 15px; border-radius: 8px; text-align: center;">
+                    <span style="font-size: 13px; color: var(--gray-text);">أفلام شاهدتها</span><br>
+                    <span id="watchStats" style="color: var(--main-red); font-weight: 800; font-size: 1.5em;">0</span>
+                </div>
+                <div style="background: #222; padding: 15px; border-radius: 8px; text-align: center;">
+                    <span style="font-size: 13px; color: var(--gray-text);">في قائمتي</span><br>
+                    <span id="favStats" style="color: #ffcc00; font-weight: 800; font-size: 1.5em;">0</span>
+                </div>
             </div>
-            <input type="text" id="editNameInput" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
-            <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;">حفظ الاسم الجديد</button>
-            <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;">تسجيل الخروج</button>
-            <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;">العودة للرئيسية</p>
+
+            <div style="text-align: right; margin-bottom: 30px;">
+                <h3 style="border-right: 4px solid var(--main-red); padding-right: 10px; margin-bottom: 15px;">قائمتي المفضلة</h3>
+                <div id="favoritesGrid" class="movie-slider" style="flex-wrap: wrap; gap: 10px; justify-content: center; min-height: 100px; background: #111; padding: 15px; border-radius: 10px;">
+                    <p style="color: #666; font-size: 14px;">لا يوجد أفلام في قائمتك بعد.</p>
+                </div>
+            </div>
+
+            <div style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="editNameInput" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
+                <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;">حفظ الاسم الجديد</button>
+                <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;">تسجيل الخروج</button>
+                <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;">العودة للرئيسية</p>
+            </div>
         </div>
     </div>
 
@@ -633,7 +684,12 @@
             </div>
         </div>
 
-        <h3 id="movieTitleDisplay" style="margin-top: 15px; color: var(--main-red); font-weight: 800; text-align: center;"></h3>
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+            <h3 id="movieTitleDisplay" style="color: var(--main-red); font-weight: 800; text-align: center;"></h3>
+            <button id="playerFavBtn" class="fav-status-btn" onclick="toggleFavoriteFromPlayer()">
+                <i class="fas fa-plus"></i> إضافة لقائمتي
+            </button>
+        </div>
     </div>
 
     <div class="auth-modal" id="authModal">
@@ -695,6 +751,7 @@
     <script>
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
+        let favorites = JSON.parse(localStorage.getItem('sb_favorites')) || [];
         let tempRegData = null;
         let currentOTP = ""; 
 
@@ -709,8 +766,8 @@
                 { id: "tt1905041", title: "Fast 6", img: "fast6.JPG", type: "movie" }
             ],
             action: [
-                { id: "tt0099685", title: "Goodfellas", img: "goodfellas.JPG", type: "movie" }, // جديد
-                { id: "tt0086250", title: "Scarface", img: "scarface.JPG", type: "movie" },    // جديد
+                { id: "tt0099685", title: "Goodfellas", img: "goodfellas.JPG", type: "movie" },
+                { id: "tt0086250", title: "Scarface", img: "scarface.JPG", type: "movie" },
                 { id: "tt2403776", title: "John Wick", img: "johnwick.JPG", type: "movie" },
                 { id: "tt0468569", title: "The Dark Knight", img: "darkknight.JPG", type: "movie" },
                 { id: "tt0133093", title: "The Matrix", img: "matrix.JPG", type: "movie" },
@@ -738,7 +795,7 @@
                 { id: "tt14587422", title: "أشغال شقة", img: "ashghal-shaqa.JPG", type: "series", seasons: 1, episodes: 15 }
             ],
             foreignSeries: [
-                { id: "tt0068646", title: "The Godfather", img: "godfather.JPG", type: "series", seasons: 3, episodes: 10 }, // جديد
+                { id: "tt0068646", title: "The Godfather", img: "godfather.JPG", type: "series", seasons: 3, episodes: 10 },
                 { id: "tt0903747", title: "Breaking Bad", img: "breaking-bad.JPG", type: "series", seasons: 5, episodes: 13 },
                 { id: "tt0944947", title: "Game of Thrones", img: "got.JPG", type: "series", seasons: 8, episodes: 10 },
                 { id: "tt11198330", title: "The Last of Us", img: "last-of-us.JPG", type: "series", seasons: 1, episodes: 9 }
@@ -791,19 +848,83 @@
             });
         }
 
+        // --- تعديل إنشاء البطاقة لإضافة زر القلب ---
         function createCard(m) {
             const card = document.createElement('div');
             card.className = 'movie-card';
+            const isFav = favorites.some(f => f.id === m.id);
+            
             const iconHTML = currentUser 
                 ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
                 : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
 
+            // زر القلب الصغير على البطاقة
+            const favBtnHTML = currentUser 
+                ? `<div class="fav-btn-card ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${m.id}')">
+                    <i class="fa${isFav ? 's' : 'r'} fa-heart"></i>
+                   </div>` 
+                : '';
+
             card.innerHTML = `
+                ${favBtnHTML}
                 <img src="${m.img}" alt="${m.title}">
                 <div class="card-overlay">${iconHTML}</div>
             `;
             card.onclick = () => playMedia(m);
             return card;
+        }
+
+        // --- وظائف نظام المفضلة الجديدة ---
+        function toggleFavorite(id) {
+            if (!currentUser) return toggleModal(true);
+
+            // البحث عن الفيلم في كل البيانات
+            const allItems = [...movieData.fast, ...movieData.action, ...movieData.horror, ...movieData.egyptComedy, ...movieData.foreignSeries];
+            const item = allItems.find(m => m.id === id);
+            
+            const index = favorites.findIndex(f => f.id === id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(item);
+            }
+
+            localStorage.setItem('sb_favorites', JSON.stringify(favorites));
+            initApp(); // تحديث البطاقات
+            if (activeMedia && activeMedia.id === id) updatePlayerFavBtn(); // تحديث الزر في المشغل
+            if (document.getElementById('accountSection').style.display === 'block') renderFavorites(); // تحديث شبكة المفضلة
+        }
+
+        function updatePlayerFavBtn() {
+            const btn = document.getElementById('playerFavBtn');
+            const isFav = favorites.some(f => f.id === activeMedia.id);
+            if (isFav) {
+                btn.classList.add('active');
+                btn.innerHTML = `<i class="fas fa-check"></i> في قائمتي`;
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = `<i class="fas fa-plus"></i> إضافة لقائمتي`;
+            }
+        }
+
+        function toggleFavoriteFromPlayer() {
+            if (activeMedia) toggleFavorite(activeMedia.id);
+        }
+
+        function renderFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+            const stat = document.getElementById('favStats');
+            stat.innerText = favorites.length;
+            
+            if (favorites.length === 0) {
+                grid.innerHTML = `<p style="color: #666; font-size: 14px; width:100%; text-align:center;">لا يوجد أفلام في قائمتك بعد.</p>`;
+                return;
+            }
+            
+            grid.innerHTML = "";
+            favorites.forEach(m => {
+                grid.appendChild(createCard(m));
+            });
         }
 
         function playMedia(item) {
@@ -822,8 +943,9 @@
             localStorage.setItem('sb_watch_count', watchCount);
 
             document.getElementById('movieTitleDisplay').innerText = item.title;
-            const seriesControls = document.getElementById('seriesControls');
+            updatePlayerFavBtn(); // تحديث زر القلب عند فتح الفيلم
 
+            const seriesControls = document.getElementById('seriesControls');
             if (item.type === "series") {
                 seriesControls.style.display = "block";
                 renderSeriesUI();
@@ -847,7 +969,7 @@
                 btn.innerText = "الموسم " + i;
                 btn.onclick = () => {
                     currentS = i;
-                    currentE = 1; // تصفير الحلقة عند تغيير الموسم
+                    currentE = 1;
                     renderSeriesUI();
                     updatePlayer();
                 };
@@ -890,14 +1012,12 @@
             if (activeMedia.type === "movie") {
                 finalUrl = api.movie + activeMedia.id;
             } else {
-                // تعديل هنا لضمان عمل المواسم بشكل صحيح
-                if (currentServerIdx === 0) { // سيرفر 1
+                if (currentServerIdx === 0) {
                     finalUrl = api.tv + activeMedia.id + `&sea=${currentS}&epi=${currentE}`;
-                } else { // باقي السيرفرات
+                } else {
                     finalUrl = api.tv + activeMedia.id + `/${currentS}/${currentE}`;
                 }
             }
-
             player.src = finalUrl;
         }
 
@@ -907,7 +1027,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // --- وظائف الهوية والبحث كما في كودك ---
         function handleAuth(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
@@ -973,11 +1092,22 @@
             document.getElementById('accountSection').style.display = 'block';
             document.getElementById('accDisplayName').innerHTML = currentUser.name + (currentUser.isOwner ? ' <i class="fas fa-check-circle verified-badge"></i>' : '');
             document.getElementById('watchStats').innerText = watchCount;
+            renderFavorites(); // عرض المفضلة عند فتح الحساب
         }
 
         function closeAccount() {
             document.getElementById('accountSection').style.display = 'none';
             document.getElementById('mainPageBody').style.display = 'block';
+        }
+
+        function updateUsername() {
+            const newName = document.getElementById('editNameInput').value;
+            if(newName.trim() !== "") {
+                currentUser.name = newName;
+                localStorage.setItem('sb_user', JSON.stringify(currentUser));
+                openAccount();
+                alert("تم تحديث الاسم!");
+            }
         }
 
         function logoutUser() {
