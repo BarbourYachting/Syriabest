@@ -3,7 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syriabest | مشاهدة أحدث الأفلام والمسلسلات</title>
+    
+    <title>Syriabest | سوريا بست - مشاهدة أحدث الأفلام والمسلسلات</title>
+    <meta name="description" content="موقع سوريا بست Syriabest لمشاهدة أحدث الأفلام والمسلسلات العربية والأجنبية، سلاسل أفلام مارفل، أفلام الرعب، والأكشن بجودة عالية وسيرفرات سريعة.">
+    <meta name="keywords" content="Syriabest, سوريا بست, مشاهدة افلام, مسلسلات حصريا, افلام مارفل, افلام رعب, افلام اكشن, افلام 2026, مصطفى بربور">
+    <meta name="author" content="Mostafa Barbour">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Syriabest | عالم الترفيه بين يديك">
+    <meta property="og:description" content="استمتع بمشاهدة أحدث الأفلام والمسلسلات على Syriabest بأعلى جودة.">
+    <meta property="og:url" content="https://syriabest.com">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Syriabest",
+      "url": "https://syriabest.com",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://syriabest.com/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -506,6 +531,11 @@
             .btn-auth { padding: 5px 12px; font-size: 12px; }
         }
 
+        /* --- DMCA Section --- */
+        #dmcaSection {
+            display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh;
+        }
+
         footer {
             padding: 60px 5% 30px;
             background: #000;
@@ -538,9 +568,9 @@
             <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
             <ul class="nav-links">
                 <li><a href="#" onclick="location.reload()">الرئيسية</a></li>
-                <li><a href="#">مسلسلات</a></li>
-                <li><a href="#">أفلام</a></li>
-                <li><a href="#">أضيف حديثاً</a></li>
+                <li><a href="#row-foreign-series">مسلسلات</a></li>
+                <li><a href="#row-action">أفلام</a></li>
+                <li><a href="#" onclick="showDMCA()">DMCA / حقوق النشر</a></li>
             </ul>
         </div>
         
@@ -554,6 +584,12 @@
             <button class="btn-auth" id="mainAuthBtn" onclick="toggleModal(true)">دخول</button>
         </div>
     </header>
+
+    <div id="dmcaSection">
+        <h1 style="color: var(--main-red); margin-bottom: 20px;">DMCA - سياسة حقوق النشر</h1>
+        <p>موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.</p>
+        <button class="btn-auth" style="margin-top: 30px;" onclick="location.reload()">العودة للرئيسية</button>
+    </div>
 
     <div id="searchOverlay">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
@@ -757,7 +793,7 @@
 
     <footer>
         <div class="footer-grid">
-            <ul><li><a href="#">الأسئلة الشائعة</a></li><li><a href="#">الخصوصية</a></li></ul>
+            <ul><li><a href="#">الأسئلة الشائعة</a></li><li><a href="#" onclick="showDMCA()">DMCA / حقوق النشر</a></li></ul>
             <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
             <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
         </div>
@@ -888,6 +924,11 @@
             renderRow('row-egypt-comedy', movieData.egyptComedy);
             renderRow('row-foreign-series', movieData.foreignSeries);
             checkAuthStatus();
+        }
+
+        function showDMCA() {
+            document.getElementById('mainPageBody').style.display = 'none';
+            document.getElementById('dmcaSection').style.display = 'block';
         }
 
         function checkAuthStatus() {
