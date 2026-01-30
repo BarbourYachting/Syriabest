@@ -12,7 +12,7 @@
     <meta name="author" content="Mostafa Barbour">
     <meta name="robots" content="index, follow">
     
-    <script src="https://www.google.com/recaptcha/api.js?render=6Ld_Your_Site_Key"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <meta property="og:title" content="Syriabest | عالم الترفيه بين يديك">
     <meta property="og:description" content="استمتع بمشاهدة أحدث الأفلام والمسلسلات على Syriabest بأعلى جودة.">
@@ -43,6 +43,7 @@
             --card-bg: #1f1f1f;
             --gray-text: #a3a3a3;
             --overlay-bg: rgba(0, 0, 0, 0.9);
+            --glass-bg: rgba(20, 20, 20, 0.75);
         }
 
         /* حماية: منع نسخ المحتوى */
@@ -273,9 +274,10 @@
         }
 
         .movie-card:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             z-index: 100;
             box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            border: 2px solid var(--main-red);
         }
 
         .movie-card img {
@@ -412,7 +414,7 @@
             aspect-ratio: 16/9;
         }
 
-        /* --- تحسينات المسلسلات (المواسم والحلقات) --- */
+        /* --- تحسينات المسلسلات --- */
         .series-controls {
             width: 90%;
             max-width: 1000px;
@@ -462,6 +464,7 @@
             border-radius: 50%;
         }
 
+        /* --- تصميم المودال المستقبلي 2026 --- */
         .auth-modal {
             display: none;
             position: fixed;
@@ -471,52 +474,95 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            backdrop-filter: blur(5px);
         }
 
         .modal-box {
-            background: #000;
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px);
             width: 100%;
             max-width: 400px;
             padding: 40px;
-            border-radius: 8px;
+            border-radius: 20px;
             position: relative;
-            border: 1px solid #333;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 20px;
+            left: 20px;
             cursor: pointer;
             font-size: 20px;
+            color: var(--gray-text);
         }
 
-        .modal-box h2 { margin-bottom: 20px; text-align: center; }
+        .modal-box h2 { margin-bottom: 30px; text-align: center; font-weight: 800; letter-spacing: 1px; }
 
         .input-group { margin-bottom: 20px; }
         .input-group input {
             width: 100%;
-            padding: 12px;
-            background: #333;
-            border: none;
-            border-radius: 4px;
+            padding: 14px;
+            background: rgba(255,255,255,0.05) !important;
+            border: 2px solid transparent;
+            border-radius: 12px;
             color: #fff;
             outline: none;
+            transition: all 0.4s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--main-red);
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.3);
+            background: rgba(255,255,255,0.1) !important;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 12px;
-            background: var(--main-red);
+            padding: 14px;
+            background: linear-gradient(45deg, #e50914, #ff3d47) !important;
             color: #fff;
             border: none;
             font-weight: bold;
-            border-radius: 4px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* حماية: حقل مخفي لمنع البوتات (Honeypot) */
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.4);
+        }
+
+        /* سبينر التحميل */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            display: none;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .auth-footer-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gray-text);
+            cursor: pointer;
+        }
+        .auth-footer-link span { color: var(--main-red); font-weight: bold; }
+
         .hp-field { display: none !important; }
 
         @media (max-width: 768px) {
@@ -530,10 +576,7 @@
             .btn-auth { padding: 5px 12px; font-size: 12px; }
         }
 
-        /* --- DMCA Section --- */
-        #dmcaSection {
-            display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh;
-        }
+        #dmcaSection { display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh; }
 
         footer {
             padding: 60px 5% 30px;
@@ -559,7 +602,9 @@
 
     </style>
 </head>
-<body oncontextmenu="return false;"> <header id="mainNav">
+<body oncontextmenu="return false;"> 
+    
+    <header id="mainNav">
         <div style="display: flex; align-items: center; gap: 20px;">
             <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
             <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
@@ -752,7 +797,9 @@
                 <div class="input-group">
                     <input type="password" id="loginPass" placeholder="كلمة المرور" required>
                 </div>
-                <button type="submit" class="btn-submit">دخول</button>
+                <button type="submit" class="btn-submit">
+                    <span>دخول</span>
+                </button>
             </form>
             <p class="auth-footer-link" onclick="switchAuthMode('register')">ليس لديك حساب؟ <span>إنشاء حساب</span></p>
         </div>
@@ -771,10 +818,13 @@
                 <div class="input-group">
                     <input type="password" id="regPassConfirm" placeholder="تأكيد كلمة المرور" required>
                 </div>
-                <button type="submit" class="btn-submit g-recaptcha" 
+                <button type="button" id="regSubmitBtn" class="btn-submit g-recaptcha" 
                         data-sitekey="6Ld_Your_Site_Key" 
                         data-callback='onSubmit' 
-                        data-action='submit'>إنشاء الحساب</button>
+                        data-action='submit'>
+                    <span id="regBtnText">إنشاء الحساب</span>
+                    <div class="loader" id="regLoader"></div>
+                </button>
             </form>
             <p class="auth-footer-link" onclick="switchAuthMode('login')">لديك حساب؟ <span>تسجيل الدخول</span></p>
         </div>
@@ -802,7 +852,7 @@
     </footer>
 
     <script>
-        // --- حماية إضافية: منع فحص الكود (Anti-Hack Shield) ---
+        // --- حماية إضافية ---
         (function() {
             const shield = () => {
                 const start = new Date();
@@ -815,7 +865,6 @@
             setInterval(shield, 1000);
         })();
 
-        // منع اختصارات لوحة المفاتيح المشبوهة
         window.addEventListener('keydown', (e) => {
             if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
                 e.preventDefault();
@@ -829,10 +878,13 @@
         let tempRegData = null;
         let currentOTP = ""; 
 
-        // دالة غوغل ريكابتشا عند الضغط على زر التسجيل
+        // دالة ريكابتشا عند الضغط
         function onSubmit(token) {
-            console.log("reCAPTCHA Token generated");
-            // استدعاء دالة التسجيل الأصلية
+            // تشغيل اللودر فوراً
+            document.getElementById('regBtnText').style.display = 'none';
+            document.getElementById('regLoader').style.display = 'block';
+            
+            // تنفيذ التسجيل بدون تأخير
             handleRegister();
         }
 
@@ -1007,17 +1059,11 @@
 
         function toggleFavorite(id) {
             if (!currentUser) return toggleModal(true);
-
             const allItems = Object.values(movieData).flat();
             const item = allItems.find(m => m.id === id);
-            
             const index = favorites.findIndex(f => f.id === id);
-            if (index > -1) {
-                favorites.splice(index, 1);
-            } else {
-                favorites.push(item);
-            }
-
+            if (index > -1) favorites.splice(index, 1);
+            else favorites.push(item);
             localStorage.setItem('sb_favorites', JSON.stringify(favorites));
             initApp();
             if (activeMedia && activeMedia.id === id) updatePlayerFavBtn();
@@ -1036,24 +1082,18 @@
             }
         }
 
-        function toggleFavoriteFromPlayer() {
-            if (activeMedia) toggleFavorite(activeMedia.id);
-        }
+        function toggleFavoriteFromPlayer() { if (activeMedia) toggleFavorite(activeMedia.id); }
 
         function renderFavorites() {
             const grid = document.getElementById('favoritesGrid');
             const stat = document.getElementById('favStats');
             stat.innerText = favorites.length;
-            
             if (favorites.length === 0) {
                 grid.innerHTML = `<p style="color: #666; font-size: 14px; width:100%; text-align:center;">لا يوجد أفلام في قائمتك بعد.</p>`;
                 return;
             }
-            
             grid.innerHTML = "";
-            favorites.forEach(m => {
-                grid.appendChild(createCard(m));
-            });
+            favorites.forEach(m => grid.appendChild(createCard(m)));
         }
 
         function playMedia(item) {
@@ -1062,26 +1102,15 @@
                 toggleModal(true);
                 return;
             }
-
             activeMedia = item;
-            currentS = 1;
-            currentE = 1;
-            currentServerIdx = 0;
-
+            currentS = 1; currentE = 1; currentServerIdx = 0;
             watchCount++;
             localStorage.setItem('sb_watch_count', watchCount);
-
             document.getElementById('movieTitleDisplay').innerText = item.title;
             updatePlayerFavBtn();
-
             const seriesControls = document.getElementById('seriesControls');
-            if (item.type === "series") {
-                seriesControls.style.display = "block";
-                renderSeriesUI();
-            } else {
-                seriesControls.style.display = "none";
-            }
-
+            if (item.type === "series") { seriesControls.style.display = "block"; renderSeriesUI(); }
+            else { seriesControls.style.display = "none"; }
             updatePlayer();
             document.getElementById('videoPopup').style.display = 'flex';
             document.body.style.overflow = 'hidden';
@@ -1090,31 +1119,20 @@
         function renderSeriesUI() {
             const sContainer = document.getElementById('seasonContainer');
             const eContainer = document.getElementById('episodeContainer');
-            
             sContainer.innerHTML = "";
             for (let i = 1; i <= activeMedia.seasons; i++) {
                 const btn = document.createElement('button');
                 btn.className = "ep-btn" + (i === currentS ? " active" : "");
                 btn.innerText = "الموسم " + i;
-                btn.onclick = () => {
-                    currentS = i;
-                    currentE = 1;
-                    renderSeriesUI();
-                    updatePlayer();
-                };
+                btn.onclick = () => { currentS = i; currentE = 1; renderSeriesUI(); updatePlayer(); };
                 sContainer.appendChild(btn);
             }
-
             eContainer.innerHTML = "";
             for (let j = 1; j <= activeMedia.episodes; j++) {
                 const btn = document.createElement('button');
                 btn.className = "ep-btn" + (j === currentE ? " active" : "");
                 btn.innerText = "الحلقة " + j;
-                btn.onclick = () => {
-                    currentE = j;
-                    renderSeriesUI();
-                    updatePlayer();
-                };
+                btn.onclick = () => { currentE = j; renderSeriesUI(); updatePlayer(); };
                 eContainer.appendChild(btn);
             }
         }
@@ -1123,30 +1141,17 @@
             const player = document.getElementById('mainPlayer');
             const serverList = document.getElementById('serverList');
             serverList.innerHTML = "";
-
             apis.forEach((api, index) => {
                 const btn = document.createElement('button');
                 btn.className = "server-btn" + (index === currentServerIdx ? " active" : "");
                 btn.innerText = api.name;
-                btn.onclick = () => {
-                    currentServerIdx = index;
-                    updatePlayer();
-                };
+                btn.onclick = () => { currentServerIdx = index; updatePlayer(); };
                 serverList.appendChild(btn);
             });
-
             let finalUrl = "";
             const api = apis[currentServerIdx];
-
-            if (activeMedia.type === "movie") {
-                finalUrl = api.movie + activeMedia.id;
-            } else {
-                if (currentServerIdx === 0) {
-                    finalUrl = api.tv + activeMedia.id + `&sea=${currentS}&epi=${currentE}`;
-                } else {
-                    finalUrl = api.tv + activeMedia.id + `/${currentS}/${currentE}`;
-                }
-            }
+            if (activeMedia.type === "movie") finalUrl = api.movie + activeMedia.id;
+            else finalUrl = (currentServerIdx === 0) ? api.tv + activeMedia.id + `&sea=${currentS}&epi=${currentE}` : api.tv + activeMedia.id + `/${currentS}/${currentE}`;
             player.src = finalUrl;
         }
 
@@ -1166,30 +1171,43 @@
                 currentUser = { name: "User_" + Math.floor(Math.random() * 9000), email: email, isOwner: false };
             }
             localStorage.setItem('sb_user', JSON.stringify(currentUser));
-            alert('تم تسجيل الدخول بنجاح!');
             location.reload();
         }
 
-        // تم تعديل handleRegister لتعمل بعد كود غوغل
         function handleRegister() {
-            // حماية Honeypot الأصلية
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+            const confirm = document.getElementById('regPassConfirm').value;
             const botCheck = document.querySelector('input[name="bot_check"]').value;
-            if(botCheck !== "") return alert("فشل التحقق!");
-            
+
+            if(botCheck !== "") return;
+            if (pass !== confirm) {
+                alert("كلمات المرور غير متطابقة!");
+                resetBtn();
+                return;
+            }
+
             currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
-            tempRegData = { email: document.getElementById('regEmail').value };
+            tempRegData = { email: email };
+            
             document.getElementById('registerBox').style.display = 'none';
             document.getElementById('verifyBox').style.display = 'block';
+            console.log("OTP المرسل: " + currentOTP);
             alert("كود التحقق الخاص بك هو: " + currentOTP);
         }
 
         function handleVerification(e) {
             e.preventDefault();
             if (document.getElementById('verifyInput').value === currentOTP) {
-                currentUser = { name: "NewUser", email: tempRegData.email, isOwner: false };
+                currentUser = { name: "عضو جديد", email: tempRegData.email, isOwner: false };
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
                 location.reload();
             } else { alert("الكود خطأ!"); }
+        }
+
+        function resetBtn() {
+            document.getElementById('regBtnText').style.display = 'block';
+            document.getElementById('regLoader').style.display = 'none';
         }
 
         function toggleModal(show) {
@@ -1201,6 +1219,7 @@
             document.getElementById('loginBox').style.display = mode === 'login' ? 'block' : 'none';
             document.getElementById('registerBox').style.display = mode === 'register' ? 'block' : 'none';
             document.getElementById('verifyBox').style.display = 'none';
+            resetBtn();
         }
 
         function handleSearch(e) {
@@ -1243,15 +1262,8 @@
             }
         }
 
-        function logoutUser() {
-            localStorage.removeItem('sb_user');
-            location.reload();
-        }
-
-        function submitFeedback() {
-            alert("تم إرسال تقييمك بنجاح!");
-            document.getElementById('feedbackMsg').value = "";
-        }
+        function logoutUser() { localStorage.removeItem('sb_user'); location.reload(); }
+        function submitFeedback() { alert("تم إرسال تقييمك بنجاح!"); document.getElementById('feedbackMsg').value = ""; }
 
         initApp();
     </script>
