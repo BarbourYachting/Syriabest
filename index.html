@@ -232,7 +232,7 @@
 
         .movie-card {
             min-width: clamp(160px, 25vw, 240px);
-            aspect-ratio: 16/9;
+            aspect-ratio: 2/3;
             background-color: var(--card-bg);
             border-radius: 6px;
             overflow: hidden;
@@ -613,6 +613,22 @@
 
         <div class="row">
             <div class="row-title">
+                <span>عالم مارفل السينمائي (Marvel MCU)</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-marvel"></div>
+        </div>
+
+        <div class="row">
+            <div class="row-title">
+                <span>سلسلة Avengers</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-avengers"></div>
+        </div>
+
+        <div class="row">
+            <div class="row-title">
                 <span>سلسلة Fast & Furious</span>
                 <a href="#">مشاهدة الكل</a>
             </div>
@@ -755,15 +771,43 @@
         let tempRegData = null;
         let currentOTP = ""; 
 
-        // بيانات الوسائط (أفلام ومسلسلات)
         const movieData = {
+            marvel: [
+                { id: "tt0371746", title: "Iron Man 1", img: "ironman1.JPG", type: "movie" },
+                { id: "tt1228705", title: "Iron Man 2", img: "ironman2.JPG", type: "movie" },
+                { id: "tt1300854", title: "Iron Man 3", img: "ironman3.JPG", type: "movie" },
+                { id: "tt0800369", title: "Thor 1", img: "thor1.JPG", type: "movie" },
+                { id: "tt1981115", title: "Thor: The Dark World", img: "thor2.JPG", type: "movie" },
+                { id: "tt3501632", title: "Thor: Ragnarok", img: "thor3.JPG", type: "movie" },
+                { id: "tt7097124", title: "Thor: Love and Thunder", img: "thor4.JPG", type: "movie" },
+                { id: "tt0458339", title: "Captain America 1", img: "cap1.JPG", type: "movie" },
+                { id: "tt1843866", title: "Captain America 2", img: "cap2.JPG", type: "movie" },
+                { id: "tt2495708", title: "Captain America 3", img: "cap3.JPG", type: "movie" },
+                { id: "tt2015381", title: "Guardians of the Galaxy 1", img: "gotg1.JPG", type: "movie" },
+                { id: "tt3896198", title: "Guardians of the Galaxy 2", img: "gotg2.JPG", type: "movie" },
+                { id: "tt6791342", title: "Guardians of the Galaxy 3", img: "gotg3.JPG", type: "movie" },
+                { id: "tt14164730", title: "Black Panther: WF", img: "panther2.JPG", type: "movie" },
+                { id: "tt5090568", title: "Spider-Man: Homecoming", img: "spiderman1.JPG", type: "movie" },
+                { id: "tt6320628", title: "Spider-Man: Far From Home", img: "spiderman2.JPG", type: "movie" },
+                { id: "tt10872600", title: "Spider-Man: No Way Home", img: "spiderman3.JPG", type: "movie" }
+            ],
+            avengers: [
+                { id: "tt0848228", title: "The Avengers (2012)", img: "avengers1.JPG", type: "movie" },
+                { id: "tt2395427", title: "Avengers: Age of Ultron", img: "avengers2.JPG", type: "movie" },
+                { id: "tt4154756", title: "Avengers: Infinity War", img: "avengers3.JPG", type: "movie" },
+                { id: "tt4154796", title: "Avengers: Endgame", img: "avengers4.JPG", type: "movie" }
+            ],
             fast: [
                 { id: "tt0232500", title: "Fast & Furious 1", img: "fast1.JPG", type: "movie" },
                 { id: "tt0322259", title: "2 Fast 2 Furious", img: "fast2.JPG", type: "movie" },
                 { id: "tt0463364", title: "Tokyo Drift", img: "fast3.JPG", type: "movie" },
                 { id: "tt1013752", title: "Fast & Furious 4", img: "fast4.JPG", type: "movie" },
                 { id: "tt1596343", title: "Fast Five", img: "fast5.JPG", type: "movie" },
-                { id: "tt1905041", title: "Fast 6", img: "fast6.JPG", type: "movie" }
+                { id: "tt1905041", title: "Fast 6", img: "fast6.JPG", type: "movie" },
+                { id: "tt2820852", title: "Furious 7", img: "fast7.JPG", type: "movie" },
+                { id: "tt3882058", title: "The Fate of the Furious", img: "fast8.JPG", type: "movie" },
+                { id: "tt5433138", title: "F9: The Fast Saga", img: "fast9.JPG", type: "movie" },
+                { id: "tt15327088", title: "Fast X", img: "fast10.JPG", type: "movie" }
             ],
             action: [
                 { id: "tt0068646", title: "The Godfather Part I", img: "godfather.JPG", type: "movie" },
@@ -777,10 +821,25 @@
                 { id: "tt0172495", title: "Gladiator", img: "gladiator.JPG", type: "movie" }
             ],
             horror: [
+                { id: "tt0387564", title: "Saw 1", img: "saw1.JPG", type: "movie" },
+                { id: "tt0431343", title: "Saw 2", img: "saw2.JPG", type: "movie" },
+                { id: "tt0480249", title: "Saw 3", img: "saw3.JPG", type: "movie" },
+                { id: "tt0896870", title: "Saw 4", img: "saw4.JPG", type: "movie" },
+                { id: "tt1132626", title: "Saw 5", img: "saw5.JPG", type: "movie" },
+                { id: "tt1233227", title: "Saw 6", img: "saw6.JPG", type: "movie" },
+                { id: "tt1477076", title: "Saw 3D", img: "saw7.JPG", type: "movie" },
+                { id: "tt3348730", title: "Jigsaw (Saw 8)", img: "saw8.JPG", type: "movie" },
+                { id: "tt0117588", title: "Scream 1", img: "scream1.JPG", type: "movie" },
+                { id: "tt0120082", title: "Scream 2", img: "scream2.JPG", type: "movie" },
+                { id: "tt0134084", title: "Scream 3", img: "scream3.JPG", type: "movie" },
+                { id: "tt1262416", title: "Scream 4", img: "scream4.JPG", type: "movie" },
+                { id: "tt11245972", title: "Scream 5", img: "scream5.JPG", type: "movie" },
+                { id: "tt20872390", title: "Scream 6", img: "scream6.JPG", type: "movie" },
+                { id: "tt1457767", title: "The Conjuring 1", img: "conjuring1.JPG", type: "movie" },
+                { id: "tt3065204", title: "The Conjuring 2", img: "conjuring2.JPG", type: "movie" },
+                { id: "tt7069210", title: "The Conjuring 3", img: "conjuring3.JPG", type: "movie" },
                 { id: "tt15474916", title: "Smile", img: "smile.JPG", type: "movie" },
                 { id: "tt29268110", title: "Smile 2", img: "smile2.JPG", type: "movie" },
-                { id: "tt1457767", title: "The Conjuring", img: "conjuring1.JPG", type: "movie" },
-                { id: "tt22898462", title: "The Conjuring: Last Rites", img: "conjuring3.JPG", type: "movie" },
                 { id: "tt5814060", title: "The Nun", img: "nun1.JPG", type: "movie" },
                 { id: "tt10160976", title: "The Nun 2", img: "nun2.JPG", type: "movie" },
                 { id: "tt1591095", title: "Insidious: Chapter 1", img: "insidious1.JPG", type: "movie" },
@@ -816,11 +875,13 @@
 
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
-            if (window.scrollY > 100) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
+            if (header && window.scrollY > 100) header.classList.add('scrolled');
+            else if(header) header.classList.remove('scrolled');
         });
 
         function initApp() {
+            renderRow('row-marvel', movieData.marvel);
+            renderRow('row-avengers', movieData.avengers);
             renderRow('row-fast', movieData.fast);
             renderRow('row-action', movieData.action);
             renderRow('row-horror', movieData.horror);
@@ -842,6 +903,7 @@
 
         function renderRow(containerId, movies) {
             const container = document.getElementById(containerId);
+            if(!container) return;
             container.innerHTML = ""; 
             movies.forEach(m => {
                 const card = createCard(m);
@@ -876,7 +938,7 @@
         function toggleFavorite(id) {
             if (!currentUser) return toggleModal(true);
 
-            const allItems = [...movieData.fast, ...movieData.action, ...movieData.horror, ...movieData.egyptComedy, ...movieData.foreignSeries];
+            const allItems = Object.values(movieData).flat();
             const item = allItems.find(m => m.id === id);
             
             const index = favorites.findIndex(f => f.id === id);
@@ -1072,7 +1134,7 @@
             const query = document.getElementById('globalSearch').value.toLowerCase();
             const resultsGrid = document.getElementById('searchResultsGrid');
             resultsGrid.innerHTML = "";
-            const allItems = [...movieData.fast, ...movieData.action, ...movieData.horror, ...movieData.egyptComedy, ...movieData.foreignSeries];
+            const allItems = Object.values(movieData).flat();
             const filtered = allItems.filter(item => item.title.toLowerCase().includes(query));
             filtered.forEach(item => resultsGrid.appendChild(createCard(item)));
             document.getElementById('mainPageBody').style.display = 'none';
