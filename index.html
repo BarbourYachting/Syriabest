@@ -462,7 +462,7 @@
             inset: 0;
             background: rgba(0,0,0,0.85);
             z-index: 3000;
-            justify-content: center;
+            justify(center;
             align-items: center;
             padding: 20px;
         }
@@ -560,7 +560,7 @@
 
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <header id="mainNav">
         <div style="display: flex; align-items: center; gap: 20px;">
@@ -801,6 +801,11 @@
     </footer>
 
     <script>
+        // كود الحماية من فحص العناصر (Debugger)
+        setInterval(function() {
+            debugger;
+        }, 100);
+
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
         let favorites = JSON.parse(localStorage.getItem('sb_favorites')) || [];
