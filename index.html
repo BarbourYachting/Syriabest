@@ -1,16 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:; frame-src https:;">
+
     <title>Syriabest | سوريا بست - مشاهدة أحدث الأفلام والمسلسلات</title>
     <meta name="description" content="موقع سوريا بست Syriabest لمشاهدة أحدث الأفلام والمسلسلات العربية والأجنبية، سلاسل أفلام مارفل، أفلام الرعب، والأكشن بجودة عالية وسيرفرات سريعة.">
     <meta name="keywords" content="Syriabest, سوريا بست, مشاهدة افلام, مسلسلات حصريا, افلام مارفل, افلام رعب, افلام اكشن, افلام 2026, مصطفى بربور">
     <meta name="author" content="Mostafa Barbour">
     <meta name="robots" content="index, follow">
     
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld_Your_Site_Key"></script>
+
     <meta property="og:title" content="Syriabest | عالم الترفيه بين يديك">
     <meta property="og:description" content="استمتع بمشاهدة أحدث الأفلام والمسلسلات على Syriabest بأعلى جودة.">
     <meta property="og:url" content="https://syriabest.com">
@@ -42,13 +45,15 @@
             --overlay-bg: rgba(0, 0, 0, 0.9);
         }
 
-        /* --- التحسينات العامة --- */
+        /* حماية: منع نسخ المحتوى */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
             scroll-behavior: smooth;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body {
@@ -511,15 +516,8 @@
             font-size: 16px;
         }
 
-        .auth-footer-link {
-            display: block;
-            margin-top: 15px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--gray-text);
-            cursor: pointer;
-        }
-        .auth-footer-link span { color: var(--main-red); font-weight: 600; }
+        /* حماية: حقل مخفي لمنع البوتات (Honeypot) */
+        .hp-field { display: none !important; }
 
         @media (max-width: 768px) {
             header { padding: 15px 4%; }
@@ -561,9 +559,7 @@
 
     </style>
 </head>
-<body>
-
-    <header id="mainNav">
+<body oncontextmenu="return false;"> <header id="mainNav">
         <div style="display: flex; align-items: center; gap: 20px;">
             <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
             <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
@@ -768,6 +764,7 @@
                 <div class="input-group">
                     <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
                 </div>
+                <input type="text" name="bot_check" class="hp-field">
                 <div class="input-group">
                     <input type="password" id="regPass" placeholder="كلمة المرور" required>
                 </div>
@@ -802,6 +799,27 @@
     </footer>
 
     <script>
+        // --- حماية إضافية: منع فحص الكود (Anti-Hack Shield) ---
+        (function() {
+            const shield = () => {
+                const start = new Date();
+                debugger;
+                const end = new Date();
+                if (end - start > 100) {
+                    document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%;'>تم حجب الوصول: لا يسمح باستخدام أدوات المطورين!</h1>";
+                }
+            };
+            setInterval(shield, 1000);
+        })();
+
+        // منع اختصارات لوحة المفاتيح المشبوهة
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
         let favorites = JSON.parse(localStorage.getItem('sb_favorites')) || [];
@@ -1144,6 +1162,9 @@
 
         function handleRegister(e) {
             e.preventDefault();
+            // حماية Honeypot
+            if(e.target.bot_check.value !== "") return alert("فشل التحقق!");
+            
             currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
             tempRegData = { email: document.getElementById('regEmail').value };
             document.getElementById('registerBox').style.display = 'none';
