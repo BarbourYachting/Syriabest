@@ -586,11 +586,7 @@
         }
 
         .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-            text-align: right;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px; margin-bottom: 40px; text-align: right;
         }
 
         .footer-grid ul { list-style: none; }
@@ -727,6 +723,14 @@
                 <a href="#">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-horror"></div>
+        </div>
+
+        <div class="row">
+            <div class="row-title">
+                <span>إثارة وغموض (2020 - 2025)</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-thriller"></div>
         </div>
 
         <div class="series-banner">
@@ -880,11 +884,8 @@
 
         // دالة ريكابتشا عند الضغط
         function onSubmit(token) {
-            // تشغيل اللودر فوراً
             document.getElementById('regBtnText').style.display = 'none';
             document.getElementById('regLoader').style.display = 'block';
-            
-            // تنفيذ التسجيل بدون تأخير
             handleRegister();
         }
 
@@ -936,7 +937,7 @@
                 { id: "tt0133093", title: "The Matrix", img: "matrix.JPG", type: "movie" },
                 { id: "tt0816692", title: "Interstellar", img: "interstellar.JPG", type: "movie" },
                 { id: "tt0172495", title: "Gladiator", img: "gladiator.JPG", type: "movie" },
-                { id: "tt4332232", title: "Fractured", img: "fractured.JPG", type: "movie" },
+                { id: "tt9316984", title: "Fractured", img: "fractured.JPG", type: "movie" },
             ],
             horror: [
                 { id: "tt0387564", title: "Saw 1", img: "saw1.JPG", type: "movie" },
@@ -966,6 +967,18 @@
                 { id: "tt13405778", title: "Insidious: The Red Door", img: "insidious5.JPG", type: "movie" },
                 { id: "tt1396484", title: "It (2017)", img: "it1.JPG", type: "movie" },
                 { id: "tt7349950", title: "It: Chapter Two", img: "it2.JPG", type: "movie" }
+            ],
+            thriller: [
+                { id: "tt10696896", title: "The Invisible Man (2020)", img: "invisible.JPG", type: "movie" },
+                { id: "tt13015960", title: "The Menu (2022)", img: "menu.JPG", type: "movie" },
+                { id: "tt15348482", title: "Leave the World Behind (2023)", img: "leave-world.JPG", type: "movie" },
+                { id: "tt11656824", title: "Last Night in Soho (2021)", img: "soho.JPG", type: "movie" },
+                { id: "tt15909670", title: "Glass Onion (2022)", img: "glass-onion.JPG", type: "movie" },
+                { id: "tt14552462", title: "Missing (2023)", img: "missing.JPG", type: "movie" },
+                { id: "tt21064766", title: "Trap (2024)", img: "trap.JPG", type: "movie" },
+                { id: "tt11350698", title: "Death on the Nile (2022)", img: "nile.JPG", type: "movie" },
+                { id: "tt12530246", title: "The Pale Blue Eye (2022)", img: "blue-eye.JPG", type: "movie" },
+                { id: "tt23289160", title: "Rebel Ridge (2024)", img: "rebel.JPG", type: "movie" }
             ],
             egyptComedy: [
                 { id: "tt10228372", title: "الواد سيد الشحات", img: "sayed-shahat.JPG", type: "series", seasons: 1, episodes: 30 },
@@ -1003,6 +1016,7 @@
             renderRow('row-fast', movieData.fast);
             renderRow('row-action', movieData.action);
             renderRow('row-horror', movieData.horror);
+            renderRow('row-thriller', movieData.thriller);
             renderRow('row-egypt-comedy', movieData.egyptComedy);
             renderRow('row-foreign-series', movieData.foreignSeries);
             checkAuthStatus();
