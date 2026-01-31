@@ -675,7 +675,7 @@
                 <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
                 <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
                 <div class="hero-btns">
-                    <button class="btn-hero btn-play" onclick="document.getElementById('row-fast').scrollIntoView()">
+                    <button class="btn-hero btn-play" onclick="document.getElementById('row-marvel').scrollIntoView()">
                         <i class="fas fa-th-list"></i> اكتشف المحتوى
                     </button>
                     <button class="btn-hero btn-more" onclick="alert('مرحباً بك في سوريا بست!')">
@@ -699,8 +699,16 @@
                 <a href="#">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-avengers"></div>
-        </div>
-
+       </div>
+        
+        <div class="row">
+            <div class="row-title">
+                <span>سلسلة The transporter</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-thetransporter"></div>
+    </div>
+        
         <div class="row">
             <div class="row-title">
                 <span>سلسلة Fast & Furious</span>
@@ -716,7 +724,15 @@
             </div>
             <div class="movie-slider" id="row-action"></div>
         </div>
-
+        
+        <div class="row">
+            <div class="row-title">
+                <span>اكشن/كوميدي</span>
+                <a href="#">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-actioncomedy"></div>
+       </div>
+        
         <div class="row">
             <div class="row-title">
                 <span>أفلام الرعب (الأجزاء الكاملة)</span>
@@ -852,7 +868,7 @@
             <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
             <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
         </div>
-        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ Mostafa Barbour</p>
+        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ </p>
     </footer>
 
     <script>
@@ -914,6 +930,13 @@
                 { id: "tt2395427", title: "Avengers: Age of Ultron", img: "avengers2.JPG", type: "movie" },
                 { id: "tt4154756", title: "Avengers: Infinity War", img: "avengers3.JPG", type: "movie" },
                 { id: "tt4154796", title: "Avengers: Endgame", img: "avengers4.JPG", type: "movie" }
+        
+             ],
+            transporter: [
+                { id: "tt0317740", title: "The Transporter - (2002) ", img: "trans1.JPG", type: "movie" },
+                { id: "tt0393913", title: "(Transporter 2 - 2005)", img: "trans2.JPG", type: "movie" },
+                { id: "tt1127222", title: "(Transporter 3 - 2008)", img: "trans3.JPG", type: "movie" },
+                { id: "tt2245159", title: "(The Transporter Refueled - 2015)", img: "trans4.JPG", type: "movie" }
             ],
             fast: [
                 { id: "tt0232500", title: "Fast & Furious 1", img: "fast1.JPG", type: "movie" },
@@ -938,6 +961,10 @@
                 { id: "tt0816692", title: "Interstellar", img: "interstellar.JPG", type: "movie" },
                 { id: "tt0172495", title: "Gladiator", img: "gladiator.JPG", type: "movie" },
                 { id: "tt9316984", title: "Fractured", img: "fractured.JPG", type: "movie" },
+            ],
+            actioncomedy: [
+                { id: "tt0113243", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
+                { id: "tt0327554", title: "Bad Boys II", img: "badboys2.JPG", type: "movie" }
             ],
             horror: [
                 { id: "tt0387564", title: "Saw 1", img: "saw1.JPG", type: "movie" },
@@ -1014,8 +1041,10 @@
         function initApp() {
             renderRow('row-marvel', movieData.marvel);
             renderRow('row-avengers', movieData.avengers);
+            renderRow('row-thetransporter', movieData.transporter);
             renderRow('row-fast', movieData.fast);
             renderRow('row-action', movieData.action);
+            renderRow('row-actioncomedy', movieData.actioncomedy);
             renderRow('row-horror', movieData.horror);
             renderRow('row-thriller', movieData.thriller);
             renderRow('row-egypt-comedy', movieData.egyptComedy);
@@ -1041,7 +1070,7 @@
 
         function renderRow(containerId, movies) {
             const container = document.getElementById(containerId);
-            if(!container) return;
+            if(!container || !movies) return;
             container.innerHTML = ""; 
             movies.forEach(m => {
                 const card = createCard(m);
@@ -1208,7 +1237,6 @@
             
             document.getElementById('registerBox').style.display = 'none';
             document.getElementById('verifyBox').style.display = 'block';
-            console.log("OTP المرسل: " + currentOTP);
             alert("كود التحقق الخاص بك هو: " + currentOTP);
         }
 
