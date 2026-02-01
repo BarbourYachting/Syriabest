@@ -152,10 +152,11 @@
             cursor: pointer;
         }
 
-        /* --- قسم الهيرو (Hero) --- */
+        /* --- قسم الهيرو (Hero) مع إضافة العلامة المائية المائلة --- */
         .hero {
             height: 85vh;
             width: 100%;
+            position: relative; /* ضروري لتحديد موقع الكلمة المائلة */
             background: linear-gradient(to top, var(--dark-bg) 10%, transparent 40%),
                         linear-gradient(to left, rgba(0,0,0,0.7), transparent),
                         url('hero-bg.jpg');
@@ -164,9 +165,30 @@
             display: flex;
             align-items: center;
             padding: 0 5%;
+            overflow: hidden; /* لمنع الكلمة الكبيرة من عمل سكرول عرضي */
+        }
+
+        /* تصميم الكلمة المائلة الاحترافية */
+        .hero-watermark {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%) rotate(-15deg);
+            font-size: clamp(100px, 20vw, 250px);
+            font-weight: 900;
+            color: var(--main-red);
+            opacity: 0.12; /* شفافة جداً لكي لا تعيق الرؤية */
+            pointer-events: none; /* لكي لا يتمكن المستخدم من الضغط عليها */
+            z-index: 1; /* خلف المحتوى الأساسي وأمام الخلفية */
+            font-style: italic;
+            text-transform: uppercase;
+            white-space: nowrap;
+            filter: blur(1px);
         }
 
         .hero-content {
+            position: relative;
+            z-index: 10; /* فوق العلامة المائية */
             max-width: 700px;
             margin-top: 50px;
         }
@@ -574,6 +596,7 @@
             .content-area { margin-top: -40px; }
             .nav-actions { gap: 8px; }
             .btn-auth { padding: 5px 12px; font-size: 12px; }
+            .hero-watermark { font-size: 100px; right: -10%; } /* تحسين الحجم للموبايل */
         }
 
         #dmcaSection { display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh; }
@@ -671,6 +694,8 @@
 
     <main class="content-area" id="mainPageBody">
         <section class="hero">
+            <div class="hero-watermark">Syriabest</div>
+
             <div class="hero-content">
                 <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
                 <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
@@ -898,7 +923,6 @@
         let tempRegData = null;
         let currentOTP = ""; 
 
-        // دالة ريكابتشا عند الضغط
         function onSubmit(token) {
             document.getElementById('regBtnText').style.display = 'none';
             document.getElementById('regLoader').style.display = 'block';
@@ -930,7 +954,6 @@
                 { id: "tt2395427", title: "Avengers: Age of Ultron", img: "avengers2.JPG", type: "movie" },
                 { id: "tt4154756", title: "Avengers: Infinity War", img: "avengers3.JPG", type: "movie" },
                 { id: "tt4154796", title: "Avengers: Endgame", img: "avengers4.JPG", type: "movie" }
-        
              ],
             transporter: [
                 { id: "tt0293662", title: "The Transporter - (2002) ", img: "trans1.JPG", type: "movie" },
