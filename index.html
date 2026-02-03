@@ -1,5 +1,5 @@
-‏<!DOCTYPE html>
-<html lang="ar" dir="rtl" id="htmlRoot">
+<!DOCTYPE html>
+<htmindex.htmll lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,13 @@
     <meta name="author" content="Mostafa Barbour">
     <meta name="robots" content="index, follow">
     
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#e50914">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Syriabest">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icon-192.png">
 
     <meta property="og:title" content="Syriabest | عالم الترفيه بين يديك">
     <meta property="og:description" content="استمتع بمشاهدة أحدث الأفلام والمسلسلات على Syriabest بأعلى جودة.">
@@ -88,6 +94,13 @@
             font-weight: 900;
             text-decoration: none;
             text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(229, 9, 20, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(229, 9, 20, 0.8), 0 0 40px rgba(229, 9, 20, 0.6); }
         }
 
         .nav-links {
@@ -103,9 +116,28 @@
             font-size: 15px;
             font-weight: 600;
             transition: 0.3s;
+            position: relative;
         }
 
-        .nav-links a:hover { color: var(--main-red); }
+        .nav-links a:hover { 
+            color: var(--main-red);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--main-red);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
         .genre-dropdown {
             position: relative;
@@ -141,10 +173,17 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
             border: 1px solid #333;
             margin-top: 10px;
+            backdrop-filter: blur(10px);
         }
 
         .genre-menu.active {
             display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .genre-menu a {
@@ -159,6 +198,7 @@
         .genre-menu a:hover {
             background: var(--main-red);
             color: #fff;
+            padding-right: 25px;
         }
 
         .lang-switcher {
@@ -179,6 +219,7 @@
         .lang-switcher:hover {
             background: var(--main-red);
             border-color: var(--main-red);
+            transform: scale(1.05);
         }
 
         .nav-actions {
@@ -204,10 +245,14 @@
             font-size: 13px;
             transition: 0.3s;
         }
-        .search-input:focus { width: 200px; border-color: var(--main-red); }
+        .search-input:focus { 
+            width: 200px; 
+            border-color: var(--main-red);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+        }
 
         .btn-auth {
-            background-color: var(--main-red);
+            background: linear-gradient(135deg, #e50914, #b20710);
             color: #fff;
             padding: 7px 18px;
             border-radius: 5px;
@@ -217,6 +262,13 @@
             border: none;
             cursor: pointer;
             white-space: nowrap;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
         }
 
         .mobile-menu-btn {
@@ -262,6 +314,12 @@
             z-index: 10;
             max-width: 700px;
             margin-top: 50px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .hero-content h1 {
@@ -280,12 +338,19 @@
         .series-banner {
             width: 90%;
             margin: 40px auto;
-            background: linear-gradient(45deg, #800000, #e50914, #800000);
+            background: linear-gradient(135deg, #800000, #e50914, #ff3d47, #e50914, #800000);
+            background-size: 200% 200%;
             padding: 30px;
             text-align: center;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
             border: 2px solid rgba(255,255,255,0.1);
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .series-banner h2 {
@@ -315,10 +380,24 @@
             transition: 0.3s;
         }
 
-        .btn-play { background-color: #fff; color: #000; }
-        .btn-play:hover { background-color: #bfbfbf; }
-        .btn-more { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
-        .btn-more:hover { background-color: rgba(109, 109, 110, 0.5); }
+        .btn-play { 
+            background-color: #fff; 
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+        }
+        .btn-play:hover { 
+            background-color: #bfbfbf;
+            transform: scale(1.05);
+        }
+        .btn-more { 
+            background-color: rgba(109, 109, 110, 0.7); 
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+        .btn-more:hover { 
+            background-color: rgba(109, 109, 110, 0.5);
+            transform: scale(1.05);
+        }
 
         .content-area {
             margin-top: -80px;
@@ -342,6 +421,12 @@
             font-size: 13px;
             color: var(--main-red);
             text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .row-title a:hover {
+            color: #ff3d47;
+            text-decoration: underline;
         }
 
         .movie-slider {
@@ -368,7 +453,7 @@
         .movie-card:hover {
             transform: scale(1.05);
             z-index: 100;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6), 0 0 20px rgba(229, 9, 20, 0.5);
             border: 2px solid var(--main-red);
         }
 
@@ -426,8 +511,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: 0.3s;
         }
         .fav-status-btn.active { background: var(--main-red); }
+        .fav-status-btn:hover { transform: scale(1.05); }
 
         #searchOverlay {
             display: none; position: fixed; inset: 0; background: var(--dark-bg);
@@ -442,12 +529,36 @@
         .account-box {
             background: var(--card-bg); max-width: 800px; margin: 0 auto;
             padding: 40px; border-radius: 15px; border: 1px solid #333;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
-        .rating-area { padding: 50px 5%; background: #000; text-align: center; border-top: 1px solid #222; }
+        /* تصغير حجم الصور في صفحة حسابي */
+        #favoritesGrid .movie-card {
+            min-width: 120px !important;
+            max-width: 120px !important;
+            height: 180px !important;
+        }
+
+        #favoritesGrid .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rating-area { 
+            padding: 50px 5%; 
+            background: linear-gradient(135deg, #000, #1a1a1a); 
+            text-align: center; 
+            border-top: 1px solid #222; 
+        }
         .rating-area textarea { 
             width: 100%; max-width: 600px; background: #222; border: 1px solid #444; 
             color: #fff; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: inherit;
+            transition: 0.3s;
+        }
+        .rating-area textarea:focus {
+            border-color: var(--main-red);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
         }
 
         .video-popup {
@@ -498,7 +609,7 @@
         }
 
         .server-btn.active { background: var(--main-red); }
-        .server-btn:hover { background: #444; }
+        .server-btn:hover { background: #444; transform: scale(1.05); }
 
         .video-wrapper iframe {
             width: 100%;
@@ -535,7 +646,7 @@
             transition: 0.2s;
         }
 
-        .ep-btn:hover { background: #333; }
+        .ep-btn:hover { background: #333; transform: scale(1.05); }
         .ep-btn.active { background: var(--main-red); border-color: var(--main-red); }
 
         .close-video {
@@ -552,6 +663,12 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .close-video:hover {
+            background: var(--main-red);
+            transform: rotate(90deg);
         }
 
         .auth-modal {
@@ -586,9 +703,21 @@
             cursor: pointer;
             font-size: 20px;
             color: var(--gray-text);
+            transition: 0.3s;
         }
 
-        .modal-box h2 { margin-bottom: 30px; text-align: center; font-weight: 800; letter-spacing: 1px; }
+        .close-modal:hover {
+            color: var(--main-red);
+            transform: rotate(90deg);
+        }
+
+        .modal-box h2 { 
+            margin-bottom: 30px; 
+            text-align: center; 
+            font-weight: 800; 
+            letter-spacing: 1px;
+            color: var(--main-red);
+        }
 
         .input-group { margin-bottom: 20px; }
         .input-group input {
@@ -648,10 +777,47 @@
             font-size: 14px;
             color: var(--gray-text);
             cursor: pointer;
+            transition: 0.3s;
         }
+        .auth-footer-link:hover { color: #fff; }
         .auth-footer-link span { color: var(--main-red); font-weight: bold; }
 
         .hp-field { display: none !important; }
+
+        /* Math CAPTCHA Styles */
+        .captcha-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .captcha-question {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #444;
+            border-radius: 8px;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .captcha-input:focus {
+            border-color: var(--main-red);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+        }
 
         @media (max-width: 768px) {
             header { padding: 15px 4%; }
@@ -663,13 +829,18 @@
             .nav-actions { gap: 8px; }
             .btn-auth { padding: 5px 12px; font-size: 12px; }
             .hero-watermark { font-size: 100px; right: -10%; }
+            #favoritesGrid .movie-card {
+                min-width: 100px !important;
+                max-width: 100px !important;
+                height: 150px !important;
+            }
         }
 
         #dmcaSection { display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh; }
 
         footer {
             padding: 60px 5% 30px;
-            background: #000;
+            background: linear-gradient(to top, #000, #0a0a0a);
             text-align: center;
             border-top: 1px solid #222;
         }
@@ -680,10 +851,34 @@
 
         .footer-grid ul { list-style: none; }
         .footer-grid li { margin-bottom: 10px; }
-        .footer-grid a { color: var(--gray-text); text-decoration: none; font-size: 13px; }
-        .footer-grid a:hover { text-decoration: underline; }
+        .footer-grid a { 
+            color: var(--gray-text); 
+            text-decoration: none; 
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .footer-grid a:hover { 
+            text-decoration: underline;
+            color: var(--main-red);
+        }
 
-        .copyright { color: var(--gray-text); font-size: 12px; }
+        .copyright { 
+            color: var(--gray-text); 
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .version-tag {
+            display: inline-block;
+            background: var(--main-red);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
 
     </style>
 </head>
@@ -842,7 +1037,7 @@
             <div class="movie-slider" id="row-actioncomedy"></div>
         </div>
 
-        <!-- القسم الجديد: أفلام كوميدية -->
+        <!-- القسم المحدث: أفلام كوميدية للكبار -->
         <div class="row">
             <div class="row-title">
                 <span data-translate="row_comedy">أفلام كوميدية</span>
@@ -945,21 +1140,28 @@
         <div class="modal-box" id="registerBox" style="display:none;">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
             <h2 data-translate="auth_register_title">إنشاء حساب جديد</h2>
-            <form id="registerForm">
+            <form id="registerForm" onsubmit="handleRegister(event)">
                 <div class="input-group">
                     <input type="email" id="regEmail" data-translate-placeholder="auth_email" placeholder="البريد الإلكتروني" required>
                 </div>
-                <input type="text" name="bot_check" class="hp-field">
+                <!-- Advanced Honeypot Fields -->
+                <input type="text" name="bot_check" class="hp-field" tabindex="-1" autocomplete="off">
+                <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+                <input type="email" name="email_confirm" class="hp-field" tabindex="-1" autocomplete="off">
                 <div class="input-group">
                     <input type="password" id="regPass" data-translate-placeholder="auth_password" placeholder="كلمة المرور" required>
                 </div>
                 <div class="input-group">
                     <input type="password" id="regPassConfirm" data-translate-placeholder="auth_password_confirm" placeholder="تأكيد كلمة المرور" required>
                 </div>
-                <button type="button" id="regSubmitBtn" class="btn-submit g-recaptcha" 
-                        data-sitekey="6Ld_Your_Site_Key" 
-                        data-callback='onSubmit' 
-                        data-action='submit'>
+                
+                <!-- Math CAPTCHA -->
+                <div class="captcha-box">
+                    <div class="captcha-question" id="captchaQuestion"></div>
+                    <input type="text" class="captcha-input" id="captchaAnswer" placeholder="أدخل الإجابة" required autocomplete="off">
+                </div>
+                
+                <button type="submit" id="regSubmitBtn" class="btn-submit">
                     <span id="regBtnText" data-translate="auth_create_account">إنشاء الحساب</span>
                     <div class="loader" id="regLoader"></div>
                 </button>
@@ -995,10 +1197,21 @@
                 <li><a href="#" data-translate="footer_exclusive">فقط على Syriabest</a></li>
             </ul>
         </div>
-        <p class="copyright" data-translate="footer_copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ </p>
+        <p class="copyright" data-translate="footer_copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ</p>
+        <span class="version-tag">v1.2</span>
     </footer>
 
     <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW error:', err));
+            });
+        }
+
+        // Developer Tools Protection
         (function() {
             const shield = () => {
                 const start = new Date();
@@ -1017,6 +1230,50 @@
                 return false;
             }
         });
+
+        // Rate Limiting System
+        const rateLimiter = {
+            attempts: {},
+            check: function(action, limit = 5, timeWindow = 60000) {
+                const now = Date.now();
+                if (!this.attempts[action]) {
+                    this.attempts[action] = [];
+                }
+                this.attempts[action] = this.attempts[action].filter(time => now - time < timeWindow);
+                if (this.attempts[action].length >= limit) {
+                    return false;
+                }
+                this.attempts[action].push(now);
+                return true;
+            }
+        };
+
+        // Math CAPTCHA System
+        let captchaAnswer = 0;
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 20) + 1;
+            const num2 = Math.floor(Math.random() * 20) + 1;
+            const operations = ['+', '-', '*'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            
+            let question = '';
+            switch(operation) {
+                case '+':
+                    captchaAnswer = num1 + num2;
+                    question = `${num1} + ${num2} = ؟`;
+                    break;
+                case '-':
+                    captchaAnswer = num1 - num2;
+                    question = `${num1} - ${num2} = ؟`;
+                    break;
+                case '*':
+                    captchaAnswer = num1 * num2;
+                    question = `${num1} × ${num2} = ؟`;
+                    break;
+            }
+            
+            document.getElementById('captchaQuestion').textContent = question;
+        }
 
         let currentLanguage = localStorage.getItem('sb_language') || 'ar';
 
@@ -1221,12 +1478,6 @@
         let tempRegData = null;
         let currentOTP = ""; 
 
-        function onSubmit(token) {
-            document.getElementById('regBtnText').style.display = 'none';
-            document.getElementById('regLoader').style.display = 'block';
-            handleRegister();
-        }
-
         const movieData = {
             marvel: [
                 { id: "tt0371746", title: "Iron Man 1", img: "ironman1.JPG", type: "movie" },
@@ -1310,18 +1561,18 @@
                 { id: "tt0116126", title: "Don't Be a Menace to South Central While Drinking Your Juice in the Hood", img: "dont.JPG", type: "movie" },
             ],
             comedy: [
-                { id: "tt0116483", title: "The Nutty Professor", img: "nutty.JPG", type: "movie" },
-                { id: "tt0119116", title: "Good Burger", img: "goodburger.JPG", type: "movie" },
-                { id: "tt0126304", title: "Shrek", img: "shrek.JPG", type: "movie" },
-                { id: "tt0298148", title: "Shrek 2", img: "shrek2.JPG", type: "movie" },
-                { id: "tt0413267", title: "Shrek the Third", img: "shrek3.JPG", type: "movie" },
-                { id: "tt0892791", title: "Shrek Forever After", img: "shrek4.JPG", type: "movie" },
-                { id: "tt0382932", title: "Ratatouille", img: "ratatouille.JPG", type: "movie" },
-                { id: "tt1049413", title: "Up", img: "up.JPG", type: "movie" },
-                { id: "tt0910970", title: "WALL·E", img: "walle.JPG", type: "movie" },
-                { id: "tt0266543", title: "Finding Nemo", img: "nemo.JPG", type: "movie" },
-                { id: "tt2380307", title: "Coco", img: "coco.JPG", type: "movie" },
-                { id: "tt1049413", title: "Toy Story 3", img: "toystory3.JPG", type: "movie" }
+                { id: "tt0360486", title: "The Hangover", img: "hangover1.JPG", type: "movie" },
+                { id: "tt1411697", title: "The Hangover Part II", img: "hangover2.JPG", type: "movie" },
+                { id: "tt1951261", title: "The Hangover Part III", img: "hangover3.JPG", type: "movie" },
+                { id: "tt0829482", title: "Superbad", img: "superbad.JPG", type: "movie" },
+                { id: "tt1232829", title: "21 Jump Street", img: "21jump.JPG", type: "movie" },
+                { id: "tt2294449", title: "22 Jump Street", img: "22jump.JPG", type: "movie" },
+                { id: "tt1723121", title: "We're the Millers", img: "millers.JPG", type: "movie" },
+                { id: "tt2820852", title: "Neighbors", img: "neighbors.JPG", type: "movie" },
+                { id: "tt2004420", title: "Neighbors 2", img: "neighbors2.JPG", type: "movie" },
+                { id: "tt0457400", title: "Pineapple Express", img: "pineapple.JPG", type: "movie" },
+                { id: "tt1231583", title: "Due Date", img: "duedate.JPG", type: "movie" },
+                { id: "tt0443680", title: "Knocked Up", img: "knockedup.JPG", type: "movie" }
             ],
             horror: [
                 { id: "tt0387564", title: "Saw 1", img: "saw1.JPG", type: "movie" },
@@ -1594,29 +1845,65 @@
             location.reload();
         }
 
-        function handleRegister() {
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            // Rate limiting check
+            if (!rateLimiter.check('register', 3, 300000)) {
+                const msg = currentLanguage === 'ar' 
+                    ? 'تم تجاوز عدد المحاولات المسموح بها. حاول مرة أخرى لاحقاً.' 
+                    : 'Too many attempts. Please try again later.';
+                alert(msg);
+                return;
+            }
+            
             const email = document.getElementById('regEmail').value;
             const pass = document.getElementById('regPass').value;
             const confirm = document.getElementById('regPassConfirm').value;
+            
+            // Honeypot check
             const botCheck = document.querySelector('input[name="bot_check"]').value;
-
-            if(botCheck !== "") return;
+            const website = document.querySelector('input[name="website"]').value;
+            const emailConfirm = document.querySelector('input[name="email_confirm"]').value;
+            
+            if(botCheck !== "" || website !== "" || emailConfirm !== "") {
+                console.log('Bot detected');
+                return;
+            }
+            
+            // Password match check
             if (pass !== confirm) {
                 const msg = currentLanguage === 'ar' ? 'كلمات المرور غير متطابقة!' : 'Passwords do not match!';
                 alert(msg);
-                resetBtn();
                 return;
             }
-
-            currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
-            tempRegData = { email: email };
             
-            document.getElementById('registerBox').style.display = 'none';
-            document.getElementById('verifyBox').style.display = 'block';
-            const msg = currentLanguage === 'ar' 
-                ? `كود التحقق الخاص بك هو: ${currentOTP}`
-                : `Your verification code is: ${currentOTP}`;
-            alert(msg);
+            // CAPTCHA verification
+            const userAnswer = parseInt(document.getElementById('captchaAnswer').value);
+            if (userAnswer !== captchaAnswer) {
+                const msg = currentLanguage === 'ar' ? 'الإجابة غير صحيحة! حاول مرة أخرى.' : 'Incorrect answer! Try again.';
+                alert(msg);
+                generateCaptcha();
+                document.getElementById('captchaAnswer').value = '';
+                return;
+            }
+            
+            // Show loader
+            document.getElementById('regBtnText').style.display = 'none';
+            document.getElementById('regLoader').style.display = 'block';
+            
+            setTimeout(() => {
+                currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
+                tempRegData = { email: email };
+                
+                document.getElementById('registerBox').style.display = 'none';
+                document.getElementById('verifyBox').style.display = 'block';
+                const msg = currentLanguage === 'ar' 
+                    ? `كود التحقق الخاص بك هو: ${currentOTP}`
+                    : `Your verification code is: ${currentOTP}`;
+                alert(msg);
+                resetBtn();
+            }, 1000);
         }
 
         function handleVerification(e) {
@@ -1646,6 +1933,9 @@
             document.getElementById('loginBox').style.display = mode === 'login' ? 'block' : 'none';
             document.getElementById('registerBox').style.display = mode === 'register' ? 'block' : 'none';
             document.getElementById('verifyBox').style.display = 'none';
+            if (mode === 'register') {
+                generateCaptcha();
+            }
             resetBtn();
         }
 
@@ -1701,3 +1991,4 @@
         initApp();
     </script>
 </body>
+</html>
