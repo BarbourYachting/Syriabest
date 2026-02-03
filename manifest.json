@@ -1,8 +1,8 @@
 {
   "name": "Syriabest - سوريا بست",
   "short_name": "Syriabest",
-  "description": "موقع سوريا بست لمشاهدة أحدث الأفلام والمسلسلات بجودة عالية",
-  "start_url": "/",
+  "description": "موقع سوريا بست لمشاهدة أحدث الأفلام والمسلسلات",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#141414",
   "theme_color": "#e50914",
@@ -20,8 +20,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["entertainment", "movies", "streaming"],
-  "lang": "ar",
-  "dir": "rtl"
+  ]
 }
