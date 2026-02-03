@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+‏<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,7 +46,6 @@
             --glass-bg: rgba(20, 20, 20, 0.75);
         }
 
-        /* حماية: منع نسخ المحتوى */
         * {
             margin: 0;
             padding: 0;
@@ -64,7 +63,6 @@
             line-height: 1.6;
         }
 
-        /* --- الهيدر (Navbar) --- */
         header {
             position: fixed;
             top: 0;
@@ -96,6 +94,7 @@
             display: flex;
             list-style: none;
             gap: 20px;
+            align-items: center;
         }
 
         .nav-links a {
@@ -107,6 +106,80 @@
         }
 
         .nav-links a:hover { color: var(--main-red); }
+
+        .genre-dropdown {
+            position: relative;
+        }
+
+        .genre-btn {
+            background: transparent;
+            color: #e5e5e5;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            transition: 0.3s;
+        }
+
+        .genre-btn:hover {
+            color: var(--main-red);
+        }
+
+        .genre-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            min-width: 200px;
+            border-radius: 8px;
+            padding: 10px 0;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+            margin-top: 10px;
+        }
+
+        .genre-menu.active {
+            display: block;
+        }
+
+        .genre-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .genre-menu a:hover {
+            background: var(--main-red);
+            color: #fff;
+        }
+
+        .lang-switcher {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #444;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lang-switcher:hover {
+            background: var(--main-red);
+            border-color: var(--main-red);
+        }
 
         .nav-actions {
             display: flex;
@@ -152,11 +225,10 @@
             cursor: pointer;
         }
 
-        /* --- قسم الهيرو (Hero) مع إضافة العلامة المائية المائلة --- */
         .hero {
             height: 85vh;
             width: 100%;
-            position: relative; /* ضروري لتحديد موقع الكلمة المائلة */
+            position: relative;
             background: linear-gradient(to top, var(--dark-bg) 10%, transparent 40%),
                         linear-gradient(to left, rgba(0,0,0,0.7), transparent),
                         url('hero-bg.jpg');
@@ -165,10 +237,9 @@
             display: flex;
             align-items: center;
             padding: 0 5%;
-            overflow: hidden; /* لمنع الكلمة الكبيرة من عمل سكرول عرضي */
+            overflow: hidden;
         }
 
-        /* تصميم الكلمة المائلة الاحترافية */
         .hero-watermark {
             position: absolute;
             right: -5%;
@@ -177,9 +248,9 @@
             font-size: clamp(100px, 20vw, 250px);
             font-weight: 900;
             color: var(--main-red);
-            opacity: 0.12; /* شفافة جداً لكي لا تعيق الرؤية */
-            pointer-events: none; /* لكي لا يتمكن المستخدم من الضغط عليها */
-            z-index: 1; /* خلف المحتوى الأساسي وأمام الخلفية */
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 1;
             font-style: italic;
             text-transform: uppercase;
             white-space: nowrap;
@@ -188,7 +259,7 @@
 
         .hero-content {
             position: relative;
-            z-index: 10; /* فوق العلامة المائية */
+            z-index: 10;
             max-width: 700px;
             margin-top: 50px;
         }
@@ -249,7 +320,6 @@
         .btn-more { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
         .btn-more:hover { background-color: rgba(109, 109, 110, 0.5); }
 
-        /* --- صفوف الأفلام --- */
         .content-area {
             margin-top: -80px;
             padding-bottom: 50px;
@@ -326,7 +396,6 @@
 
         .movie-card:hover .card-overlay { opacity: 1; }
 
-        /* --- نظام المفضلة الجديد --- */
         .fav-btn-card {
             position: absolute;
             top: 10px;
@@ -436,7 +505,6 @@
             aspect-ratio: 16/9;
         }
 
-        /* --- تحسينات المسلسلات --- */
         .series-controls {
             width: 90%;
             max-width: 1000px;
@@ -486,7 +554,6 @@
             border-radius: 50%;
         }
 
-        /* --- تصميم المودال المستقبلي 2026 --- */
         .auth-modal {
             display: none;
             position: fixed;
@@ -564,7 +631,6 @@
             box-shadow: 0 10px 20px rgba(229, 9, 20, 0.4);
         }
 
-        /* سبينر التحميل */
         .loader {
             width: 20px;
             height: 20px;
@@ -596,7 +662,7 @@
             .content-area { margin-top: -40px; }
             .nav-actions { gap: 8px; }
             .btn-auth { padding: 5px 12px; font-size: 12px; }
-            .hero-watermark { font-size: 100px; right: -10%; } /* تحسين الحجم للموبايل */
+            .hero-watermark { font-size: 100px; right: -10%; }
         }
 
         #dmcaSection { display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh; }
@@ -628,34 +694,52 @@
             <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
             <a href="#" class="logo" onclick="location.reload()">Syriabest</a>
             <ul class="nav-links">
-                <li><a href="#" onclick="location.reload()">الرئيسية</a></li>
-                <li><a href="#row-foreign-series">مسلسلات</a></li>
-                <li><a href="#row-action">أفلام</a></li>
-                <li><a href="#" onclick="showDMCA()">DMCA / حقوق النشر</a></li>
+                <li><a href="#" onclick="location.reload()" data-translate="nav_home">الرئيسية</a></li>
+                <li><a href="#row-foreign-series" data-translate="nav_series">مسلسلات</a></li>
+                <li><a href="#row-action" data-translate="nav_movies">أفلام</a></li>
+                <li class="genre-dropdown">
+                    <button class="genre-btn" onclick="toggleGenreMenu()">
+                        <span data-translate="nav_genres">الفئات</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="genre-menu" id="genreMenu">
+                        <a href="#row-marvel" data-translate="genre_marvel">مارفل</a>
+                        <a href="#row-action" data-translate="genre_action">أكشن</a>
+                        <a href="#row-comedy" data-translate="genre_comedy">كوميدي</a>
+                        <a href="#row-horror" data-translate="genre_horror">رعب</a>
+                        <a href="#row-thriller" data-translate="genre_thriller">إثارة وغموض</a>
+                    </div>
+                </li>
+                <li><a href="#" onclick="showDMCA()" data-translate="nav_dmca">DMCA / حقوق النشر</a></li>
             </ul>
         </div>
         
         <div class="nav-actions">
+            <button class="lang-switcher" onclick="toggleLanguage()">
+                <i class="fas fa-globe"></i>
+                <span id="currentLang">EN</span>
+            </button>
+            
             <div class="search-container">
                 <form onsubmit="handleSearch(event)">
-                    <input type="text" id="globalSearch" class="search-input" placeholder="ابحث...">
+                    <input type="text" id="globalSearch" class="search-input" data-translate-placeholder="search_placeholder" placeholder="ابحث...">
                 </form>
             </div>
             
-            <button class="btn-auth" id="mainAuthBtn" onclick="toggleModal(true)">دخول</button>
+            <button class="btn-auth" id="mainAuthBtn" onclick="toggleModal(true)" data-translate="btn_login">دخول</button>
         </div>
     </header>
 
     <div id="dmcaSection">
-        <h1 style="color: var(--main-red); margin-bottom: 20px;">DMCA - سياسة حقوق النشر</h1>
-        <p>موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.</p>
-        <button class="btn-auth" style="margin-top: 30px;" onclick="location.reload()">العودة للرئيسية</button>
+        <h1 style="color: var(--main-red); margin-bottom: 20px;" data-translate="dmca_title">DMCA - سياسة حقوق النشر</h1>
+        <p data-translate="dmca_text">موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.</p>
+        <button class="btn-auth" style="margin-top: 30px;" onclick="location.reload()" data-translate="btn_back_home">العودة للرئيسية</button>
     </div>
 
     <div id="searchOverlay">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="color: var(--main-red);">نتائج البحث</h2>
-            <button class="btn-auth" onclick="closeSearch()">إغلاق</button>
+            <h2 style="color: var(--main-red);" data-translate="search_results">نتائج البحث</h2>
+            <button class="btn-auth" onclick="closeSearch()" data-translate="btn_close">إغلاق</button>
         </div>
         <div id="searchResultsGrid" class="movie-slider" style="flex-wrap: wrap; gap: 20px;"></div>
     </div>
@@ -663,31 +747,31 @@
     <div id="accountSection">
         <div class="account-box">
             <h2 id="accDisplayName">اسم المستخدم</h2>
-            <p style="margin: 15px 0; color: var(--gray-text);">مرحباً بك في لوحة تحكم حسابك</p>
+            <p style="margin: 15px 0; color: var(--gray-text);" data-translate="account_welcome">مرحباً بك في لوحة تحكم حسابك</p>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
                 <div style="background: #222; padding: 15px; border-radius: 8px; text-align: center;">
-                    <span style="font-size: 13px; color: var(--gray-text);">أفلام شاهدتها</span><br>
+                    <span style="font-size: 13px; color: var(--gray-text);" data-translate="account_watched">أفلام شاهدتها</span><br>
                     <span id="watchStats" style="color: var(--main-red); font-weight: 800; font-size: 1.5em;">0</span>
                 </div>
                 <div style="background: #222; padding: 15px; border-radius: 8px; text-align: center;">
-                    <span style="font-size: 13px; color: var(--gray-text);">في قائمتي</span><br>
+                    <span style="font-size: 13px; color: var(--gray-text);" data-translate="account_mylist">في قائمتي</span><br>
                     <span id="favStats" style="color: #ffcc00; font-weight: 800; font-size: 1.5em;">0</span>
                 </div>
             </div>
 
             <div style="text-align: right; margin-bottom: 30px;">
-                <h3 style="border-right: 4px solid var(--main-red); padding-right: 10px; margin-bottom: 15px;">قائمتي المفضلة</h3>
+                <h3 style="border-right: 4px solid var(--main-red); padding-right: 10px; margin-bottom: 15px;" data-translate="account_favorites">قائمتي المفضلة</h3>
                 <div id="favoritesGrid" class="movie-slider" style="flex-wrap: wrap; gap: 10px; justify-content: center; min-height: 100px; background: #111; padding: 15px; border-radius: 10px;">
-                    <p style="color: #666; font-size: 14px;">لا يوجد أفلام في قائمتك بعد.</p>
+                    <p style="color: #666; font-size: 14px;" data-translate="account_no_favorites">لا يوجد أفلام في قائمتك بعد.</p>
                 </div>
             </div>
 
             <div style="max-width: 400px; margin: 0 auto;">
-                <input type="text" id="editNameInput" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
-                <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;">حفظ الاسم الجديد</button>
-                <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;">تسجيل الخروج</button>
-                <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;">العودة للرئيسية</p>
+                <input type="text" id="editNameInput" data-translate-placeholder="account_change_name" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
+                <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;" data-translate="account_save_name">حفظ الاسم الجديد</button>
+                <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;" data-translate="account_logout">تسجيل الخروج</button>
+                <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;" data-translate="btn_back_home">العودة للرئيسية</p>
             </div>
         </div>
     </div>
@@ -697,14 +781,14 @@
             <div class="hero-watermark">Syriabest</div>
 
             <div class="hero-content">
-                <h1>أفلامك المفضلة، <br>في مكان واحد.</h1>
-                <p>استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
+                <h1 data-translate="hero_title">أفلامك المفضلة، <br>في مكان واحد.</h1>
+                <p data-translate="hero_description">استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.</p>
                 <div class="hero-btns">
                     <button class="btn-hero btn-play" onclick="document.getElementById('row-marvel').scrollIntoView()">
-                        <i class="fas fa-th-list"></i> اكتشف المحتوى
+                        <i class="fas fa-th-list"></i> <span data-translate="hero_btn_explore">اكتشف المحتوى</span>
                     </button>
-                    <button class="btn-hero btn-more" onclick="alert('مرحباً بك في سوريا بست!')">
-                        <i class="fas fa-info-circle"></i> معلومات
+                    <button class="btn-hero btn-more" onclick="showAbout()">
+                        <i class="fas fa-info-circle"></i> <span data-translate="hero_btn_info">معلومات</span>
                     </button>
                 </div>
             </div>
@@ -712,95 +796,104 @@
 
         <div class="row">
             <div class="row-title">
-                <span>عالم مارفل السينمائي (Marvel MCU)</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_marvel">عالم مارفل السينمائي (Marvel MCU)</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-marvel"></div>
         </div>
 
         <div class="row">
             <div class="row-title">
-                <span>سلسلة Avengers</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_avengers">سلسلة Avengers</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-avengers"></div>
-       </div>
+        </div>
         
         <div class="row">
             <div class="row-title">
-                <span>سلسلة The transporter</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_transporter">سلسلة The transporter</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-thetransporter"></div>
-    </div>
+        </div>
         
         <div class="row">
             <div class="row-title">
-                <span>سلسلة Fast & Furious</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_fast">سلسلة Fast & Furious</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-fast"></div>
         </div>
 
         <div class="row">
             <div class="row-title">
-                <span>أفلام الأكشن</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_action">أفلام الأكشن</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-action"></div>
         </div>
         
         <div class="row">
             <div class="row-title">
-                <span>اكشن/كوميدي</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_actioncomedy">اكشن/كوميدي</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-actioncomedy"></div>
-       </div>
+        </div>
+
+        <!-- القسم الجديد: أفلام كوميدية -->
+        <div class="row">
+            <div class="row-title">
+                <span data-translate="row_comedy">أفلام كوميدية</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-comedy"></div>
+        </div>
         
         <div class="row">
             <div class="row-title">
-                <span>أفلام الرعب (الأجزاء الكاملة)</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_horror">أفلام الرعب (الأجزاء الكاملة)</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-horror"></div>
         </div>
 
         <div class="row">
             <div class="row-title">
-                <span>إثارة وغموض </span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_thriller">إثارة وغموض</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-thriller"></div>
         </div>
 
         <div class="series-banner">
-            <h2>المسلسلات العربية والأجنبية المنوعة</h2>
+            <h2 data-translate="series_banner">المسلسلات العربية والأجنبية المنوعة</h2>
         </div>
 
         <div class="row">
             <div class="row-title">
-                <span>مسلسلات مصرية كوميدية</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_egypt_comedy">مسلسلات مصرية كوميدية</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-egypt-comedy"></div>
         </div>
 
         <div class="row">
             <div class="row-title">
-                <span>مسلسلات أجنبية</span>
-                <a href="#">مشاهدة الكل</a>
+                <span data-translate="row_foreign_series">مسلسلات أجنبية</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
             <div class="movie-slider" id="row-foreign-series"></div>
         </div>
 
         <section class="rating-area">
             <div class="rating-box">
-                <h2 style="color: var(--main-red);">تقييمك يهمنا</h2>
-                <p>أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع</p>
-                <textarea id="feedbackMsg" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                <h2 style="color: var(--main-red);" data-translate="rating_title">تقييمك يهمنا</h2>
+                <p data-translate="rating_description">أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع</p>
+                <textarea id="feedbackMsg" data-translate-placeholder="rating_placeholder" placeholder="اكتب ملاحظاتك هنا..."></textarea>
                 <br>
-                <button class="btn-auth" onclick="submitFeedback()">إرسال التقييم</button>
+                <button class="btn-auth" onclick="submitFeedback()" data-translate="rating_submit">إرسال التقييم</button>
             </div>
         </section>
     </main>
@@ -814,11 +907,11 @@
         
         <div id="seriesControls" class="series-controls">
             <div class="control-group">
-                <h4>اختر الموسم:</h4>
+                <h4 data-translate="series_select_season">اختر الموسم:</h4>
                 <div id="seasonContainer" class="btn-grid"></div>
             </div>
             <div class="control-group">
-                <h4>اختر الحلقة:</h4>
+                <h4 data-translate="series_select_episode">اختر الحلقة:</h4>
                 <div id="episodeContainer" class="btn-grid"></div>
             </div>
         </div>
@@ -826,7 +919,7 @@
         <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
             <h3 id="movieTitleDisplay" style="color: var(--main-red); font-weight: 800; text-align: center;"></h3>
             <button id="playerFavBtn" class="fav-status-btn" onclick="toggleFavoriteFromPlayer()">
-                <i class="fas fa-plus"></i> إضافة لقائمتي
+                <i class="fas fa-plus"></i> <span data-translate="player_add_to_list">إضافة لقائمتي</span>
             </button>
         </div>
     </div>
@@ -834,70 +927,78 @@
     <div class="auth-modal" id="authModal">
         <div class="modal-box" id="loginBox">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
-            <h2>تسجيل الدخول</h2>
+            <h2 data-translate="auth_login_title">تسجيل الدخول</h2>
             <form onsubmit="handleAuth(event)">
                 <div class="input-group">
-                    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" required>
+                    <input type="email" id="loginEmail" data-translate-placeholder="auth_email" placeholder="البريد الإلكتروني" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="loginPass" placeholder="كلمة المرور" required>
+                    <input type="password" id="loginPass" data-translate-placeholder="auth_password" placeholder="كلمة المرور" required>
                 </div>
                 <button type="submit" class="btn-submit">
-                    <span>دخول</span>
+                    <span data-translate="btn_login">دخول</span>
                 </button>
             </form>
-            <p class="auth-footer-link" onclick="switchAuthMode('register')">ليس لديك حساب؟ <span>إنشاء حساب</span></p>
+            <p class="auth-footer-link" onclick="switchAuthMode('register')"><span data-translate="auth_no_account">ليس لديك حساب؟</span> <span data-translate="auth_create_account">إنشاء حساب</span></p>
         </div>
 
         <div class="modal-box" id="registerBox" style="display:none;">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
-            <h2>إنشاء حساب جديد</h2>
+            <h2 data-translate="auth_register_title">إنشاء حساب جديد</h2>
             <form id="registerForm">
                 <div class="input-group">
-                    <input type="email" id="regEmail" placeholder="البريد الإلكتروني" required>
+                    <input type="email" id="regEmail" data-translate-placeholder="auth_email" placeholder="البريد الإلكتروني" required>
                 </div>
                 <input type="text" name="bot_check" class="hp-field">
                 <div class="input-group">
-                    <input type="password" id="regPass" placeholder="كلمة المرور" required>
+                    <input type="password" id="regPass" data-translate-placeholder="auth_password" placeholder="كلمة المرور" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="regPassConfirm" placeholder="تأكيد كلمة المرور" required>
+                    <input type="password" id="regPassConfirm" data-translate-placeholder="auth_password_confirm" placeholder="تأكيد كلمة المرور" required>
                 </div>
                 <button type="button" id="regSubmitBtn" class="btn-submit g-recaptcha" 
                         data-sitekey="6Ld_Your_Site_Key" 
                         data-callback='onSubmit' 
                         data-action='submit'>
-                    <span id="regBtnText">إنشاء الحساب</span>
+                    <span id="regBtnText" data-translate="auth_create_account">إنشاء الحساب</span>
                     <div class="loader" id="regLoader"></div>
                 </button>
             </form>
-            <p class="auth-footer-link" onclick="switchAuthMode('login')">لديك حساب؟ <span>تسجيل الدخول</span></p>
+            <p class="auth-footer-link" onclick="switchAuthMode('login')"><span data-translate="auth_have_account">لديك حساب؟</span> <span data-translate="btn_login">تسجيل الدخول</span></p>
         </div>
 
         <div class="modal-box" id="verifyBox" style="display:none;">
             <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
-            <h2>تأكيد الحساب</h2>
-            <p id="verifyInstruction" style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)">أدخل كود التحقق المرسل إلى إيميلك</p>
+            <h2 data-translate="auth_verify_title">تأكيد الحساب</h2>
+            <p id="verifyInstruction" style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)" data-translate="auth_verify_instruction">أدخل كود التحقق المرسل إلى إيميلك</p>
             <form onsubmit="handleVerification(event)">
                 <div class="input-group">
                     <input type="text" id="verifyInput" placeholder="00000" maxlength="5" style="text-align:center; font-size:24px; letter-spacing:10px;" required>
                 </div>
-                <button type="submit" class="btn-submit">تحقق</button>
+                <button type="submit" class="btn-submit" data-translate="auth_verify_btn">تحقق</button>
             </form>
         </div>
     </div>
 
     <footer>
         <div class="footer-grid">
-            <ul><li><a href="#">الأسئلة الشائعة</a></li><li><a href="#" onclick="showDMCA()">DMCA / حقوق النشر</a></li></ul>
-            <ul><li><a href="#">مركز المساعدة</a></li><li><a href="#">الأحكام القانونية</a></li></ul>
-            <ul><li><a href="#">الحساب</a></li><li><a href="#">فقط على Syriabest</a></li></ul>
+            <ul>
+                <li><a href="#" data-translate="footer_faq">الأسئلة الشائعة</a></li>
+                <li><a href="#" onclick="showDMCA()" data-translate="footer_dmca">DMCA / حقوق النشر</a></li>
+            </ul>
+            <ul>
+                <li><a href="#" data-translate="footer_help">مركز المساعدة</a></li>
+                <li><a href="#" data-translate="footer_terms">الأحكام القانونية</a></li>
+            </ul>
+            <ul>
+                <li><a href="#" data-translate="footer_account">الحساب</a></li>
+                <li><a href="#" data-translate="footer_exclusive">فقط على Syriabest</a></li>
+            </ul>
         </div>
-        <p class="copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ </p>
+        <p class="copyright" data-translate="footer_copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ </p>
     </footer>
 
     <script>
-        // --- حماية إضافية ---
         (function() {
             const shield = () => {
                 const start = new Date();
@@ -914,6 +1015,203 @@
             if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
                 e.preventDefault();
                 return false;
+            }
+        });
+
+        let currentLanguage = localStorage.getItem('sb_language') || 'ar';
+
+        const translations = {
+            ar: {
+                nav_home: "الرئيسية",
+                nav_series: "مسلسلات",
+                nav_movies: "أفلام",
+                nav_genres: "الفئات",
+                nav_dmca: "DMCA / حقوق النشر",
+                genre_marvel: "مارفل",
+                genre_action: "أكشن",
+                genre_comedy: "كوميدي",
+                genre_horror: "رعب",
+                genre_thriller: "إثارة وغموض",
+                btn_login: "دخول",
+                btn_close: "إغلاق",
+                btn_back_home: "العودة للرئيسية",
+                hero_title: "أفلامك المفضلة، <br>في مكان واحد.",
+                hero_description: "استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.",
+                hero_btn_explore: "اكتشف المحتوى",
+                hero_btn_info: "معلومات",
+                row_marvel: "عالم مارفل السينمائي (Marvel MCU)",
+                row_avengers: "سلسلة Avengers",
+                row_transporter: "سلسلة The transporter",
+                row_fast: "سلسلة Fast & Furious",
+                row_action: "أفلام الأكشن",
+                row_actioncomedy: "اكشن/كوميدي",
+                row_comedy: "أفلام كوميدية",
+                row_horror: "أفلام الرعب (الأجزاء الكاملة)",
+                row_thriller: "إثارة وغموض",
+                row_egypt_comedy: "مسلسلات مصرية كوميدية",
+                row_foreign_series: "مسلسلات أجنبية",
+                row_see_all: "مشاهدة الكل",
+                series_banner: "المسلسلات العربية والأجنبية المنوعة",
+                search_placeholder: "ابحث...",
+                search_results: "نتائج البحث",
+                account_welcome: "مرحباً بك في لوحة تحكم حسابك",
+                account_watched: "أفلام شاهدتها",
+                account_mylist: "في قائمتي",
+                account_favorites: "قائمتي المفضلة",
+                account_no_favorites: "لا يوجد أفلام في قائمتك بعد.",
+                account_change_name: "تغيير اسم العرض...",
+                account_save_name: "حفظ الاسم الجديد",
+                account_logout: "تسجيل الخروج",
+                player_add_to_list: "إضافة لقائمتي",
+                player_in_list: "في قائمتي",
+                series_select_season: "اختر الموسم:",
+                series_select_episode: "اختر الحلقة:",
+                auth_login_title: "تسجيل الدخول",
+                auth_register_title: "إنشاء حساب جديد",
+                auth_verify_title: "تأكيد الحساب",
+                auth_email: "البريد الإلكتروني",
+                auth_password: "كلمة المرور",
+                auth_password_confirm: "تأكيد كلمة المرور",
+                auth_no_account: "ليس لديك حساب؟",
+                auth_have_account: "لديك حساب؟",
+                auth_create_account: "إنشاء حساب",
+                auth_verify_instruction: "أدخل كود التحقق المرسل إلى إيميلك",
+                auth_verify_btn: "تحقق",
+                rating_title: "تقييمك يهمنا",
+                rating_description: "أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع",
+                rating_placeholder: "اكتب ملاحظاتك هنا...",
+                rating_submit: "إرسال التقييم",
+                dmca_title: "DMCA - سياسة حقوق النشر",
+                dmca_text: 'موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.',
+                footer_faq: "الأسئلة الشائعة",
+                footer_dmca: "DMCA / حقوق النشر",
+                footer_help: "مركز المساعدة",
+                footer_terms: "الأحكام القانونية",
+                footer_account: "الحساب",
+                footer_exclusive: "فقط على Syriabest",
+                footer_copyright: "© 2026 Syriabest. جميع الحقوق محفوظة لـ",
+                card_play: "تشغيل",
+                card_locked: "مغلق - سجل دخول"
+            },
+            en: {
+                nav_home: "Home",
+                nav_series: "TV Shows",
+                nav_movies: "Movies",
+                nav_genres: "Genres",
+                nav_dmca: "DMCA / Copyright",
+                genre_marvel: "Marvel",
+                genre_action: "Action",
+                genre_comedy: "Comedy",
+                genre_horror: "Horror",
+                genre_thriller: "Thriller & Mystery",
+                btn_login: "Sign In",
+                btn_close: "Close",
+                btn_back_home: "Back to Home",
+                hero_title: "Your Favorite Movies, <br>All in One Place.",
+                hero_description: "Enjoy an unparalleled viewing experience with Syriabest. High quality, fast loading, and the latest exclusive shows.",
+                hero_btn_explore: "Explore Content",
+                hero_btn_info: "More Info",
+                row_marvel: "Marvel Cinematic Universe (MCU)",
+                row_avengers: "Avengers Series",
+                row_transporter: "The Transporter Series",
+                row_fast: "Fast & Furious Series",
+                row_action: "Action Movies",
+                row_actioncomedy: "Action/Comedy",
+                row_comedy: "Comedy Movies",
+                row_horror: "Horror Movies (Complete Series)",
+                row_thriller: "Thriller & Mystery",
+                row_egypt_comedy: "Egyptian Comedy Series",
+                row_foreign_series: "Foreign Series",
+                row_see_all: "See All",
+                series_banner: "Diverse Arabic and Foreign Series",
+                search_placeholder: "Search...",
+                search_results: "Search Results",
+                account_welcome: "Welcome to your account dashboard",
+                account_watched: "Movies Watched",
+                account_mylist: "In My List",
+                account_favorites: "My Favorites",
+                account_no_favorites: "No movies in your list yet.",
+                account_change_name: "Change display name...",
+                account_save_name: "Save New Name",
+                account_logout: "Logout",
+                player_add_to_list: "Add to My List",
+                player_in_list: "In My List",
+                series_select_season: "Select Season:",
+                series_select_episode: "Select Episode:",
+                auth_login_title: "Sign In",
+                auth_register_title: "Create New Account",
+                auth_verify_title: "Verify Account",
+                auth_email: "Email Address",
+                auth_password: "Password",
+                auth_password_confirm: "Confirm Password",
+                auth_no_account: "Don't have an account?",
+                auth_have_account: "Already have an account?",
+                auth_create_account: "Create Account",
+                auth_verify_instruction: "Enter the verification code sent to your email",
+                auth_verify_btn: "Verify",
+                rating_title: "Your Feedback Matters",
+                rating_description: "Tell us about your experience or if you encountered any issues on the site",
+                rating_placeholder: "Write your comments here...",
+                rating_submit: "Submit Feedback",
+                dmca_title: "DMCA - Copyright Policy",
+                dmca_text: '<strong>Syriabest</strong> is a search engine for entertainment content. We do not upload or host any videos on our own servers. All links are fetched from external websites. If you are a rights holder and want to remove content, please contact us to remove it immediately from the database.',
+                footer_faq: "FAQ",
+                footer_dmca: "DMCA / Copyright",
+                footer_help: "Help Center",
+                footer_terms: "Legal Terms",
+                footer_account: "Account",
+                footer_exclusive: "Only on Syriabest",
+                footer_copyright: "© 2026 Syriabest. All Rights Reserved",
+                card_play: "Play",
+                card_locked: "Locked - Sign In"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('sb_language', currentLanguage);
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const html = document.getElementById('htmlRoot');
+            const langBtn = document.getElementById('currentLang');
+            
+            if (currentLanguage === 'en') {
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                langBtn.textContent = 'AR';
+            } else {
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                langBtn.textContent = 'EN';
+            }
+            
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    el.innerHTML = translations[currentLanguage][key];
+                }
+            });
+            
+            document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-translate-placeholder');
+                if (translations[currentLanguage][key]) {
+                    el.placeholder = translations[currentLanguage][key];
+                }
+            });
+            
+            initApp();
+        }
+
+        function toggleGenreMenu() {
+            const menu = document.getElementById('genreMenu');
+            menu.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.genre-dropdown')) {
+                document.getElementById('genreMenu').classList.remove('active');
             }
         });
 
@@ -954,9 +1252,9 @@
                 { id: "tt2395427", title: "Avengers: Age of Ultron", img: "avengers2.JPG", type: "movie" },
                 { id: "tt4154756", title: "Avengers: Infinity War", img: "avengers3.JPG", type: "movie" },
                 { id: "tt4154796", title: "Avengers: Endgame", img: "avengers4.JPG", type: "movie" }
-             ],
+            ],
             transporter: [
-                { id: "tt0293662", title: "The Transporter - (2002) ", img: "trans1.JPG", type: "movie" },
+                { id: "tt0293662", title: "The Transporter - (2002)", img: "trans1.JPG", type: "movie" },
                 { id: "tt0388482", title: "(Transporter 2 - 2005)", img: "trans2.JPG", type: "movie" },
                 { id: "tt1129442", title: "(Transporter 3 - 2008)", img: "trans3.JPG", type: "movie" },
                 { id: "tt2938956", title: "(The Transporter Refueled - 2015)", img: "trans4.JPG", type: "movie" }
@@ -1010,6 +1308,20 @@
                 { id: "tt0870154", title: "Jungle Cruise", img: "Jungle.JPG", type: "movie" },
                 { id: "tt0369610", title: "Jurassic World", img: "World.JPG", type: "movie" },
                 { id: "tt0116126", title: "Don't Be a Menace to South Central While Drinking Your Juice in the Hood", img: "dont.JPG", type: "movie" },
+            ],
+            comedy: [
+                { id: "tt0116483", title: "The Nutty Professor", img: "nutty.JPG", type: "movie" },
+                { id: "tt0119116", title: "Good Burger", img: "goodburger.JPG", type: "movie" },
+                { id: "tt0126304", title: "Shrek", img: "shrek.JPG", type: "movie" },
+                { id: "tt0298148", title: "Shrek 2", img: "shrek2.JPG", type: "movie" },
+                { id: "tt0413267", title: "Shrek the Third", img: "shrek3.JPG", type: "movie" },
+                { id: "tt0892791", title: "Shrek Forever After", img: "shrek4.JPG", type: "movie" },
+                { id: "tt0382932", title: "Ratatouille", img: "ratatouille.JPG", type: "movie" },
+                { id: "tt1049413", title: "Up", img: "up.JPG", type: "movie" },
+                { id: "tt0910970", title: "WALL·E", img: "walle.JPG", type: "movie" },
+                { id: "tt0266543", title: "Finding Nemo", img: "nemo.JPG", type: "movie" },
+                { id: "tt2380307", title: "Coco", img: "coco.JPG", type: "movie" },
+                { id: "tt1049413", title: "Toy Story 3", img: "toystory3.JPG", type: "movie" }
             ],
             horror: [
                 { id: "tt0387564", title: "Saw 1", img: "saw1.JPG", type: "movie" },
@@ -1090,11 +1402,13 @@
             renderRow('row-fast', movieData.fast);
             renderRow('row-action', movieData.action);
             renderRow('row-actioncomedy', movieData.actioncomedy);
+            renderRow('row-comedy', movieData.comedy);
             renderRow('row-horror', movieData.horror);
             renderRow('row-thriller', movieData.thriller);
             renderRow('row-egypt-comedy', movieData.egyptComedy);
             renderRow('row-foreign-series', movieData.foreignSeries);
             checkAuthStatus();
+            applyLanguage();
         }
 
         function showDMCA() {
@@ -1102,13 +1416,20 @@
             document.getElementById('dmcaSection').style.display = 'block';
         }
 
+        function showAbout() {
+            const msg = currentLanguage === 'ar' 
+                ? 'مرحباً بك في سوريا بست!' 
+                : 'Welcome to Syriabest!';
+            alert(msg);
+        }
+
         function checkAuthStatus() {
             const btn = document.getElementById('mainAuthBtn');
             if (currentUser) {
-                btn.innerText = "حسابي";
+                btn.innerText = currentLanguage === 'ar' ? "حسابي" : "My Account";
                 btn.onclick = openAccount;
             } else {
-                btn.innerText = "دخول";
+                btn.innerText = translations[currentLanguage].btn_login;
                 btn.onclick = () => toggleModal(true);
             }
         }
@@ -1128,9 +1449,12 @@
             card.className = 'movie-card';
             const isFav = favorites.some(f => f.id === m.id);
             
+            const playText = currentLanguage === 'ar' ? 'تشغيل' : 'Play';
+            const lockedText = currentLanguage === 'ar' ? 'مغلق - سجل دخول' : 'Locked - Sign In';
+            
             const iconHTML = currentUser 
                 ? `<i class="fas fa-play-circle"></i><span>${m.title}</span>` 
-                : `<i class="fas fa-lock"></i><span>مغلق - سجل دخول</span>`;
+                : `<i class="fas fa-lock"></i><span>${lockedText}</span>`;
 
             const favBtnHTML = currentUser 
                 ? `<div class="fav-btn-card ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${m.id}')">
@@ -1165,10 +1489,10 @@
             const isFav = favorites.some(f => f.id === activeMedia.id);
             if (isFav) {
                 btn.classList.add('active');
-                btn.innerHTML = `<i class="fas fa-check"></i> في قائمتي`;
+                btn.innerHTML = `<i class="fas fa-check"></i> ${translations[currentLanguage].player_in_list}`;
             } else {
                 btn.classList.remove('active');
-                btn.innerHTML = `<i class="fas fa-plus"></i> إضافة لقائمتي`;
+                btn.innerHTML = `<i class="fas fa-plus"></i> ${translations[currentLanguage].player_add_to_list}`;
             }
         }
 
@@ -1179,7 +1503,7 @@
             const stat = document.getElementById('favStats');
             stat.innerText = favorites.length;
             if (favorites.length === 0) {
-                grid.innerHTML = `<p style="color: #666; font-size: 14px; width:100%; text-align:center;">لا يوجد أفلام في قائمتك بعد.</p>`;
+                grid.innerHTML = `<p style="color: #666; font-size: 14px; width:100%; text-align:center;">${translations[currentLanguage].account_no_favorites}</p>`;
                 return;
             }
             grid.innerHTML = "";
@@ -1188,7 +1512,10 @@
 
         function playMedia(item) {
             if (!currentUser) {
-                alert("يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!");
+                const msg = currentLanguage === 'ar'
+                    ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
+                    : 'You must sign in first to unlock and watch the content!';
+                alert(msg);
                 toggleModal(true);
                 return;
             }
@@ -1209,11 +1536,14 @@
         function renderSeriesUI() {
             const sContainer = document.getElementById('seasonContainer');
             const eContainer = document.getElementById('episodeContainer');
+            const seasonText = currentLanguage === 'ar' ? 'الموسم' : 'Season';
+            const episodeText = currentLanguage === 'ar' ? 'الحلقة' : 'Episode';
+            
             sContainer.innerHTML = "";
             for (let i = 1; i <= activeMedia.seasons; i++) {
                 const btn = document.createElement('button');
                 btn.className = "ep-btn" + (i === currentS ? " active" : "");
-                btn.innerText = "الموسم " + i;
+                btn.innerText = seasonText + " " + i;
                 btn.onclick = () => { currentS = i; currentE = 1; renderSeriesUI(); updatePlayer(); };
                 sContainer.appendChild(btn);
             }
@@ -1221,7 +1551,7 @@
             for (let j = 1; j <= activeMedia.episodes; j++) {
                 const btn = document.createElement('button');
                 btn.className = "ep-btn" + (j === currentE ? " active" : "");
-                btn.innerText = "الحلقة " + j;
+                btn.innerText = episodeText + " " + j;
                 btn.onclick = () => { currentE = j; renderSeriesUI(); updatePlayer(); };
                 eContainer.appendChild(btn);
             }
@@ -1272,7 +1602,8 @@
 
             if(botCheck !== "") return;
             if (pass !== confirm) {
-                alert("كلمات المرور غير متطابقة!");
+                const msg = currentLanguage === 'ar' ? 'كلمات المرور غير متطابقة!' : 'Passwords do not match!';
+                alert(msg);
                 resetBtn();
                 return;
             }
@@ -1282,16 +1613,23 @@
             
             document.getElementById('registerBox').style.display = 'none';
             document.getElementById('verifyBox').style.display = 'block';
-            alert("كود التحقق الخاص بك هو: " + currentOTP);
+            const msg = currentLanguage === 'ar' 
+                ? `كود التحقق الخاص بك هو: ${currentOTP}`
+                : `Your verification code is: ${currentOTP}`;
+            alert(msg);
         }
 
         function handleVerification(e) {
             e.preventDefault();
             if (document.getElementById('verifyInput').value === currentOTP) {
-                currentUser = { name: "عضو جديد", email: tempRegData.email, isOwner: false };
+                const newMember = currentLanguage === 'ar' ? 'عضو جديد' : 'New Member';
+                currentUser = { name: newMember, email: tempRegData.email, isOwner: false };
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
                 location.reload();
-            } else { alert("الكود خطأ!"); }
+            } else {
+                const msg = currentLanguage === 'ar' ? 'الكود خطأ!' : 'Wrong code!';
+                alert(msg);
+            }
         }
 
         function resetBtn() {
@@ -1347,14 +1685,19 @@
                 currentUser.name = newName;
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
                 openAccount();
-                alert("تم تحديث الاسم!");
+                const msg = currentLanguage === 'ar' ? 'تم تحديث الاسم!' : 'Name updated!';
+                alert(msg);
             }
         }
 
         function logoutUser() { localStorage.removeItem('sb_user'); location.reload(); }
-        function submitFeedback() { alert("تم إرسال تقييمك بنجاح!"); document.getElementById('feedbackMsg').value = ""; }
+        
+        function submitFeedback() {
+            const msg = currentLanguage === 'ar' ? 'تم إرسال تقييمك بنجاح!' : 'Your feedback has been sent successfully!';
+            alert(msg);
+            document.getElementById('feedbackMsg').value = "";
+        }
 
         initApp();
     </script>
 </body>
-</html>
