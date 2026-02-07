@@ -1945,15 +1945,30 @@
         };
 
         const apis = [
-            { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
-            { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
-            { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" }
-        ];
+    { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
+    { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
+    { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" },
+    { name: "سيرفر خاص", movie: "https://www.pornhub.com/embed/", tv: "https://www.pornhub.com/embed/" }
+];
+
 
         let activeMedia = null;
         let currentS = 1;
         let currentE = 1;
         let currentServerIdx = 0;
+// وظيفة القفل للسيرفر الخاص
+function checkPrivateAccess(idx) {
+    if (idx === 3) { // إذا اختار السيرفر الرابع (سيرفر خاص)
+        let pin = prompt("المحتوى مقفل، أدخل الرمز السري:");
+        if (pin === "6572134") {
+            return true;
+        } else {
+            alert("الرمز خطأ!");
+            return false;
+        }
+    }
+    return true; // السيرفرات العادية تفتح بدون قفل
+}
 
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
