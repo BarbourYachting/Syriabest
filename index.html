@@ -1944,12 +1944,23 @@
             ]
         };
 
-        const apis = [
+const apis = [
     { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
     { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
     { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" },
-    { name: "سيرفر خاص", movie: "https://www.pornhub.com/embed/", tv: "https://www.pornhub.com/embed/" }
+    { 
+        name: "سيرفر خاص 🔒", 
+        get movie() {
+            let p = prompt("هذا السيرفر مقفل، أدخل الرقم السري:");
+            return (p === "6572134") ? "https://www.pornhub.com/embed/" : "https://about:blank";
+        },
+        get tv() {
+            let p = prompt("هذا السيرفر مقفل، أدخل الرقم السري:");
+            return (p === "6572134") ? "https://www.pornhub.com/embed/" : "https://about:blank";
+        }
+    }
 ];
+
 
 
         let activeMedia = null;
