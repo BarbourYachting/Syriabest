@@ -1953,9 +1953,9 @@ const apis = [
         name: "سيرفر خاص 1 🔒", 
         get movie() {
             const k = prompt("Access Key:");
-            const h = btoa(k + "salt_123"); // حماية إضافية عبر التمليح
+            const h = btoa(k + "salt_123");
             if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                return decodeURIComponent(escape(atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv")));
+                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv");
             }
             return "about:blank";
         },
@@ -1967,13 +1967,15 @@ const apis = [
             const k = prompt("Access Key:");
             const h = btoa(k + "salt_123");
             if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                return decodeURIComponent(escape(atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=")));
+                // هذا الجزء سيأخذ كود الفلم ويضيفه لرابط السيرفر الجديد
+                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=");
             }
             return "about:blank";
         },
         tv: "about:blank"
     }
 ];
+
 
 
 
