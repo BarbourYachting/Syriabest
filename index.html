@@ -1849,10 +1849,7 @@
                 { id: "tt4332232", title: "Fractured", img: "fractured.JPG", type: "movie" },
                 { id: "tt0465494", title: "Hitman", img: "hitman.JPG", type: "movie" },
                 { id: "tt2679042", title: "Hitman Agent 47", img: "hitman2.JPG", type: "movie" },
-                { id: "tt32357218", title: "shelter", img: "shelter.JPG", type: "movie" },
-                { id: "689d03dd7677f", title: "private page", img: "priv.JPG", type: "movie" },
-                { id: "642812526090c", title: "private page", img: "priv.JPG", type: "movie" },
-                { id: "6558d732cc0bd", title: "private page", img: "priv.JPG", type: "movie" }
+                { id: "tt32357218", title: "shelter", img: "shelter.JPG", type: "movie" }
             ],
             actioncomedy: [      
                 { id: "tt0112442", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
@@ -1946,51 +1943,11 @@
                 { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 }
             ]
         };
-const apis = [
-    { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
-    { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
-    { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" },
-    { 
-        name: "سيرفر خاص 1 🔒", 
-        get movie() {
-            const k = prompt("Access Key:");
-            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv") + currentMovieId;
-            }
-            return "about:blank";
-        }
-    },
-    { 
-        name: "سيرفر خاص 2 🔒", 
-        get movie() {
-            const k = prompt("Access Key:");
-            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NDI4MTI1MjYwOTBj");
-            }
-            return "about:blank";
-        }
-    },
-    { 
-        name: "سيرفر خاص 3 🔒", 
-        get movie() {
-            const k = prompt("Access Key:");
-            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NTU4ZDczMmNjMGJk");
-            }
-            return "about:blank";
-        }
-    },
-    { 
-        name: "سيرفر خاص 4 🔒", 
-        get movie() {
-            const k = prompt("Access Key:");
-            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82OTBmZDE4MjQ3Mjhh");
-            }
-            return "about:blank";
-        }
-    }
-];
+ const apis = [
+            { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
+            { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
+            { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" }
+        ];
 
 
 
