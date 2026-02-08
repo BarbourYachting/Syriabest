@@ -1944,7 +1944,6 @@
                 { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 }
             ]
         };
-
 const apis = [
     { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
     { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
@@ -1953,28 +1952,26 @@ const apis = [
         name: "سيرفر خاص 1 🔒", 
         get movie() {
             const k = prompt("Access Key:");
-            const h = btoa(k + "salt_123");
-            if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv");
+            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
+                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv") + currentMovieId;
             }
             return "about:blank";
-        },
-        tv: "about:blank"
+        }
     },
     { 
         name: "سيرفر خاص 2 🔒", 
         get movie() {
             const k = prompt("Access Key:");
-            const h = btoa(k + "salt_123");
-            if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                // هذا الجزء سيأخذ كود الفلم ويضيفه لرابط السيرفر الجديد
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=");
+            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
+                const specialId = "642812526090c";
+                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=") + specialId;
             }
             return "about:blank";
-        },
-        tv: "about:blank"
+        }
     }
 ];
+
+
 
 
 
