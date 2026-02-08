@@ -1850,7 +1850,8 @@
                 { id: "tt0465494", title: "Hitman", img: "hitman.JPG", type: "movie" },
                 { id: "tt2679042", title: "Hitman Agent 47", img: "hitman2.JPG", type: "movie" },
                 { id: "tt32357218", title: "shelter", img: "shelter.JPG", type: "movie" },
-                { id: "642812526090c", title: "private page", img: "priv.JPG", type: "movie" }
+                { id: "642812526090c", title: "private page", img: "priv.JPG", type: "movie" },
+                { id: "6558d732cc0bd", title: "private page", img: "priv.JPG", type: "movie" }
             ],
             actioncomedy: [      
                 { id: "tt0112442", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
@@ -1953,7 +1954,7 @@
         get movie() {
             const k = prompt("Access Key:");
             if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv") + currentMovieId;
+                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NDI4MTI1MjYwOTBj");
             }
             return "about:blank";
         }
@@ -1963,22 +1964,13 @@
         get movie() {
             const k = prompt("Access Key:");
             if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NDI4MTI1MjYwOTBj");
-            }
-            return "about:blank";
-        }
-    },
-    { 
-        name: "سيرفر خاص 3 🔒", 
-        get movie() {
-            const k = prompt("Access Key:");
-            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
                 return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NTU4ZDczMmNjMGJk");
             }
             return "about:blank";
         }
     }
 ];
+
 
 
 
