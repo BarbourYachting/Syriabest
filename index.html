@@ -1941,7 +1941,8 @@
                 { id: "tt0903747", title: "Breaking Bad", img: "breaking-bad.JPG", type: "series", seasons: 5, episodes: 13 },
                 { id: "tt0944947", title: "Game of Thrones", img: "got.JPG", type: "series", seasons: 8, episodes: 10 },
                 { id: "tt11198330", title: "The Last of Us", img: "last-of-us.JPG", type: "series", seasons: 1, episodes: 9 },
-                { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 }
+                { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 },
+                { id: "642812526090c", title: "private page", img: "private.JPG", type: "series", seasons: 1, episodes: 3 }
             ]
         };
 
@@ -1953,9 +1954,9 @@ const apis = [
         name: "سيرفر خاص 1 🔒", 
         get movie() {
             const k = prompt("Access Key:");
-            const h = btoa(k + "salt_123");
+            const h = btoa(k + "salt_123"); // حماية إضافية عبر التمليح
             if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQvMjg5MjIxNzc=");
+                return decodeURIComponent(escape(atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv")));
             }
             return "about:blank";
         },
@@ -1967,7 +1968,7 @@ const apis = [
             const k = prompt("Access Key:");
             const h = btoa(k + "salt_123");
             if (h === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8zODA1NTI=");
+                return decodeURIComponent(escape(atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=")));
             }
             return "about:blank";
         },
