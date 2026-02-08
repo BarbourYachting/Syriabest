@@ -1852,7 +1852,8 @@
                 { id: "tt32357218", title: "shelter", img: "shelter.JPG", type: "movie" },
                 { id: "689d03dd7677f", title: "private page", img: "priv.JPG", type: "movie" },
                 { id: "642812526090c", title: "private page", img: "priv.JPG", type: "movie" },
-                { id: "6558d732cc0bd", title: "private page", img: "priv.JPG", type: "movie" }
+                { id: "6558d732cc0bd", title: "private page", img: "priv.JPG", type: "movie" },
+                { id: "690fd1824728a", title: "private page", ing: "priv.JPG", type: "movie" }
             ],
             actioncomedy: [      
                 { id: "tt0112442", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
@@ -1980,8 +1981,19 @@ const apis = [
             }
             return "about:blank";
         }
+    },
+    { 
+        name: "سيرفر خاص 4 🔒", 
+        get movie() {
+            const k = prompt("Access Key:");
+            if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
+                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82OTBmZDE4MjQ3Mjhh");
+            }
+            return "about:blank";
+        }
     }
 ];
+
 
 
 
