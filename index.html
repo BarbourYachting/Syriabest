@@ -1944,6 +1944,7 @@
                 { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 }
             ]
         };
+
 const apis = [
     { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
     { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
@@ -1953,7 +1954,7 @@ const apis = [
         get movie() {
             const k = prompt("Access Key:");
             if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv") + currentMovieId;
+                return atob("aHR0cHM6Ly93d3cucG9ybmh1Yi5jb20vZW1iZWQv") + (window.currentMovieId || "");
             }
             return "about:blank";
         }
@@ -1963,8 +1964,7 @@ const apis = [
         get movie() {
             const k = prompt("Access Key:");
             if (btoa(k + "salt_123") === "NjU3MjEzNHNhbHRfMTIz") {
-                const specialId = "642812526090c";
-                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC8=") + specialId;
+                return atob("aHR0cHM6Ly94Z3Jvb3Z5LmNvbS9lbWJlZC82NDI4MTI1MjYwOTBj");
             }
             return "about:blank";
         }
