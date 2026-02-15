@@ -1044,20 +1044,9 @@
             letter-spacing: 1px;
         }
 
-                /* إضافات المالك */
-        body.flying { transform: translateY(-60px) scale(0.98); box-shadow: 0 100px 150px rgba(0,0,0,0.9); transition: 0.8s; }
-        #adminPanel { position: fixed; top: 100px; right: 20px; width: 220px; background: rgba(15, 15, 15, 0.98); border: 2px solid #e50914; padding: 15px; border-radius: 12px; z-index: 10000; display: none; text-align: center; }
-        .admin-btn { width: 100%; background: #e50914; color: white; border: none; padding: 10px; margin: 5px 0; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
     </style>
 </head>
 <body oncontextmenu="return false;"> 
-        <div id="adminPanel">
-        <h3 style="color:#e50914; margin-bottom:15px;">لوحة المالك 👑</h3>
-        <button class="admin-btn" onclick="toggleFly()">وضع الطيران (F)</button>
-        <button class="admin-btn" onclick="location.reload()">إعادة التشغيل</button>
-    </div>
-
     
     <header id="mainNav">
         <div style="display: flex; align-items: center; gap: 20px;">
@@ -1327,13 +1316,6 @@
                 <div id="episodeContainer" class="btn-grid"></div>
             </div>
         </div>
-    <div id="adminPanel" style="position:fixed; top:80px; left:20px; background:#111; border:2px solid #e50914; padding:15px; z-index:9999; display:none; border-radius:10px; width:250px;">
-        <h3 style="color:#e50914; margin-bottom:10px;">لوحة المالك 👑</h3>
-        <input type="email" id="targetEmail" placeholder="إيميل المستخدم" style="width:100%; padding:8px; background:#222; color:#fff; border:1px solid #444; margin-bottom:10px;">
-        <button onclick="banUser()" style="width:100%; background:#e50914; color:#fff; padding:8px; border:none; cursor:pointer; font-weight:bold; margin-bottom:5px;">حظر المستخدم</button>
-        <button onclick="unbanUser()" style="width:100%; background:#444; color:#fff; padding:8px; border:none; cursor:pointer;">فك الحظر</button>
-        <button onclick="toggleFly()" style="width:100%; background:gold; color:#000; padding:8px; border:none; cursor:pointer; margin-top:10px; font-weight:bold;">وضع الطيران (F)</button>
-    </div>
 
         <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
             <h3 id="movieTitleDisplay" style="color: var(--main-red); font-weight: 800; text-align: center;"></h3>
@@ -2132,14 +2114,14 @@ function checkPrivateAccess(idx) {
         }
 
         function playMedia(item) {
-                // نظام حظر المالك
-    const banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
-    if (currentUser && banned.includes(currentUser.email)) {
-        alert(currentLanguage === 'ar' ? "عذراً، لقد تم حظرك من قبل الإدارة!" : "Sorry, you have been banned by the admin!");
-        return; 
-    }
-
-           
+            if (!currentUser) {
+                const msg = currentLanguage === 'ar'
+                    ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
+                    : 'You must sign in first to unlock and watch the content!';
+                alert(msg);
+                toggleModal(true);
+                return;
+            }
             activeMedia = item;
             currentS = 1; currentE = 1; currentServerIdx = 0;
             watchCount++;
@@ -2379,32 +2361,6 @@ function checkPrivateAccess(idx) {
             }
         }
 
-               function banUser() {
-            const email = document.getElementById('targetEmail').value;
-            let banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
-            if(email && !banned.includes(email)) {
-                banned.push(email);
-                localStorage.setItem('sb_banned', JSON.stringify(banned));
-                alert("تم الحظر بنجاح");
-            }
-        }
-        function unbanUser() {
-            const email = document.getElementById('targetEmail').value;
-            let banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
-            banned = banned.filter(e => e !== email);
-            localStorage.setItem('sb_banned', JSON.stringify(banned));
-            alert("تم فك الحظر");
-        }
-        function toggleFly() { document.body.classList.toggle('flying'); }
-        
-        // اضغط حرف P لإظهار اللوحة
-        document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'p') {
-                const p = document.getElementById('adminPanel');
-                p.style.display = p.style.display === 'none' ? 'block' : 'none';
-            }
-        });
-
- initApp();
+        initApp();
     </script>
 </body>
