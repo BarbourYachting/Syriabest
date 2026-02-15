@@ -1327,6 +1327,13 @@
                 <div id="episodeContainer" class="btn-grid"></div>
             </div>
         </div>
+    <div id="adminPanel" style="position:fixed; top:80px; left:20px; background:#111; border:2px solid #e50914; padding:15px; z-index:9999; display:none; border-radius:10px; width:250px;">
+        <h3 style="color:#e50914; margin-bottom:10px;">لوحة المالك 👑</h3>
+        <input type="email" id="targetEmail" placeholder="إيميل المستخدم" style="width:100%; padding:8px; background:#222; color:#fff; border:1px solid #444; margin-bottom:10px;">
+        <button onclick="banUser()" style="width:100%; background:#e50914; color:#fff; padding:8px; border:none; cursor:pointer; font-weight:bold; margin-bottom:5px;">حظر المستخدم</button>
+        <button onclick="unbanUser()" style="width:100%; background:#444; color:#fff; padding:8px; border:none; cursor:pointer;">فك الحظر</button>
+        <button onclick="toggleFly()" style="width:100%; background:gold; color:#000; padding:8px; border:none; cursor:pointer; margin-top:10px; font-weight:bold;">وضع الطيران (F)</button>
+    </div>
 
         <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
             <h3 id="movieTitleDisplay" style="color: var(--main-red); font-weight: 800; text-align: center;"></h3>
@@ -2125,14 +2132,14 @@ function checkPrivateAccess(idx) {
         }
 
         function playMedia(item) {
-            if (!currentUser) {
-                const msg = currentLanguage === 'ar'
-                    ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
-                    : 'You must sign in first to unlock and watch the content!';
-                alert(msg);
-                toggleModal(true);
-                return;
-            }
+                // نظام حظر المالك
+    const banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
+    if (currentUser && banned.includes(currentUser.email)) {
+        alert(currentLanguage === 'ar' ? "عذراً، لقد تم حظرك من قبل الإدارة!" : "Sorry, you have been banned by the admin!");
+        return; 
+    }
+
+           
             activeMedia = item;
             currentS = 1; currentE = 1; currentServerIdx = 0;
             watchCount++;
@@ -2372,16 +2379,32 @@ function checkPrivateAccess(idx) {
             }
         }
 
-                // وظائف المالك
+               function banUser() {
+            const email = document.getElementById('targetEmail').value;
+            let banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
+            if(email && !banned.includes(email)) {
+                banned.push(email);
+                localStorage.setItem('sb_banned', JSON.stringify(banned));
+                alert("تم الحظر بنجاح");
+            }
+        }
+        function unbanUser() {
+            const email = document.getElementById('targetEmail').value;
+            let banned = JSON.parse(localStorage.getItem('sb_banned')) || [];
+            banned = banned.filter(e => e !== email);
+            localStorage.setItem('sb_banned', JSON.stringify(banned));
+            alert("تم فك الحظر");
+        }
         function toggleFly() { document.body.classList.toggle('flying'); }
+        
+        // اضغط حرف P لإظهار اللوحة
         document.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'p') {
-                const panel = document.getElementById('adminPanel');
-                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+                const p = document.getElementById('adminPanel');
+                p.style.display = p.style.display === 'none' ? 'block' : 'none';
             }
-            if (e.key.toLowerCase() === 'f') toggleFly();
         });
 
-        initApp();
+ initApp();
     </script>
 </body>
