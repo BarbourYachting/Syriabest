@@ -2139,19 +2139,18 @@ function checkPrivateAccess(idx) {
 
     const iframe = document.getElementById('mainIframe');
 
-    // إذا كان الفيلم هو ريد نوتيس، استخدم مشغل تعدد اللهجات
+    // هذا السيرفر (Vidsrc.icu) هو المشغل الوحيد اللي بيسحب الدبلجة السورية الأصلية
     if (item.id === 'red-notice') {
-        // نستخدم كود الـ IMDb تبعه ليفتح المشغل اللي فيه (صوت وترجمة)
-        iframe.src = "https://vidsrc.to/embed/movie/tt7991608"; 
+        iframe.src = "https://vidsrc.icu/embed/movie/tt7991608"; 
     } 
     else {
-        // باقي أفلامك بتفتح بنظامك القديم IMDb
         updatePlayer(); 
     }
 
     document.getElementById('videoPopup').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 
 
 
