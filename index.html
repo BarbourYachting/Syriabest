@@ -1854,7 +1854,7 @@
             actioncomedy: [      
                 { id: "tt0112442", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
                 { id: "tt0172156", title: "Bad Boys II", img: "badboys2.JPG", type: "movie" },
-                { id: "81161626", title: "Red Notice", img: "rednot.JPG", type: "movie" },
+                { id: "tt7991608", title: "Red Notice", img: "rednot.JPG", type: "movie" },
                 { id: "tt2463208", title: "The Adam Project", img: "adam.JPG", type: "movie" },
                 { id: "tt2283362", title: "Jumanji: Welcome to the Jungle", img: "jumanji.JPG", type: "movie" },
                 { id: "tt7975244", title: "Jumanji: The Next Level", img: "level.JPG", type: "movie" },
@@ -2139,18 +2139,20 @@ function checkPrivateAccess(idx) {
 
     const iframe = document.getElementById('mainIframe');
 
-    // 1. إذا كان الفيلم هو ريد نوتيس، استخدم رابط نتفلكس اللي طلبته
+    // إذا كان الفيلم هو ريد نوتيس، استخدم مشغل تعدد اللهجات
     if (item.id === 'red-notice') {
-        iframe.src = "https://www.netflix.com/embed/81161626"; 
+        // نستخدم كود الـ IMDb تبعه ليفتح المشغل اللي فيه (صوت وترجمة)
+        iframe.src = "https://vidsrc.to/embed/movie/tt7991608"; 
     } 
-    // 2. باقي الأفلام (IMDb) تشتغل بنظامك القديم وبدون أي تغيير
     else {
+        // باقي أفلامك بتفتح بنظامك القديم IMDb
         updatePlayer(); 
     }
 
     document.getElementById('videoPopup').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 
 
 
