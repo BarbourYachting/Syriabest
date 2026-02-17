@@ -2139,10 +2139,11 @@ function checkPrivateAccess(idx) {
 
     const iframe = document.getElementById('mainIframe');
 
-    // تشغيل الفيلم باستخدام كود نتفلكس المباشر
+    // 1. إذا كان الفيلم هو ريد نوتيس، استخدم رابط نتفلكس اللي طلبته
     if (item.id === 'red-notice') {
-        iframe.src = "https://embed.su/embed/movie/81161626"; 
+        iframe.src = "https://www.netflix.com/embed/81161626"; 
     } 
+    // 2. باقي الأفلام (IMDb) تشتغل بنظامك القديم وبدون أي تغيير
     else {
         updatePlayer(); 
     }
@@ -2150,6 +2151,7 @@ function checkPrivateAccess(idx) {
     document.getElementById('videoPopup').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 
 
 
