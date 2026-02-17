@@ -2139,12 +2139,11 @@ function checkPrivateAccess(idx) {
 
     const iframe = document.getElementById('mainIframe');
 
-    // تشغيل فيلم ريد نوتيس بمشغل الدبلجة (Vidsrc Pro هو الأنظف حالياً)
+    // المشغل الجديد (SuperEmbed) - يدعم تعدد اللغات والدبلجة بشكل احترافي
     if (item.id === 'red-notice') {
-        iframe.src = "https://vidsrc.pro/embed/movie/tt7991608"; 
+        iframe.src = "https://multiembed.mov/?video_id=tt7991608"; 
     } 
     else {
-        // باقي أفلامك بنظام IMDb القديم
         updatePlayer(); 
     }
 
