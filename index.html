@@ -2134,21 +2134,24 @@ function checkPrivateAccess(idx) {
         seriesControls.style.display = "block"; 
         renderSeriesUI(); 
     } else { 
-        seriesControls.style.display = "none"; 
+        seriesControls.style.none; 
     }
 
-    // --- تعديل مشغل نتفلكس هنا ---
     const iframe = document.getElementById('mainIframe');
+
+    // إذا كان الفيلم هو Red Notice (تبعه نتفلكس)
     if (item.id === 'red-notice') {
-        iframe.src = "https://vidsrc.pro/embed/movie/624860"; 
-    } else {
-        updatePlayer(); // للمحتوى الباقي
+        iframe.src = "https://vidsrc.pro/embed/movie/81161626"; 
+    } 
+    // باقي أفلامك كلها بتفتح بنظامها القديم (IMDb)
+    else {
+        updatePlayer(); 
     }
-    // ----------------------------
 
     document.getElementById('videoPopup').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
 
 
         function renderSeriesUI() {
