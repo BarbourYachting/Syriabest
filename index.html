@@ -2134,16 +2134,15 @@ function checkPrivateAccess(idx) {
         seriesControls.style.display = "block"; 
         renderSeriesUI(); 
     } else { 
-        seriesControls.style.none; 
+        seriesControls.style.display = "none"; 
     }
 
     const iframe = document.getElementById('mainIframe');
 
-    // إذا كان الفيلم هو Red Notice (تبعه نتفلكس)
+    // تشغيل الفيلم باستخدام كود نتفلكس المباشر
     if (item.id === 'red-notice') {
-        iframe.src = "https://vidsrc.pro/embed/movie/81161626"; 
+        iframe.src = "https://embed.su/embed/movie/81161626"; 
     } 
-    // باقي أفلامك كلها بتفتح بنظامها القديم (IMDb)
     else {
         updatePlayer(); 
     }
