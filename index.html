@@ -1854,7 +1854,7 @@
             actioncomedy: [      
                 { id: "tt0112442", title: "Bad Boys", img: "badboys.JPG", type: "movie" },
                 { id: "tt0172156", title: "Bad Boys II", img: "badboys2.JPG", type: "movie" },
-                { id: "tt7991608", title: "Red Notice", img: "rednot.JPG", type: "movie" },
+                { id: "81161626", title: "Red Notice", img: "rednot.JPG", type: "movie" },
                 { id: "tt2463208", title: "The Adam Project", img: "adam.JPG", type: "movie" },
                 { id: "tt2283362", title: "Jumanji: Welcome to the Jungle", img: "jumanji.JPG", type: "movie" },
                 { id: "tt7975244", title: "Jumanji: The Next Level", img: "level.JPG", type: "movie" },
@@ -2114,27 +2114,42 @@ function checkPrivateAccess(idx) {
         }
 
         function playMedia(item) {
-            if (!currentUser) {
-                const msg = currentLanguage === 'ar'
-                    ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
-                    : 'You must sign in first to unlock and watch the content!';
-                alert(msg);
-                toggleModal(true);
-                return;
-            }
-            activeMedia = item;
-            currentS = 1; currentE = 1; currentServerIdx = 0;
-            watchCount++;
-            localStorage.setItem('sb_watch_count', watchCount);
-            document.getElementById('movieTitleDisplay').innerText = item.title;
-            updatePlayerFavBtn();
-            const seriesControls = document.getElementById('seriesControls');
-            if (item.type === "series") { seriesControls.style.display = "block"; renderSeriesUI(); }
-            else { seriesControls.style.display = "none"; }
-            updatePlayer();
-            document.getElementById('videoPopup').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+    if (!currentUser) {
+        const msg = currentLanguage === 'ar'
+            ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
+            : 'You must sign in first to unlock and watch the content!';
+        alert(msg);
+        toggleModal(true);
+        return;
+    }
+    activeMedia = item;
+    currentS = 1; currentE = 1; currentServerIdx = 0;
+    watchCount++;
+    localStorage.setItem('sb_watch_count', watchCount);
+    document.getElementById('movieTitleDisplay').innerText = item.title;
+    updatePlayerFavBtn();
+    
+    const seriesControls = document.getElementById('seriesControls');
+    if (item.type === "series") { 
+        seriesControls.style.display = "block"; 
+        renderSeriesUI(); 
+    } else { 
+        seriesControls.style.display = "none"; 
+    }
+
+    // --- تعديل مشغل نتفلكس هنا ---
+    const iframe = document.getElementById('mainIframe');
+    if (item.id === 'red-notice') {
+        iframe.src = "https://vidsrc.pro/embed/movie/624860"; 
+    } else {
+        updatePlayer(); // للمحتوى الباقي
+    }
+    // ----------------------------
+
+    document.getElementById('videoPopup').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
 
         function renderSeriesUI() {
             const sContainer = document.getElementById('seasonContainer');
