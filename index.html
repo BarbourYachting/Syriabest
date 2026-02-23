@@ -979,38 +979,6 @@
             color: #ddd;
         }
 
-        /* Admin Section Styles */
-        #adminSection {
-            display: none; position: fixed; inset: 0; background: var(--dark-bg);
-            z-index: 4500; padding: 60px 5%; overflow-y: auto;
-        }
-        .admin-box {
-            background: var(--card-bg); max-width: 1000px; margin: 0 auto;
-            padding: 40px; border-radius: 15px; border: 1px solid #444;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-        .admin-table {
-            width: 100%; border-collapse: collapse; margin-top: 20px;
-        }
-        .admin-table th, .admin-table td {
-            padding: 12px; text-align: right; border-bottom: 1px solid #333;
-        }
-        .admin-table th { color: var(--main-red); font-weight: bold; }
-        .admin-table tr:hover { background: rgba(255,255,255,0.05); }
-        .status-badge {
-            padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold;
-        }
-        .status-active { background: #00ff88; color: #000; }
-        .status-banned { background: #ff3131; color: #fff; }
-        .admin-actions { display: flex; gap: 5px; }
-        .admin-btn {
-            padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;
-        }
-        .btn-ban { background: #ffcc00; color: #000; }
-        .btn-unban { background: #00ff88; color: #000; }
-        .btn-del { background: #ff3131; color: #fff; }
-        .btn-ctrl { background: #1da1f2; color: #fff; }
-
         @media (max-width: 768px) {
             header { padding: 15px 4%; }
             .nav-links { display: none !important; }
@@ -1030,8 +998,6 @@
                 right: 2%;
                 width: 90%;
             }
-            .admin-table { font-size: 12px; }
-            .admin-table th, .admin-table td { padding: 8px 4px; }
         }
 
         #dmcaSection { display: none; padding: 100px 10%; background: var(--dark-bg); min-height: 80vh; }
@@ -1206,41 +1172,8 @@
             <div style="max-width: 400px; margin: 0 auto;">
                 <input type="text" id="editNameInput" data-translate-placeholder="account_change_name" placeholder="تغيير اسم العرض..." style="width: 100%; padding: 10px; background: #111; border: 1px solid #444; color: #fff; border-radius: 5px; margin-bottom: 10px;">
                 <button class="btn-auth" onclick="updateUsername()" style="width: 100%; margin-bottom: 10px;" data-translate="account_save_name">حفظ الاسم الجديد</button>
-                
-                <!-- Admin Button (Visible only to Mustafa) -->
-                <button id="adminPanelBtn" class="btn-auth" onclick="openAdmin()" style="width: 100%; margin-bottom: 10px; background: #ffcc00; color: #000; display: none;">
-                    <i class="fas fa-user-shield"></i> Admin Panel
-                </button>
-
                 <button class="btn-auth" onclick="logoutUser()" style="width: 100%; background: #444;" data-translate="account_logout">تسجيل الخروج</button>
                 <p onclick="closeAccount()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 14px;" data-translate="btn_back_home">العودة للرئيسية</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Section -->
-    <div id="adminSection">
-        <div class="admin-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2 style="color: var(--main-red);">لوحة تحكم المدير (Admin)</h2>
-                <button class="btn-auth" onclick="closeAdmin()">إغلاق</button>
-            </div>
-            
-            <div style="overflow-x: auto;">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>الاسم</th>
-                            <th>الإيميل</th>
-                            <th>كلمة السر</th>
-                            <th>الحالة</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminUsersList">
-                        <!-- Users will be injected here -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -1365,6 +1298,113 @@
             </div>
         </section>
     </main>
+
+    <div class="video-popup" id="videoPopup">
+        <span class="close-video" onclick="closePlayer()">&times;</span>
+        <div class="server-bar" id="serverList"></div>
+        <div class="video-wrapper">
+            <iframe id="mainPlayer" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <div id="seriesControls" class="series-controls">
+            <div class="control-group">
+                <h4 data-translate="series_select_season">اختر الموسم:</h4>
+                <div id="seasonContainer" class="btn-grid"></div>
+            </div>
+            <div class="control-group">
+                <h4 data-translate="series_select_episode">اختر الحلقة:</h4>
+                <div id="episodeContainer" class="btn-grid"></div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; padding: 20px;">
+            <h3 id="movieTitleDisplay" style="color: var(--main-red); font-weight: 800; text-align: center;"></h3>
+            <button id="playerFavBtn" class="fav-status-btn" onclick="toggleFavoriteFromPlayer()">
+                <i class="fas fa-plus"></i> <span data-translate="player_add_to_list">إضافة لقائمتي</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="authModal">
+        <div class="modal-box" id="loginBox">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2 data-translate="auth_login_title">تسجيل الدخول</h2>
+            <form onsubmit="handleAuth(event)">
+                <div class="input-group">
+                    <input type="email" id="loginEmail" data-translate-placeholder="auth_email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="loginPass" data-translate-placeholder="auth_password" placeholder="كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <span data-translate="btn_login">دخول</span>
+                </button>
+            </form>
+            <p class="auth-footer-link" onclick="switchAuthMode('register')"><span data-translate="auth_no_account">ليس لديك حساب؟</span> <span data-translate="auth_create_account">إنشاء حساب</span></p>
+        </div>
+
+        <div class="modal-box" id="registerBox" style="display:none;">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2 data-translate="auth_register_title">إنشاء حساب جديد</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="input-group">
+                    <input type="email" id="regEmail" data-translate-placeholder="auth_email" placeholder="البريد الإلكتروني" required>
+                </div>
+                <input type="text" name="bot_check" class="hp-field" tabindex="-1" autocomplete="off">
+                <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off">
+                <input type="email" name="email_confirm" class="hp-field" tabindex="-1" autocomplete="off">
+                <div class="input-group">
+                    <input type="password" id="regPass" data-translate-placeholder="auth_password" placeholder="كلمة المرور" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPassConfirm" data-translate-placeholder="auth_password_confirm" placeholder="تأكيد كلمة المرور" required>
+                </div>
+                
+                <div class="captcha-box">
+                    <div class="captcha-question" id="captchaQuestion"></div>
+                    <input type="text" class="captcha-input" id="captchaAnswer" placeholder="أدخل الإجابة" required autocomplete="off">
+                </div>
+                
+                <button type="submit" id="regSubmitBtn" class="btn-submit">
+                    <span id="regBtnText" data-translate="auth_create_account">إنشاء الحساب</span>
+                    <div class="loader" id="regLoader"></div>
+                </button>
+            </form>
+            <p class="auth-footer-link" onclick="switchAuthMode('login')"><span data-translate="auth_have_account">لديك حساب؟</span> <span data-translate="btn_login">تسجيل الدخول</span></p>
+        </div>
+
+        <div class="modal-box" id="verifyBox" style="display:none;">
+            <i class="fas fa-times close-modal" onclick="toggleModal(false)"></i>
+            <h2 data-translate="auth_verify_title">تأكيد الحساب</h2>
+            <p id="verifyInstruction" style="text-align:center; font-size:14px; margin-bottom:15px; color:var(--gray-text)" data-translate="auth_verify_instruction">أدخل كود التحقق المرسل إلى إيميلك</p>
+            <form onsubmit="handleVerification(event)">
+                <div class="input-group">
+                    <input type="text" id="verifyInput" placeholder="00000" maxlength="5" style="text-align:center; font-size:24px; letter-spacing:10px;" required>
+                </div>
+                <button type="submit" class="btn-submit" data-translate="auth_verify_btn">تحقق</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <ul>
+                <li><a href="#" data-translate="footer_faq">الأسئلة الشائعة</a></li>
+                <li><a href="#" onclick="showDMCA()" data-translate="footer_dmca">DMCA / حقوق النشر</a></li>
+            </ul>
+            <ul>
+                <li><a href="#" data-translate="footer_help">مركز المساعدة</a></li>
+                <li><a href="#" data-translate="footer_terms">الأحكام القانونية</a></li>
+            </ul>
+            <ul>
+                <li><a href="#" data-translate="footer_account">الحساب</a></li>
+                <li><a href="#" data-translate="footer_exclusive">فقط على Syriabest</a></li>
+            </ul>
+        </div>
+        <p class="copyright" data-translate="footer_copyright">© 2026 Syriabest. جميع الحقوق محفوظة لـ</p>
+        <span class="version-tag">v1.3 Enhanced</span>
+    </footer>
+
     <script>
         // PWA Service Worker Registration & Install Prompt
         let deferredPrompt;
@@ -1460,62 +1500,172 @@
 
         const translations = {
             ar: {
-                nav_home: "الرئيسية", nav_series: "مسلسلات", nav_movies: "أفلام", nav_genres: "الفئات", nav_dmca: "DMCA / حقوق النشر",
-                genre_marvel: "مارفل", genre_action: "أكشن", genre_comedy: "كوميدي", genre_horror: "رعب", genre_thriller: "إثارة وغموض",
-                btn_login: "دخول", btn_close: "إغلاق", btn_back_home: "العودة للرئيسية",
-                hero_title: "أفلامك المفضلة، <br>في مكان واحد.", hero_description: "استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.",
-                hero_btn_explore: "اكتشف المحتوى", hero_btn_info: "معلومات",
-                row_marvel: "عالم مارفل السينمائي (Marvel MCU)", row_avengers: "سلسلة Avengers", row_transporter: "سلسلة The transporter",
-                row_fast: "سلسلة Fast & Furious", row_action: "أفلام الأكشن", row_actioncomedy: "اكشن/كوميدي", row_comedy: "أفلام كوميدية",
-                row_horror: "أفلام الرعب (الأجزاء الكاملة)", row_thriller: "إثارة وغموض", row_egypt_comedy: "مسلسلات مصرية كوميدية",
-                row_foreign_series: "مسلسلات أجنبية", row_see_all: "مشاهدة الكل", series_banner: "المسلسلات العربية والأجنبية المنوعة",
-                search_placeholder: "ابحث...", search_results: "نتائج البحث",
-                account_welcome: "مرحباً بك في لوحة تحكم حسابك", account_watched: "أفلام شاهدتها", account_mylist: "في قائمتي",
-                account_favorites: "قائمتي المفضلة", account_no_favorites: "لا يوجد أفلام في قائمتك بعد.",
-                account_change_name: "تغيير اسم العرض...", account_save_name: "حفظ الاسم الجديد", account_logout: "تسجيل الخروج",
-                player_add_to_list: "إضافة لقائمتي", player_in_list: "في قائمتي", series_select_season: "اختر الموسم:", series_select_episode: "اختر الحلقة:",
-                auth_login_title: "تسجيل الدخول", auth_register_title: "إنشاء حساب جديد", auth_verify_title: "تأكيد الحساب",
-                auth_email: "البريد الإلكتروني", auth_password: "كلمة المرور", auth_password_confirm: "تأكيد كلمة المرور",
-                auth_no_account: "ليس لديك حساب؟", auth_have_account: "لديك حساب؟", auth_create_account: "إنشاء حساب",
-                auth_verify_instruction: "أدخل كود التحقق المرسل إلى إيميلك", auth_verify_btn: "تحقق",
-                rating_title: "تقييمك يهمنا", rating_description: "أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع",
-                rating_placeholder: "اكتب ملاحظاتك هنا...", rating_submit: "إرسال التقييم",
-                dmca_title: "DMCA - سياسة حقوق النشر", dmca_text: "موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.",
-                footer_faq: "الأسئلة الشائعة", footer_dmca: "DMCA / حقوق النشر", footer_help: "مركز المساعدة", footer_terms: "الأحكام القانونية",
-                footer_account: "الحساب", footer_exclusive: "فقط على Syriabest", footer_copyright: "© 2026 Syriabest. جميع الحقوق محفوظة لـ",
-                card_play: "تشغيل", card_locked: "مغلق - سجل دخول", pwa_install: "تنزيل التطبيق", notif_title: "الإشعارات", notif_empty: "لا توجد إشعارات جديدة",
-                about_title: "معلومات عن الموقع", about_p1: 'مرحباً بك في <strong style="color: var(--main-red);">Syriabest</strong> - وجهتك الأولى لمشاهدة أحدث الأفلام والمسلسلات العربية والأجنبية بأعلى جودة!',
-                about_p2: "نقدم لك تجربة مشاهدة فريدة مع:", about_p3: 'تم تطوير الموقع بواسطة <strong style="color: var(--main-red);">Mostafa Barbour</strong>',
-                about_feature1: "سيرفرات متعددة وسريعة", about_feature2: "جودة عالية HD", about_feature3: "تحديثات يومية", about_feature4: "مكتبة ضخمة من المحتوى", about_feature5: "دعم فني 24/7"
+                nav_home: "الرئيسية",
+                nav_series: "مسلسلات",
+                nav_movies: "أفلام",
+                nav_genres: "الفئات",
+                nav_dmca: "DMCA / حقوق النشر",
+                genre_marvel: "مارفل",
+                genre_action: "أكشن",
+                genre_comedy: "كوميدي",
+                genre_horror: "رعب",
+                genre_thriller: "إثارة وغموض",
+                btn_login: "دخول",
+                btn_close: "إغلاق",
+                btn_back_home: "العودة للرئيسية",
+                hero_title: "أفلامك المفضلة، <br>في مكان واحد.",
+                hero_description: "استمتع بتجربة مشاهدة لا مثيل لها مع Syriabest. دقة عالية، سرعة في التحميل، وأحدث العروض الحصرية.",
+                hero_btn_explore: "اكتشف المحتوى",
+                hero_btn_info: "معلومات",
+                row_marvel: "عالم مارفل السينمائي (Marvel MCU)",
+                row_avengers: "سلسلة Avengers",
+                row_transporter: "سلسلة The transporter",
+                row_fast: "سلسلة Fast & Furious",
+                row_action: "أفلام الأكشن",
+                row_actioncomedy: "اكشن/كوميدي",
+                row_comedy: "أفلام كوميدية",
+                row_horror: "أفلام الرعب (الأجزاء الكاملة)",
+                row_thriller: "إثارة وغموض",
+                row_egypt_comedy: "مسلسلات مصرية كوميدية",
+                row_foreign_series: "مسلسلات أجنبية",
+                row_see_all: "مشاهدة الكل",
+                series_banner: "المسلسلات العربية والأجنبية المنوعة",
+                search_placeholder: "ابحث...",
+                search_results: "نتائج البحث",
+                account_welcome: "مرحباً بك في لوحة تحكم حسابك",
+                account_watched: "أفلام شاهدتها",
+                account_mylist: "في قائمتي",
+                account_favorites: "قائمتي المفضلة",
+                account_no_favorites: "لا يوجد أفلام في قائمتك بعد.",
+                account_change_name: "تغيير اسم العرض...",
+                account_save_name: "حفظ الاسم الجديد",
+                account_logout: "تسجيل الخروج",
+                player_add_to_list: "إضافة لقائمتي",
+                player_in_list: "في قائمتي",
+                series_select_season: "اختر الموسم:",
+                series_select_episode: "اختر الحلقة:",
+                auth_login_title: "تسجيل الدخول",
+                auth_register_title: "إنشاء حساب جديد",
+                auth_verify_title: "تأكيد الحساب",
+                auth_email: "البريد الإلكتروني",
+                auth_password: "كلمة المرور",
+                auth_password_confirm: "تأكيد كلمة المرور",
+                auth_no_account: "ليس لديك حساب؟",
+                auth_have_account: "لديك حساب؟",
+                auth_create_account: "إنشاء حساب",
+                auth_verify_instruction: "أدخل كود التحقق المرسل إلى إيميلك",
+                auth_verify_btn: "تحقق",
+                rating_title: "تقييمك يهمنا",
+                rating_description: "أخبرنا عن تجربتك أو إذا واجهت أي مشاكل في الموقع",
+                rating_placeholder: "اكتب ملاحظاتك هنا...",
+                rating_submit: "إرسال التقييم",
+                dmca_title: "DMCA - سياسة حقوق النشر",
+                dmca_text: 'موقع <strong>Syriabest</strong> هو محرك بحث للمحتوى الترفيهي. نحن لا نقوم برفع أو استضافة أي فيديوهات على خوادمنا الخاصة. جميع الروابط يتم جلبها من مواقع خارجية. إذا كنت صاحب حق وتريد إزالة محتوى، يرجى مراسلتنا لإزالته فوراً من قاعدة البيانات.',
+                footer_faq: "الأسئلة الشائعة",
+                footer_dmca: "DMCA / حقوق النشر",
+                footer_help: "مركز المساعدة",
+                footer_terms: "الأحكام القانونية",
+                footer_account: "الحساب",
+                footer_exclusive: "فقط على Syriabest",
+                footer_copyright: "© 2026 Syriabest. جميع الحقوق محفوظة لـ",
+                card_play: "تشغيل",
+                card_locked: "مغلق - سجل دخول",
+                pwa_install: "تنزيل التطبيق",
+                notif_title: "الإشعارات",
+                notif_empty: "لا توجد إشعارات جديدة",
+                about_title: "معلومات عن الموقع",
+                about_p1: 'مرحباً بك في <strong style="color: var(--main-red);">Syriabest</strong> - وجهتك الأولى لمشاهدة أحدث الأفلام والمسلسلات العربية والأجنبية بأعلى جودة!',
+                about_p2: "نقدم لك تجربة مشاهدة فريدة مع:",
+                about_p3: 'تم تطوير الموقع بواسطة <strong style="color: var(--main-red);">Mostafa Barbour</strong>',
+                about_feature1: "سيرفرات متعددة وسريعة",
+                about_feature2: "جودة عالية HD",
+                about_feature3: "تحديثات يومية",
+                about_feature4: "مكتبة ضخمة من المحتوى",
+                about_feature5: "دعم فني 24/7"
             },
             en: {
-                nav_home: "Home", nav_series: "TV Shows", nav_movies: "Movies", nav_genres: "Genres", nav_dmca: "DMCA / Copyright",
-                genre_marvel: "Marvel", genre_action: "Action", genre_comedy: "Comedy", genre_horror: "Horror", genre_thriller: "Thriller & Mystery",
-                btn_login: "Sign In", btn_close: "Close", btn_back_home: "Back to Home",
-                hero_title: "Your Favorite Movies, <br>All in One Place.", hero_description: "Enjoy an unparalleled viewing experience with Syriabest. High quality, fast loading, and the latest exclusive shows.",
-                hero_btn_explore: "Explore Content", hero_btn_info: "More Info",
-                row_marvel: "Marvel Cinematic Universe (MCU)", row_avengers: "Avengers Series", row_transporter: "The Transporter Series",
-                row_fast: "Fast & Furious Series", row_action: "Action Movies", row_actioncomedy: "Action/Comedy", row_comedy: "Comedy Movies",
-                row_horror: "Horror Movies (Complete Series)", row_thriller: "Thriller & Mystery", row_egypt_comedy: "Egyptian Comedy Series",
-                row_foreign_series: "Foreign Series", row_see_all: "See All", series_banner: "Diverse Arabic and Foreign Series",
-                search_placeholder: "Search...", search_results: "Search Results",
-                account_welcome: "Welcome to your account dashboard", account_watched: "Movies Watched", account_mylist: "In My List",
-                account_favorites: "My Favorites", account_no_favorites: "No movies in your list yet.",
-                account_change_name: "Change display name...", account_save_name: "Save New Name", account_logout: "Logout",
-                player_add_to_list: "Add to My List", player_in_list: "In My List", series_select_season: "Select Season:", series_select_episode: "Select Episode:",
-                auth_login_title: "Sign In", auth_register_title: "Create New Account", auth_verify_title: "Verify Account",
-                auth_email: "Email Address", auth_password: "Password", auth_password_confirm: "Confirm Password",
-                auth_no_account: "Don't have an account?", auth_have_account: "Already have an account?", auth_create_account: "Create Account",
-                auth_verify_instruction: "Enter the verification code sent to your email", auth_verify_btn: "Verify",
-                rating_title: "Your Feedback Matters", rating_description: "Tell us about your experience or if you encountered any issues on the site",
-                rating_placeholder: "Write your comments here...", rating_submit: "Submit Feedback",
-                dmca_title: "DMCA - Copyright Policy", dmca_text: "<strong>Syriabest</strong> is a search engine for entertainment content. We do not upload or host any videos on our own servers. All links are fetched from external websites. If you are a rights holder and want to remove content, please contact us to remove it immediately from the database.",
-                footer_faq: "FAQ", footer_dmca: "DMCA / Copyright", footer_help: "Help Center", footer_terms: "Legal Terms",
-                footer_account: "Account", footer_exclusive: "Only on Syriabest", footer_copyright: "© 2026 Syriabest. All Rights Reserved",
-                card_play: "Play", card_locked: "Locked - Sign In", pwa_install: "Install App", notif_title: "Notifications", notif_empty: "No new notifications",
-                about_title: "About Us", about_p1: 'Welcome to <strong style="color: var(--main-red);">Syriabest</strong> - your premier destination for watching the latest Arabic and foreign movies and series in the highest quality!',
-                about_p2: "We offer you a unique viewing experience with:", about_p3: 'Developed by <strong style="color: var(--main-red);">Mostafa Barbour</strong>',
-                about_feature1: "Multiple fast servers", about_feature2: "High quality HD", about_feature3: "Daily updates", about_feature4: "Huge content library", about_feature5: "24/7 technical support"
+                nav_home: "Home",
+                nav_series: "TV Shows",
+                nav_movies: "Movies",
+                nav_genres: "Genres",
+                nav_dmca: "DMCA / Copyright",
+                genre_marvel: "Marvel",
+                genre_action: "Action",
+                genre_comedy: "Comedy",
+                genre_horror: "Horror",
+                genre_thriller: "Thriller & Mystery",
+                btn_login: "Sign In",
+                btn_close: "Close",
+                btn_back_home: "Back to Home",
+                hero_title: "Your Favorite Movies, <br>All in One Place.",
+                hero_description: "Enjoy an unparalleled viewing experience with Syriabest. High quality, fast loading, and the latest exclusive shows.",
+                hero_btn_explore: "Explore Content",
+                hero_btn_info: "More Info",
+                row_marvel: "Marvel Cinematic Universe (MCU)",
+                row_avengers: "Avengers Series",
+                row_transporter: "The Transporter Series",
+                row_fast: "Fast & Furious Series",
+                row_action: "Action Movies",
+                row_actioncomedy: "Action/Comedy",
+                row_comedy: "Comedy Movies",
+                row_horror: "Horror Movies (Complete Series)",
+                row_thriller: "Thriller & Mystery",
+                row_egypt_comedy: "Egyptian Comedy Series",
+                row_foreign_series: "Foreign Series",
+                row_see_all: "See All",
+                series_banner: "Diverse Arabic and Foreign Series",
+                search_placeholder: "Search...",
+                search_results: "Search Results",
+                account_welcome: "Welcome to your account dashboard",
+                account_watched: "Movies Watched",
+                account_mylist: "In My List",
+                account_favorites: "My Favorites",
+                account_no_favorites: "No movies in your list yet.",
+                account_change_name: "Change display name...",
+                account_save_name: "Save New Name",
+                account_logout: "Logout",
+                player_add_to_list: "Add to My List",
+                player_in_list: "In My List",
+                series_select_season: "Select Season:",
+                series_select_episode: "Select Episode:",
+                auth_login_title: "Sign In",
+                auth_register_title: "Create New Account",
+                auth_verify_title: "Verify Account",
+                auth_email: "Email Address",
+                auth_password: "Password",
+                auth_password_confirm: "Confirm Password",
+                auth_no_account: "Don't have an account?",
+                auth_have_account: "Already have an account?",
+                auth_create_account: "Create Account",
+                auth_verify_instruction: "Enter the verification code sent to your email",
+                auth_verify_btn: "Verify",
+                rating_title: "Your Feedback Matters",
+                rating_description: "Tell us about your experience or if you encountered any issues on the site",
+                rating_placeholder: "Write your comments here...",
+                rating_submit: "Submit Feedback",
+                dmca_title: "DMCA - Copyright Policy",
+                dmca_text: '<strong>Syriabest</strong> is a search engine for entertainment content. We do not upload or host any videos on our own servers. All links are fetched from external websites. If you are a rights holder and want to remove content, please contact us to remove it immediately from the database.',
+                footer_faq: "FAQ",
+                footer_dmca: "DMCA / Copyright",
+                footer_help: "Help Center",
+                footer_terms: "Legal Terms",
+                footer_account: "Account",
+                footer_exclusive: "Only on Syriabest",
+                footer_copyright: "© 2026 Syriabest. All Rights Reserved",
+                card_play: "Play",
+                card_locked: "Locked - Sign In",
+                pwa_install: "Install App",
+                notif_title: "Notifications",
+                notif_empty: "No new notifications",
+                about_title: "About Us",
+                about_p1: 'Welcome to <strong style="color: var(--main-red);">Syriabest</strong> - your premier destination for watching the latest Arabic and foreign movies and series in the highest quality!',
+                about_p2: "We offer you a unique viewing experience with:",
+                about_p3: 'Developed by <strong style="color: var(--main-red);">Mostafa Barbour</strong>',
+                about_feature1: "Multiple fast servers",
+                about_feature2: "High quality HD",
+                about_feature3: "Daily updates",
+                about_feature4: "Huge content library",
+                about_feature5: "24/7 technical support"
             }
         };
 
@@ -1635,29 +1785,7 @@
             document.getElementById('aboutModal').style.display = 'none';
         }
 
-        // ==========================================
-        // ADMIN SYSTEM & USER MANAGEMENT
-        // ==========================================
-        let allUsers = JSON.parse(localStorage.getItem('sb_all_users')) || [];
-        
-        // Ensure Admin account exists in DB
-        const adminEmail = "mustafabarbour5@gmail.com";
-        if (!allUsers.find(u => u.email === adminEmail)) {
-            allUsers.push({ name: "Mostafa Barbour", email: adminEmail, pass: "Abd120120", status: "active", role: "admin" });
-            localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-        }
-
         let currentUser = JSON.parse(localStorage.getItem('sb_user')) || null;
-        
-        // Check if current user is banned
-        if (currentUser) {
-            const dbUser = allUsers.find(u => u.email === currentUser.email);
-            if (dbUser && dbUser.status === "banned") {
-                currentUser.status = "banned";
-                localStorage.setItem('sb_user', JSON.stringify(currentUser));
-            }
-        }
-
         let watchCount = parseInt(localStorage.getItem('sb_watch_count')) || 0;
         let favorites = JSON.parse(localStorage.getItem('sb_favorites')) || [];
         let tempRegData = null;
@@ -1820,17 +1948,58 @@
                 { id: "tt13634792", title: "mouse (2021)", img: "mouse.JPG", type: "series", seasons: 1, episodes: 20 }
             ]
         };
+ const apis = [
+    { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
+    { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
+    { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" }
+];
 
-        const apis = [
-            { name: "سيرفر 1", movie: "https://vidsrc.me/embed/movie?imdb=", tv: "https://vidsrc.me/embed/tv?imdb=" },
-            { name: "سيرفر 2", movie: "https://vidsrc.to/embed/movie/", tv: "https://vidsrc.to/embed/tv/" },
-            { name: "سيرفر 3", movie: "https://autoembed.to/movie/imdb/", tv: "https://autoembed.to/tv/imdb/" }
-        ];
+
+
+
+
+
+
+function selectServer(index) {
+    currentServerIdx = index;
+    const server = apis[index];
+    const frame = document.getElementById('result-iframe');
+    
+    if (index === 3) {
+        const target = server.movie;
+        if (target && target !== "about:blank") {
+            frame.src = target;
+        }
+    } else {
+        frame.src = server.movie + currentMovieId;
+    }
+}
+
+
+
+
+
+
+
+
 
         let activeMedia = null;
         let currentS = 1;
         let currentE = 1;
         let currentServerIdx = 0;
+// وظيفة القفل للسيرفر الخاص
+function checkPrivateAccess(idx) {
+    if (idx === 3) { // إذا اختار السيرفر الرابع (سيرفر خاص)
+        let pin = prompt("المحتوى مقفل، أدخل الرمز السري:");
+        if (pin === "6572134") {
+            return true;
+        } else {
+            alert("الرمز خطأ!");
+            return false;
+        }
+    }
+    return true; // السيرفرات العادية تفتح بدون قفل
+}
 
         window.addEventListener('scroll', () => {
             const header = document.getElementById('mainNav');
@@ -1948,47 +2117,46 @@
         }
 
         function playMedia(item) {
-            if (!currentUser) {
-                const msg = currentLanguage === 'ar'
-                    ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
-                    : 'You must sign in first to unlock and watch the content!';
-                alert(msg);
-                toggleModal(true);
-                return;
-            }
+    if (!currentUser) {
+        const msg = currentLanguage === 'ar'
+            ? 'يجب عليك تسجيل الدخول أولاً لفتح القفل ومشاهدة المحتوى!'
+            : 'You must sign in first to unlock and watch the content!';
+        alert(msg);
+        toggleModal(true);
+        return;
+    }
+    activeMedia = item;
+    currentS = 1; currentE = 1; currentServerIdx = 0;
+    watchCount++;
+    localStorage.setItem('sb_watch_count', watchCount);
+    document.getElementById('movieTitleDisplay').innerText = item.title;
+    updatePlayerFavBtn();
+    
+    const seriesControls = document.getElementById('seriesControls');
+    if (item.type === "series") { 
+        seriesControls.style.display = "block"; 
+        renderSeriesUI(); 
+    } else { 
+        seriesControls.style.display = "none"; 
+    }
 
-            // Check if user is banned
-            if (currentUser.status === "banned") {
-                alert("عذراً، حسابك محظور من المشاهدة من قبل الإدارة.");
-                return;
-            }
+    const iframe = document.getElementById('mainIframe');
 
-            activeMedia = item;
-            currentS = 1; currentE = 1; currentServerIdx = 0;
-            watchCount++;
-            localStorage.setItem('sb_watch_count', watchCount);
-            document.getElementById('movieTitleDisplay').innerText = item.title;
-            updatePlayerFavBtn();
-            
-            const seriesControls = document.getElementById('seriesControls');
-            if (item.type === "series") { 
-                seriesControls.style.display = "block"; 
-                renderSeriesUI(); 
-            } else { 
-                seriesControls.style.display = "none"; 
-            }
+    // المشغل الجديد (SuperEmbed) - يدعم تعدد اللغات والدبلجة بشكل احترافي
+    if (item.id === 'red-notice') {
+        iframe.src = "https://multiembed.mov/?video_id=tt7991608"; 
+    } 
+    else {
+        updatePlayer(); 
+    }
 
-            const iframe = document.getElementById('mainPlayer');
+    document.getElementById('videoPopup').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
 
-            if (item.id === 'red-notice') {
-                iframe.src = "https://multiembed.mov/?video_id=tt7991608"; 
-            } else {
-                updatePlayer(); 
-            }
 
-            document.getElementById('videoPopup').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+
+
 
         function renderSeriesUI() {
             const sContainer = document.getElementById('seasonContainer');
@@ -2042,16 +2210,13 @@
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const pass = document.getElementById('loginPass').value;
-            
-            const user = allUsers.find(u => u.email === email && u.pass === pass);
-            
-            if (user) {
-                currentUser = { name: user.name, email: user.email, isOwner: user.role === 'admin', status: user.status };
-                localStorage.setItem('sb_user', JSON.stringify(currentUser));
-                location.reload();
+            if (email === "mustafabarbour5@gmail.com" && pass === "Abd120120") {
+                currentUser = { name: "Mostafa Barbour", email: email, isOwner: true };
             } else {
-                alert(currentLanguage === 'ar' ? "البريد الإلكتروني أو كلمة المرور غير صحيحة!" : "Invalid email or password!");
+                currentUser = { name: "User_" + Math.floor(Math.random() * 9000), email: email, isOwner: false };
             }
+            localStorage.setItem('sb_user', JSON.stringify(currentUser));
+            location.reload();
         }
 
         function handleRegister(e) {
@@ -2069,11 +2234,6 @@
             const pass = document.getElementById('regPass').value;
             const confirm = document.getElementById('regPassConfirm').value;
             
-            if (allUsers.find(u => u.email === email)) {
-                alert(currentLanguage === 'ar' ? "هذا البريد مسجل مسبقاً!" : "Email already registered!");
-                return;
-            }
-
             const botCheck = document.querySelector('input[name="bot_check"]').value;
             const website = document.querySelector('input[name="website"]').value;
             const emailConfirm = document.querySelector('input[name="email_confirm"]').value;
@@ -2103,7 +2263,7 @@
             
             setTimeout(() => {
                 currentOTP = Math.floor(10000 + Math.random() * 90000).toString();
-                tempRegData = { email: email, pass: pass };
+                tempRegData = { email: email };
                 
                 document.getElementById('registerBox').style.display = 'none';
                 document.getElementById('verifyBox').style.display = 'block';
@@ -2119,14 +2279,7 @@
             e.preventDefault();
             if (document.getElementById('verifyInput').value === currentOTP) {
                 const newMember = currentLanguage === 'ar' ? 'عضو جديد' : 'New Member';
-                
-                // Add to global users DB
-                const newUser = { name: newMember, email: tempRegData.email, pass: tempRegData.pass, status: "active", role: "user" };
-                allUsers.push(newUser);
-                localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-
-                // Set current session
-                currentUser = { name: newMember, email: tempRegData.email, isOwner: false, status: "active" };
+                currentUser = { name: newMember, email: tempRegData.email, isOwner: false };
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
                 location.reload();
             } else {
@@ -2177,12 +2330,6 @@
             document.getElementById('accountSection').style.display = 'block';
             document.getElementById('accDisplayName').innerHTML = currentUser.name + (currentUser.isOwner ? ' <i class="fas fa-check-circle verified-badge"></i>' : '');
             document.getElementById('watchStats').innerText = watchCount;
-            
-            // Show Admin button only for Mustafa
-            if (currentUser.email === adminEmail) {
-                document.getElementById('adminPanelBtn').style.display = 'block';
-            }
-
             renderFavorites();
         }
 
@@ -2196,14 +2343,6 @@
             if(newName.trim() !== "") {
                 currentUser.name = newName;
                 localStorage.setItem('sb_user', JSON.stringify(currentUser));
-                
-                // Update in DB
-                const dbUser = allUsers.find(u => u.email === currentUser.email);
-                if(dbUser) {
-                    dbUser.name = newName;
-                    localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                }
-
                 openAccount();
                 const msg = currentLanguage === 'ar' ? 'تم تحديث الاسم!' : 'Name updated!';
                 alert(msg);
@@ -2244,121 +2383,5 @@
             }
         }
 
-        // ==========================================
-        // ADMIN FUNCTIONS
-        // ==========================================
-        function openAdmin() {
-            document.getElementById('accountSection').style.display = 'none';
-            document.getElementById('adminSection').style.display = 'block';
-            renderAdminUsers();
-        }
-
-        function closeAdmin() {
-            document.getElementById('adminSection').style.display = 'none';
-            document.getElementById('accountSection').style.display = 'block';
-        }
-
-        function renderAdminUsers() {
-            const list = document.getElementById('adminUsersList');
-            list.innerHTML = "";
-            
-            allUsers.forEach((u, index) => {
-                if(u.role === 'admin') return; // Don't show admin in the list
-                
-                const statusBadge = u.status === 'active' 
-                    ? '<span class="status-badge status-active">نشط</span>' 
-                    : '<span class="status-badge status-banned">محظور</span>';
-                
-                const banBtn = u.status === 'active'
-                    ? `<button class="admin-btn btn-ban" onclick="adminBanUser('${u.email}')">حظر</button>`
-                    : `<button class="admin-btn btn-unban" onclick="adminUnbanUser('${u.email}')">فك الحظر</button>`;
-
-                list.innerHTML += `
-                    <tr>
-                        <td>${u.name}</td>
-                        <td>${u.email}</td>
-                        <td>${u.pass}</td>
-                        <td>${statusBadge}</td>
-                        <td>
-                            <div class="admin-actions">
-                                ${banBtn}
-                                <button class="admin-btn btn-ctrl" onclick="adminControlUser('${u.email}')">تحكم</button>
-                                <button class="admin-btn btn-del" onclick="adminDeleteUser('${u.email}')">حذف</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function adminBanUser(email) {
-            const u = allUsers.find(x => x.email === email);
-            if(u) {
-                u.status = "banned";
-                localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                renderAdminUsers();
-                alert(`تم حظر ${u.name} من المشاهدة.`);
-            }
-        }
-
-        function adminUnbanUser(email) {
-            const u = allUsers.find(x => x.email === email);
-            if(u) {
-                u.status = "active";
-                localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                renderAdminUsers();
-                alert(`تم فك الحظر عن ${u.name}.`);
-            }
-        }
-
-        function adminDeleteUser(email) {
-            if(confirm("هل أنت متأكد من حذف هذا الحساب نهائياً؟")) {
-                allUsers = allUsers.filter(x => x.email !== email);
-                localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                renderAdminUsers();
-            }
-        }
-
-        function adminControlUser(email) {
-            const u = allUsers.find(x => x.email === email);
-            if(!u) return;
-
-            const action = prompt(`التحكم بالمستخدم: ${u.name}\n1- تغيير اسمه\n2- إرسال رسالة تنبيه له\nأدخل الرقم (1 أو 2):`);
-            
-            if (action === "1") {
-                const newName = prompt("أدخل الاسم الجديد:");
-                if(newName) {
-                    u.name = newName;
-                    localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                    renderAdminUsers();
-                    alert("تم تغيير الاسم بنجاح.");
-                }
-            } else if (action === "2") {
-                const msg = prompt("اكتب الرسالة التي تريد إرسالها له:");
-                if(msg) {
-                    // We save the message in the user object
-                    u.adminMessage = msg;
-                    localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                    alert("تم إرسال الرسالة، ستظهر له عند تحديث الصفحة.");
-                }
-            }
-        }
-
-        // Check for admin messages on load
-        function checkAdminMessages() {
-            if (currentUser && !currentUser.isOwner) {
-                const dbUser = allUsers.find(u => u.email === currentUser.email);
-                if (dbUser && dbUser.adminMessage) {
-                    alert("رسالة من الإدارة:\n" + dbUser.adminMessage);
-                    // Clear message after showing
-                    delete dbUser.adminMessage;
-                    localStorage.setItem('sb_all_users', JSON.stringify(allUsers));
-                }
-            }
-        }
-
         initApp();
-        checkAdminMessages();
     </script>
-</body>
-</html>
