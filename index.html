@@ -1975,12 +1975,17 @@ function loadPlayer(apiUrl) {
     iframe.style.height = '100%';
     iframe.style.border = 'none';
     iframe.setAttribute('allowfullscreen', 'true');
-    
     iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-same-origin');
 
+    iframe.onload = function() {
+        try {
+            iframe.contentWindow.open = function() { return false; };
+        } catch (e) {}
+    };
 
     container.appendChild(iframe);
 }
+
 
 
 
