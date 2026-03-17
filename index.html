@@ -1976,7 +1976,8 @@ function loadPlayer(apiUrl) {
     iframe.style.border = 'none';
     iframe.setAttribute('allowfullscreen', 'true');
     
-    iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-same-origin allow-popups-to-escape-sandbox');
+    iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-same-origin');
+
 
     container.appendChild(iframe);
 }
