@@ -1231,6 +1231,14 @@
 
         <div class="row">
             <div class="row-title">
+                <span data-translate="row_pirates">سلسلة Pirates of the Caribbean</span>
+                <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
+            </div>
+            <div class="movie-slider" id="row-pirates"></div>
+        </div>
+        
+        <div class="row">
+            <div class="row-title">
                 <span data-translate="row_action">أفلام الأكشن</span>
                 <a href="#" data-translate="row_see_all">مشاهدة الكل</a>
             </div>
@@ -1524,6 +1532,7 @@
                 row_avengers: "سلسلة Avengers",
                 row_transporter: "سلسلة The transporter",
                 row_fast: "سلسلة Fast & Furious",
+                row_pirates: "سلسلة Pirates of the Caribbean",
                 row_action: "أفلام الأكشن",
                 row_actioncomedy: "اكشن/كوميدي",
                 row_comedy: "أفلام كوميدية",
@@ -1609,6 +1618,7 @@
                 row_avengers: "Avengers Series",
                 row_transporter: "The Transporter Series",
                 row_fast: "Fast & Furious Series",
+                row_pirates: "Pirates of the Caribbean Series",
                 row_action: "Action Movies",
                 row_actioncomedy: "Action/Comedy",
                 row_comedy: "Comedy Movies",
@@ -1841,6 +1851,9 @@
                 { id: "tt5433140", title: "Fast X", img: "fast10.JPG", type: "movie" },
                 { id: "tt6806448", title: "Fast & Furious Presents: Hobbs & Shaw", img: "fast11.JPG", type: "movie" }
             ],
+            pirates: [
+                { id: "tt0325980", title: "Pirates of the Caribbean: The Curse of the Black Pearl (2003)", img: "pirates.JPG", type: "movie" }
+           ],
             action: [
                 { id: "tt0068646", title: "The Godfather Part I", img: "godfather.JPG", type: "movie" },
                 { id: "tt0071562", title: "The Godfather Part II", img: "godfather2.JPG", type: "movie" },
@@ -2047,6 +2060,7 @@ function checkPrivateAccess(idx) {
             renderRow('row-avengers', movieData.avengers);
             renderRow('row-thetransporter', movieData.transporter);
             renderRow('row-fast', movieData.fast);
+            renderRow('row-pirates', movieData.pirates);
             renderRow('row-action', movieData.action);
             renderRow('row-actioncomedy', movieData.actioncomedy);
             renderRow('row-comedy', movieData.comedy);
